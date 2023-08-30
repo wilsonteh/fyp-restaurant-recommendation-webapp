@@ -11,12 +11,16 @@ import {
 import { Button } from "@nextui-org/button";
 import Link from "next/link";
 import { useEffect, useState } from "react";
-import { usePathname } from 'next/navigation'
+import { usePathname, useRouter } from 'next/navigation'
+import { auth, getCurrentUser, signOutUser } from "@/firebase/auth";
+import { useAuthState } from 'react-firebase-hooks/auth';
 
 const Header = () => {
 
   const pathname = usePathname();  
+  const router = useRouter();
   const [isMenuOpen, setIsMenuOpen] = useState(false);
+  const [user, loading, error] = useAuthState(auth)
 
   const navItems = [
     { item: 'home', href: '/' },
@@ -76,14 +80,24 @@ const Header = () => {
       )}
     
       <NavbarContent justify="end" className="">
-        <NavbarItem className="">
-          <Link href="#">Login</Link>
-        </NavbarItem>
-        <NavbarItem>
-          <Button as={Link} color="primary" href="#" >Sign Up</Button>
-        </NavbarItem>
+        { !user ? (
+          <>
+            <NavbarItem className="">
+              <Link href="/login">Login</Link>
+            </NavbarItem>
+            <NavbarItem>
+              <Button as={Link} color="primary" href="#" >Sign Up</Button>
+            </NavbarItem>
+          </>
+        ) : (
+          <NavbarItem className="">
+            <Button onClick={ async () => await signOutUser() }>
+              Logout
+            </Button>
+          </NavbarItem>
+        )}
       </NavbarContent>
-
+          
     </Navbar>
   );
 }
