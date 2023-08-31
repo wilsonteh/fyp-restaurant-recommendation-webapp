@@ -86,7 +86,7 @@ const Header = () => {
               <Link href="/login">Login</Link>
             </NavbarItem>
             <NavbarItem>
-              <Button as={Link} color="primary" href="#" >Sign Up</Button>
+              <Button as={Link} color="primary" href="/signup" >Sign Up</Button>
             </NavbarItem>
           </>
         ) : (

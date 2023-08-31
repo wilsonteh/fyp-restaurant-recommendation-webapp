@@ -1,4 +1,4 @@
-import { IconProps } from "@/utils/Interfaces";
+import { IconProps } from "@/utils/interfaces";
 
 const HamburgerIcon = ({ color, fill, className, stroke }: IconProps) => {
   return (
