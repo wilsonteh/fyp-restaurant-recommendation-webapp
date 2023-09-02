@@ -4,22 +4,19 @@ import { useState } from "react";
 import EyeIcon from "../icons/EyeIcon";
 import { Button } from "@nextui-org/button";
 import { Input } from "@nextui-org/input";
-import { signUpWithPassword } from "@/firebase/auth";
+import { signInWithPassword } from "@/firebase/auth";
 import { useRouter } from "next/navigation";
 
-interface SignupFormProps {}
-
-interface SignupFormData {
+interface LoginFormData {
   email: string;
   password: string;
-  confirmPassword: string;
 }
 
-const SignupForm = () => {
+const LoginForm = () => {
 
   const [showPassword, setShowPassword] = useState<boolean>(false);
   const [showConfirmPassword, setShowConfirmPassword] = useState<boolean>(false);
-  const { register, handleSubmit, formState: { errors } } = useForm<SignupFormData>();
+  const { register, handleSubmit, formState: { errors } } = useForm<LoginFormData>();
   const router = useRouter();
 
   const email = register("email", {
@@ -45,26 +42,18 @@ const SignupForm = () => {
     },
   });
 
-  const confirmPassword = register("confirmPassword", {
-    required: "Confirm password cannot be left empty",
-    validate: {
-      validateNumber: (confirmPassword, data) =>
-        confirmPassword === data.password || "Passwords do not match",
-    },  
-  });
-
-  const handleSignup: SubmitHandler<SignupFormData> = async (formData) => {
-    const { email, password, confirmPassword } = formData;
+  const handleLogin: SubmitHandler<LoginFormData> = async (formData) => {
+    const { email, password } = formData;
     router.push('/')
-    await signUpWithPassword(email, password);
+    await signInWithPassword(email, password);
   };
 
   return (
     <form
-      onSubmit={handleSubmit(handleSignup)}
+      onSubmit={handleSubmit(handleLogin)}
       className="w-[400px] mx-auto mt-4 rounded-lg border border-slate-200 p-4 flex flex-col gap-y-4 text-sm"
     >
-      <h1 className="text-lg font-semibold text-center">Sign up</h1>
+      <h1 className="text-lg font-semibold text-center">Login</h1>
 
       <div className="flex flex-col gap-y-4 select-none">
         {/* SECTION: Email field === */}
@@ -101,26 +90,6 @@ const SignupForm = () => {
           errorMessage={errors.password?.message}
         />
 
-        <Input
-          type={showConfirmPassword ? "password" : "text"}
-          label="Confirm password"
-          variant="bordered"
-          radius="sm"
-          size="sm"
-          className=""
-          isRequired
-          onChange={confirmPassword.onChange} onBlur={confirmPassword.onBlur} name={confirmPassword.name} ref={confirmPassword.ref}
-          endContent={
-            <button
-              type="button"
-              className="p-1 rounded-full hover:bg-slate-100"
-              onClick={() => setShowConfirmPassword(!showConfirmPassword)}
-            >
-              {<EyeIcon show={showConfirmPassword} />}
-            </button>
-          }
-          errorMessage={errors.confirmPassword?.message}
-        />
       </div>
 
       <Button color="primary" type="submit" className="mt-2">
@@ -130,4 +99,4 @@ const SignupForm = () => {
   );
 };
 
-export default SignupForm;
+export default LoginForm;

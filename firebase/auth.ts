@@ -1,17 +1,31 @@
-import { GoogleAuthProvider, createUserWithEmailAndPassword, getAuth, signInWithPopup } from "firebase/auth";
+import { GoogleAuthProvider, createUserWithEmailAndPassword, getAuth, signInWithEmailAndPassword, signInWithPopup } from "firebase/auth";
 import { app } from "./config";
 
 export const auth = getAuth(app);
 
-export const signUpWithEmailAndPassword = async (email: string, password: string) => {
+export const signUpWithPassword = async (email: string, password: string) => {
   try  {
     const userCredential = await createUserWithEmailAndPassword(auth, email, password);
-    const { user }= userCredential;
+    const { user } = userCredential;
     console.log(user);
+    
   } catch (err: any) {
     const errorCode = err.code;
     const errorMessage = err.message;
     console.error("ERROR SIGNING UP WITH EMAIL AND PASSWORD")
+    console.log(errorCode, errorMessage);
+  }
+};
+
+export const signInWithPassword = async (email: string, password: string) => {
+  try {
+    const userCredential = await signInWithEmailAndPassword(auth, email, password);
+    const { user } = userCredential;
+
+  } catch (err: any) {
+    const errorCode = err.code;
+    const errorMessage = err.message;
+    console.error("ERROR SIGNING IN WITH EMAIL AND PASSWORD")
     console.log(errorCode, errorMessage);
   }
 }
@@ -34,8 +48,7 @@ export const signInWithGoogle = async () => {
     console.error("ERROR SIGNING IN WITH GOOGLE")
     console.log(errorCode, errorMessage, email, credential);
   }
-
-}
+};
 
 export const signOutUser = async () => {
   try {
@@ -43,5 +56,5 @@ export const signOutUser = async () => {
   } catch (err) {
     console.log(err);
   }
-}
+};
 
