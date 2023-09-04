@@ -18,16 +18,24 @@ export const signUpWithPassword = async (email: string, password: string) => {
 };
 
 export const signInWithPassword = async (email: string, password: string) => {
+  let errorCode = "", errorMsg = ""; 
   try {
     const userCredential = await signInWithEmailAndPassword(auth, email, password);
     const { user } = userCredential;
 
   } catch (err: any) {
-    const errorCode = err.code;
-    const errorMessage = err.message;
+    errorCode = err.code;
     console.error("ERROR SIGNING IN WITH EMAIL AND PASSWORD")
-    console.log(errorCode, errorMessage);
+    console.log(errorCode, err.message);
+    
+    if (errorCode === "auth/wrong-password") {
+      errorMsg = "Incorrect email or password"
+    } else if (errorCode === "auth/user-not-found") {
+      errorMsg = "Email does not exist, please register"
+    }
   }
+
+  return { errorCode, errorMsg };
 }
 
 export const signInWithGoogle = async () => {

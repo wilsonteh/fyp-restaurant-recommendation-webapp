@@ -1,11 +1,12 @@
 "use client";
 import { useForm, SubmitHandler } from "react-hook-form";
-import { useState } from "react";
+import { useEffect, useState } from "react";
 import EyeIcon from "../icons/EyeIcon";
 import { Button } from "@nextui-org/button";
 import { Input } from "@nextui-org/input";
 import { signInWithPassword } from "@/firebase/auth";
 import { useRouter } from "next/navigation";
+import Alert from "../Alert";
 
 interface LoginFormData {
   email: string;
@@ -16,6 +17,7 @@ const LoginForm = () => {
 
   const [showPassword, setShowPassword] = useState<boolean>(false);
   const [showConfirmPassword, setShowConfirmPassword] = useState<boolean>(false);
+  const [errorText, setErrorText] = useState<string|null>(null);
   const { register, handleSubmit, formState: { errors } } = useForm<LoginFormData>();
   const router = useRouter();
 
@@ -44,9 +46,29 @@ const LoginForm = () => {
 
   const handleLogin: SubmitHandler<LoginFormData> = async (formData) => {
     const { email, password } = formData;
-    router.push('/')
-    await signInWithPassword(email, password);
+    const { errorCode, errorMsg } = await signInWithPassword(email, password);
+
+    // *TODO: fix logic here
+    // alert behaves weird  
+    // 1. cant dismiss alert the 1st time 
+    // 2. alert doesnt show up once dismissed 
+    
+    // no error - login success
+    if (!errorCode) {
+      router.push("/")
+      setErrorText(null);
+    } else {
+      setErrorText(errorMsg);
+    }
+
   };
+
+  useEffect(() => {
+
+    console.log(`Error text: ${errorText}`);
+
+  }, [errorText])
+  
 
   return (
     <form
@@ -54,9 +76,10 @@ const LoginForm = () => {
       className="w-[400px] mx-auto mt-4 rounded-lg border border-slate-200 p-4 flex flex-col gap-y-4 text-sm"
     >
       <h1 className="text-lg font-semibold text-center">Login</h1>
+      
+      { errorText && <Alert text={errorText} type="danger" bordered /> }
 
       <div className="flex flex-col gap-y-4 select-none">
-        {/* SECTION: Email field === */}
         <Input
           type="email"
           label="Email"
@@ -92,9 +115,7 @@ const LoginForm = () => {
 
       </div>
 
-      <Button color="primary" type="submit" className="mt-2">
-        Submit
-      </Button>
+      <Button color="primary" type="submit" className="mt-2">Submit</Button>
     </form>
   );
 };
