@@ -4,7 +4,7 @@ import { useEffect, useState } from "react";
 import EyeIcon from "../icons/EyeIcon";
 import { Button } from "@nextui-org/button";
 import { Input } from "@nextui-org/input";
-import { signInWithPassword } from "@/firebase/auth";
+import { auth, signInWithFacebook, signInWithGoogle, signInWithPassword } from "@/firebase/auth";
 import { useRouter } from "next/navigation";
 import { signinToast } from "@/utils/toast";
 import GoogleIcon from "../icons/GoogleIcon";
@@ -12,6 +12,7 @@ import FacebookIcon from "../icons/FacebookIcon";
 import TwitterXIcon from "../icons/TwitterXIcon";
 import GithubIcon from "../icons/GithubIcon";
 import Link from "next/link";
+import { useAuthState } from "react-firebase-hooks/auth";
 
 interface LoginFormData {
   email: string;
@@ -25,6 +26,7 @@ const LoginForm = () => {
   const [errorText, setErrorText] = useState<string|null>(null);
   const { register, handleSubmit, formState: { errors } } = useForm<LoginFormData>();
   const router = useRouter();
+  const [ user, loading, error ] = useAuthState(auth);
 
   const email = register("email", {
     required: "Email cannot be left empty",
@@ -58,19 +60,23 @@ const LoginForm = () => {
     // alert behaves weird  
     // 1. cant dismiss alert the 1st time 
     // 2. alert doesnt show up once dismissed 
-    
-    signinToast(signIn, 'success', errorMsg)
+    // signinToast(signIn, 'success', errorMsg)
     
     // no error - login success
     if (!errorCode) {
       router.push("/")
-
       setErrorText(null);
     } else {
       setErrorText(errorMsg);
     }
-
   };
+
+  useEffect(() => {
+    // to redirect user to home page after authenticate with social login
+    if (user) {
+      router.push('/')
+    }
+  }, [router, user])
 
   return (
     <form
@@ -127,6 +133,7 @@ const LoginForm = () => {
           <Button
             startContent={<GoogleIcon className="w-4 h-4" />}
             className="bg-light text-dark border-2 border-dark/90"
+            onClick={signInWithGoogle}
             >
             Google
           </Button>
@@ -134,22 +141,9 @@ const LoginForm = () => {
           <Button
             startContent={<FacebookIcon fill="#EEF2F4" className="w-4 h-4" />}
             className="bg-[#4267B2] text-light"
+            onClick={signInWithFacebook}
             >
             Facebook
-          </Button>
-
-          <Button
-            startContent={<TwitterXIcon fill="#EEF2F4" className="w-4 h-4" />}
-            className="bg-[#1DA1F2] text-light"
-            >
-            Twitter
-          </Button>
-
-          <Button
-            startContent={<GithubIcon fill="#EEF2F4" className="w-4 h-4" />}
-            className="bg-[#0a0a0a] text-light"
-            >
-            GitHub
           </Button>
         </div>
 

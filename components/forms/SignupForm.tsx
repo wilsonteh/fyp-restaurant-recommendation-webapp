@@ -1,16 +1,17 @@
 "use client";
 import { useForm, SubmitHandler } from "react-hook-form";
-import { useState } from "react";
+import { useEffect, useState } from "react";
 import EyeIcon from "../icons/EyeIcon";
 import { Button } from "@nextui-org/button";
 import { Input } from "@nextui-org/input";
-import { signUpWithPassword } from "@/firebase/auth";
+import { auth, signInWithFacebook, signInWithGoogle, signUpWithPassword } from "@/firebase/auth";
 import { useRouter } from "next/navigation";
 import GoogleIcon from "../icons/GoogleIcon";
 import FacebookIcon from "../icons/FacebookIcon";
 import TwitterXIcon from "../icons/TwitterXIcon";
 import Link from "next/link";
 import GithubIcon from "../icons/GithubIcon";
+import { useAuthState } from "react-firebase-hooks/auth";
 
 interface SignupFormData {
   email: string;
@@ -24,6 +25,7 @@ const SignupForm = () => {
   const [showConfirmPassword, setShowConfirmPassword] = useState<boolean>(false);
   const { register, handleSubmit, formState: { errors } } = useForm<SignupFormData>();
   const router = useRouter();
+  const [ user, loading, error ] = useAuthState(auth)
 
   const email = register("email", {
     required: "Email cannot be left empty",
@@ -61,6 +63,13 @@ const SignupForm = () => {
     router.push('/')
     await signUpWithPassword(email, password);
   };
+
+  useEffect(() => {
+    // to redirect user to home page after authenticate with social login
+    if (user) {
+      router.push('/')
+    }
+  }, [router, user])
 
   return (
     <form
@@ -138,6 +147,7 @@ const SignupForm = () => {
           <Button
             startContent={<GoogleIcon className="w-4 h-4" />}
             className="bg-light text-dark border-2 border-dark/90"
+            onClick={signInWithGoogle}
             >
             Google
           </Button>
@@ -145,22 +155,9 @@ const SignupForm = () => {
           <Button
             startContent={<FacebookIcon fill="#EEF2F4" className="w-4 h-4" />}
             className="bg-[#4267B2] text-light"
+            onClick={signInWithFacebook}
             >
             Facebook
-          </Button>
-
-          <Button
-            startContent={<TwitterXIcon fill="#EEF2F4" className="w-4 h-4" />}
-            className="bg-[#1DA1F2] text-light"
-            >
-            Twitter
-          </Button>
-
-          <Button
-            startContent={<GithubIcon fill="#EEF2F4" className="w-4 h-4" />}
-            className="bg-[#0a0a0a] text-light"
-            >
-            GitHub
           </Button>
         </div>
 
