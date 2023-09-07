@@ -7,6 +7,7 @@ import { Input } from "@nextui-org/input";
 import { signInWithPassword } from "@/firebase/auth";
 import { useRouter } from "next/navigation";
 import Alert from "../Alert";
+import { signinToast } from "@/utils/toast";
 
 interface LoginFormData {
   email: string;
@@ -46,29 +47,26 @@ const LoginForm = () => {
 
   const handleLogin: SubmitHandler<LoginFormData> = async (formData) => {
     const { email, password } = formData;
-    const { errorCode, errorMsg } = await signInWithPassword(email, password);
+    const signIn = signInWithPassword(email, password);
+    const { errorCode, errorMsg } = await signIn;
 
     // *TODO: fix logic here
     // alert behaves weird  
     // 1. cant dismiss alert the 1st time 
     // 2. alert doesnt show up once dismissed 
     
+    signinToast(signIn, 'success', errorMsg)
+    
     // no error - login success
     if (!errorCode) {
       router.push("/")
+
       setErrorText(null);
     } else {
       setErrorText(errorMsg);
     }
 
   };
-
-  useEffect(() => {
-
-    console.log(`Error text: ${errorText}`);
-
-  }, [errorText])
-  
 
   return (
     <form
@@ -77,8 +75,6 @@ const LoginForm = () => {
     >
       <h1 className="text-lg font-semibold text-center">Login</h1>
       
-      { errorText && <Alert text={errorText} type="danger" bordered /> }
-
       <div className="flex flex-col gap-y-4 select-none">
         <Input
           type="email"

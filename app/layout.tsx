@@ -3,6 +3,7 @@ import type { Metadata } from 'next';
 import { Providers } from './providers';
 import Header from '@/components/Header';
 import { Poppins } from 'next/font/google';
+import { Toast, Toaster } from 'react-hot-toast';
 
 const poppins = Poppins({
   weight: ['100', '200', '300', '400', '500', '600', '700', '800', '900'],
@@ -22,10 +23,12 @@ export default function RootLayout({
 }: {
   children: React.ReactNode
 }) {
+
   return (
     <html lang="en" className={`${poppins.variable}`}>
       <body className='font-poppins '>
         <Providers>
+          <Toaster />
           <Header />
           { children }
         </Providers>

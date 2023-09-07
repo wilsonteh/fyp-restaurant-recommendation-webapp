@@ -10,6 +10,10 @@ const config: Config = {
   ],
   theme: {
     extend: {
+      colors: {
+        light: "#EEF2F4",
+        dark: "#202228",
+      },
       fontFamily: {
         poppins: ['var(--font-poppins)']
       },
@@ -28,7 +32,7 @@ const config: Config = {
       themes: {
         light: {
           colors: {
-            background: "#fff",
+            background: "#EEF2F4",
             foreground: "#202228",
             primary: {
               100: "#FBFFCF",
@@ -100,7 +104,7 @@ const config: Config = {
         dark: {
           colors: {
             background: "#202228",
-            foreground: "#fff",
+            foreground: "#EEF2F4",
             primary: {
               100: "#FBFFCF",
               200: "#F6FF9F",

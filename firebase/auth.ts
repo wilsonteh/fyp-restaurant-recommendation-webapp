@@ -22,7 +22,8 @@ export const signInWithPassword = async (email: string, password: string) => {
   try {
     const userCredential = await signInWithEmailAndPassword(auth, email, password);
     const { user } = userCredential;
-
+    await new Promise((resolve) => setTimeout(resolve, 2000));
+  
   } catch (err: any) {
     errorCode = err.code;
     console.error("ERROR SIGNING IN WITH EMAIL AND PASSWORD")
@@ -36,6 +37,7 @@ export const signInWithPassword = async (email: string, password: string) => {
   }
 
   return { errorCode, errorMsg };
+
 }
 
 export const signInWithGoogle = async () => {

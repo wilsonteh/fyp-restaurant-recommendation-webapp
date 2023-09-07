@@ -6,8 +6,11 @@ import { Button } from "@nextui-org/button";
 import { Input } from "@nextui-org/input";
 import { signUpWithPassword } from "@/firebase/auth";
 import { useRouter } from "next/navigation";
-
-interface SignupFormProps {}
+import GoogleIcon from "../icons/GoogleIcon";
+import FacebookIcon from "../icons/FacebookIcon";
+import TwitterXIcon from "../icons/TwitterXIcon";
+import Link from "next/link";
+import GithubIcon from "../icons/GithubIcon";
 
 interface SignupFormData {
   email: string;
@@ -62,12 +65,12 @@ const SignupForm = () => {
   return (
     <form
       onSubmit={handleSubmit(handleSignup)}
-      className="w-[400px] mx-auto mt-4 rounded-lg border border-slate-200 p-4 flex flex-col gap-y-4 text-sm"
+      className="max-w-[400px] mx-auto mt-4 rounded-lg border border-slate-300 p-4 flex flex-col gap-y-4 text-sm"
     >
       <h1 className="text-lg font-semibold text-center">Sign up</h1>
 
       <div className="flex flex-col gap-y-4 select-none">
-        {/* SECTION: Email field === */}
+
         <Input
           type="email"
           label="Email"
@@ -123,9 +126,52 @@ const SignupForm = () => {
         />
       </div>
 
-      <Button color="primary" type="submit" className="mt-2">
-        Submit
-      </Button>
+      <Button color="primary" type="submit" className="mt-2">Submit</Button>
+      
+      <div className="flex flex-col gap-y-4">
+        <div className="flex justify-between items-center gap-x-4">
+          <hr className="w-full h-1" />
+        <p className="w-full text-center whitespace-nowrap">or login with:</p>
+          <hr className="w-full h-1" />
+        </div>
+
+        <div className="grid grid-cols-2 gap-4">
+          <Button
+            startContent={<GoogleIcon className="w-4 h-4" />}
+            className="bg-light text-dark border-2 border-dark/90"
+            >
+            Google
+          </Button>
+
+          <Button
+            startContent={<FacebookIcon fill="#EEF2F4" className="w-4 h-4" />}
+            className="bg-[#4267B2] text-light"
+            >
+            Facebook
+          </Button>
+
+          <Button
+            startContent={<TwitterXIcon fill="#EEF2F4" className="w-4 h-4" />}
+            className="bg-[#1DA1F2] text-light"
+            >
+            Twitter
+          </Button>
+
+          <Button
+            startContent={<GithubIcon fill="#EEF2F4" className="w-4 h-4" />}
+            className="bg-[#0a0a0a] text-light"
+            >
+            GitHub
+          </Button>
+        </div>
+
+        <p className="text-center">
+          <span>Already have an account?  </span>
+          <Link href="/login" className="font-medium hover:underline">Login</Link>
+        </p>
+      </div>
+
+
     </form>
   );
 };
