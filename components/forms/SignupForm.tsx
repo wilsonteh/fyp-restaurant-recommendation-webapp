@@ -70,7 +70,6 @@ const SignupForm = () => {
       <h1 className="text-lg font-semibold text-center">Sign up</h1>
 
       <div className="flex flex-col gap-y-4 select-none">
-
         <Input
           type="email"
           label="Email"
@@ -131,7 +130,7 @@ const SignupForm = () => {
       <div className="flex flex-col gap-y-4">
         <div className="flex justify-between items-center gap-x-4">
           <hr className="w-full h-1" />
-        <p className="w-full text-center whitespace-nowrap">or login with:</p>
+          <p className="w-full text-center whitespace-nowrap">or login with:</p>
           <hr className="w-full h-1" />
         </div>
 

@@ -7,7 +7,6 @@ export default function LoginLayout() {
   return (
     <main className="max-w-screen-xl mx-auto h-screen border-red-500">
       <LoginForm />
-      <AuthButton authMethod="google" onPress={signInWithGoogle} />
     </main>
   );
 }
