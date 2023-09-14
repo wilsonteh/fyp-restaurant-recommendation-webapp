@@ -1,3 +1,4 @@
+import RestaurantCard from "@/components/RestaurantCard";
 
 // get nearby restaurant list 
 async function getData() {
@@ -21,6 +22,7 @@ export default async function HomePage() {
   return (
     <main className="max-w-screen-xl mx-auto h-screen border-red-500">
       Home page 
+      <RestaurantCard />
     </main>
   )
 }
