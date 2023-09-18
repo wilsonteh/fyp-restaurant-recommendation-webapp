@@ -18,8 +18,6 @@ interface RestaurantCardProps {
 }
 
 const RestaurantCard = ({ restaurant }: RestaurantCardProps) => {
-  let cardWidth = 300;
-  console.log("🚀 ~ file: RestaurantCard.tsx:22 ~ RestaurantCard ~ restaurant:", restaurant)
   
   return (
     <Card
