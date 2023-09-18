@@ -4,6 +4,8 @@ const BASE_URL = "https://maps.googleapis.com/maps/api/place/nearbysearch/json";
 const API_KEY = process.env.GOOGLE_CLOUD_API_KEY!;
 
 export async function GET() {
+  console.log("--- 🎃🎃🎃 Calling nearby search API --- ");
+  
   const params = {
     // required: location & radius
     location: "3.0674302527331245, 101.60390536864632",

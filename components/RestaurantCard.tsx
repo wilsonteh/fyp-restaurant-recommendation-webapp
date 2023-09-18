@@ -1,52 +1,69 @@
 "use client";
-import { Card, CardBody, CardFooter, CardHeader, Image } from "@nextui-org/react";
-import NextImage from "next/image";
+import {
+  Card,
+  CardBody,
+  CardFooter,
+  CardHeader,
+} from "@nextui-org/react";
+import Image from "next/image";
 import StarIcon from "./icons/StarIcon";
 import DoorIcon from "./icons/DoorIcon";
-import HeartIcon from "./icons/HeartIcon";
+import Link from "next/link";
+import { NearbySearchRestaurant } from "@/utils/interfaces";
+import { extractLocation } from "@/utils/utils";
+import MapMarkerIcon from "./icons/MapMarkerIcon";
 
 interface RestaurantCardProps {
-  
+  restaurant: NearbySearchRestaurant;
 }
- 
-const RestaurantCard = () => {
-  let cardWidth = 300;
 
+const RestaurantCard = ({ restaurant }: RestaurantCardProps) => {
+  let cardWidth = 300;
+  console.log("🚀 ~ file: RestaurantCard.tsx:22 ~ RestaurantCard ~ restaurant:", restaurant)
+  
   return (
-    <Card isPressable className={`w-[${cardWidth}px] shadow-lg`}>
-      <CardBody className="p-0">
-        <Image 
-          as={NextImage}
+    <Card
+      isPressable
+      isHoverable
+      as={Link}
+      href={`/restaurant/${restaurant.place_id}`}
+      className="w-full flex flex-col"
+    >
+      <CardBody className="p-0 w-full min-h-[200px]">
+        <Image
           src="https://lh3.googleusercontent.com/p/AF1QipMNChxwXUq9YYW4L6LjhtRKMjUV1m57N_2RlCFf=s1360-w1360-h1020"
-          width={cardWidth}
-          height={200}
+          fill={true}
+          className="rounded-none object-cover"
           alt="image"
-          classNames={{
-            img: "rounded-none w-full h-full object-cover", 
-            wrapper: `w-[${cardWidth}px] h-[200px]`
-          }}
-          /> 
+        />
       </CardBody>
 
-      <CardBody className="flex flex-row px-3 py-4">
+      <CardBody className="h-max flex flex-row gap-2 px-3 py-4">
         <div className="w-8/12">
-          <h1 className="text-sm font-semibold">Restaurant Name</h1>
-          <div className="text-xs">SS15, Subang Jaya</div>
+          <h1 className="text-sm font-semibold"> { restaurant.name } </h1>
+          <div className="text-xs"> { extractLocation(restaurant.vicinity) } </div>
         </div>
 
         <div className="w-4/12 text-xs flex flex-col items-start justify-center">
-          <span className="flex items-center gap-1"> 
-            <StarIcon className="w-3 h-3" fill="orange" /> 
-            <span>3.9 (583)</span>
+          <span className="flex items-center gap-1">
+            <StarIcon className="w-3 h-3" fill="orange" />
+            <span> { restaurant.rating.toFixed(1) } ({ restaurant.user_ratings_total })</span>
           </span>
+
           <span className="flex items-center gap-1 whitespace-nowrap">
             <DoorIcon open={true} className="w-3 h-3" fill="green" />
-            <span>Open Now</span>
+            <span> { restaurant.opening_hours.open_now ? 'Open Now' : 'Closed'} </span>
+          </span>
+
+          <span className="flex items-center gap-1 whitespace-nowrap">
+            <MapMarkerIcon  className="w-3 h-3" fill="" />
+            {/* TODO - calc distance - hardcoded for now */}
+            <span> 3.4 km </span>   
           </span>
         </div>
       </CardBody>
     </Card>
   );
-}
- 
+};
+
 export default RestaurantCard;

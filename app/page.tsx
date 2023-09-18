@@ -1,28 +1,28 @@
-import RestaurantCard from "@/components/RestaurantCard";
+import RestaurantList from "@/components/RestaurantList";
 
 // get nearby restaurant list 
-async function getData() {
+async function getRestaurantList() {
   const HOST_URL = process.env.HOST_URL;
   const res = await fetch(`${HOST_URL}/api/nearby-search`);
 
   if (!res.ok) {
     console.error("Failed to fetch data");
   }
-
-  return res.json()
+  const data = res.json()
+  
+  return data
 }
 
 // export const revalidate = 20 // revalidate every 20 seconds
 
 export default async function HomePage() {
 
-  // const data = await getData();
-  // console.log("🚀 ~ file: page.tsx:17 ~ HomePage ~ data:", data)
+  const data = await getRestaurantList();
+  const restaurants = data.results
   
   return (
     <main className="max-w-screen-xl mx-auto h-screen border-red-500">
-      Home page 
-      <RestaurantCard />
+      <RestaurantList restaurants={restaurants} />
     </main>
   )
 }
