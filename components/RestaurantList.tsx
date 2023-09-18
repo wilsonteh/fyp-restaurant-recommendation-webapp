@@ -1,3 +1,4 @@
+"use client";
 import { NearbySearchRestaurant } from "@/utils/interfaces";
 import RestaurantCard from "./RestaurantCard";
 
@@ -5,7 +6,7 @@ interface RestaurantListProps {
   restaurants: NearbySearchRestaurant[];  
 }
  
-const RestaurantList = ({restaurants} : RestaurantListProps) => {
+const RestaurantList = ({ restaurants } : RestaurantListProps) => {
 
   const data = restaurants[0];
 
