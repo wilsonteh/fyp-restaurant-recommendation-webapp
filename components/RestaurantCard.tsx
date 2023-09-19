@@ -13,11 +13,7 @@ import { NearbySearchRestaurant } from "@/utils/interfaces";
 import { extractLocation } from "@/utils/utils";
 import MapMarkerIcon from "./icons/MapMarkerIcon";
 
-interface RestaurantCardProps {
-  restaurant: NearbySearchRestaurant;
-}
-
-const RestaurantCard = ({ restaurant }: RestaurantCardProps) => {
+const RestaurantCard = (restaurant: NearbySearchRestaurant) => {
   
   return (
     <Card
