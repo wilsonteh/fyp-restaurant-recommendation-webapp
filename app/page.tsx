@@ -3,6 +3,7 @@ import RestaurantList from "@/components/RestaurantList";
 // get nearby restaurant list 
 async function getRestaurantList() {
   const HOST_URL = process.env.HOST_URL;
+  // *TODO - supply caching options  
   const res = await fetch(`${HOST_URL}/api/nearby-search`);
 
   if (!res.ok) {
@@ -13,7 +14,7 @@ async function getRestaurantList() {
   return data
 }
 
-// export const revalidate = 20 // revalidate every 20 seconds
+// export const revalidate = 0 // revalidate every 20 seconds
 
 export default async function HomePage() {
 

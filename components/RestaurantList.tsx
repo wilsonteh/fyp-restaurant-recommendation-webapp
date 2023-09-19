@@ -1,4 +1,3 @@
-"use client";
 import { NearbySearchRestaurant } from "@/utils/interfaces";
 import RestaurantCard from "./RestaurantCard";
 
