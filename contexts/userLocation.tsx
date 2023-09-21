@@ -27,6 +27,8 @@ export const LocationContextProvider = ({
         lat: pos.coords.latitude,
         lng: pos.coords.longitude,
       })
+      
+
     };
     const error = (err: GeolocationPositionError) => {
       if (err.PERMISSION_DENIED) {
