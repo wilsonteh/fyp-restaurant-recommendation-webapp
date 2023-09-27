@@ -2,7 +2,6 @@ import '@/styles/globals.css';
 import type { Metadata } from 'next';
 import Header from '@/components/Header';
 import { Poppins } from 'next/font/google';
-import { Toast, Toaster } from 'react-hot-toast';
 import { LocationContextProvider } from '@/contexts/userLocation';
 import { Providers } from './providers';
 

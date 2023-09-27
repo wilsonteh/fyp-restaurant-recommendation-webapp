@@ -1,63 +1,72 @@
+"use client";
 import { NearbySearchRestaurant } from "@/utils/interfaces";
-import RestaurantCard from "./RestaurantCard";
-import Image from "next/image";
+import { useLocationContext } from "@/contexts/userLocation";
+import useSWR from "swr";
+import useSWRImmutable from "swr/immutable";
 
 // get nearby restaurant list
-async function fetchRestaurantList() {
-  const HOST_URL = process.env.HOST_URL;
-  let hour = 6
-  const res = await fetch(`${HOST_URL}/api/nearby-search`, {
+async function fetchNearbyRestaurants(requestUrl: string) {
+  const res = await fetch(requestUrl, {
     next: {
-      revalidate: hour * 60 * 60 
-    },
+      revalidate: 0
+    }
   });
 
   if (!res.ok) {
     console.error("Failed to fetch data");
   }
   const data = await res.json();
-  return data;
+  const { results: restaurants } = data;
+
+  return restaurants;
 }
 
-async function fetchRestaurantImg(photoRef: string) {
-  const HOST_URL = process.env.HOST_URL;
-  const res  = await fetch(`${HOST_URL}/api/place-photo?photoRef=${photoRef}`, {
-    next: {
-      revalidate: false
-    }
-  });
-  const data = await res.json();
-  return data.imageUrl;
-}
+function useNearbyRestaurants(lat: number, lng: number) {
 
-const RestaurantImage = async ({ photoRef }: { photoRef: string }) => {
-  const imgUrl = await fetchRestaurantImg(photoRef);
-
-  return (
-    <Image
-      src={imgUrl}
-      fill={true}
-      className="rounded-none object-cover"
-      alt="image"
-    />
-  );
-};
-
-const RestaurantList = async () => {
-  const { results: restaurants } = await fetchRestaurantList();
+  const {
+    data: restaurants,
+    error,
+    isLoading,
+  } = useSWRImmutable(`/api/nearby-search?lat=${lat}&lng=${lng}`, fetchNearbyRestaurants);
   restaurants as NearbySearchRestaurant[];
 
+  return {
+    restaurants,
+    error,
+    isLoading,
+  }
+}
+
+const RestaurantList = () => {
+
+  const userLocation = useLocationContext();
+  console.log("🚀 ~ file: RestaurantList.tsx:46 ~ RestaurantList ~ userLocation:", userLocation)
+  const { restaurants, error, isLoading } = useNearbyRestaurants(userLocation.lat, userLocation.lng);
+  restaurants as NearbySearchRestaurant[];
+
+  if (userLocation.lat === 0 && userLocation.lng === 0) {
+    return <div> No permission </div>;
+  }
+
+  if (restaurants === undefined) {
+    return <div> Restaurants not found </div>;
+  }
+
   return (
-    <div className="grid grid-cols-1 xs:grid-cols-2 md:grid-cols-3 xl:grid-cols-4 gap-6 p-4">
-      { restaurants.map((restaurant: NearbySearchRestaurant) => (
-        <RestaurantCard
-          key={restaurant.place_id}
-          restaurant={restaurant}
-          RestaurantImage={<RestaurantImage photoRef={restaurant.photos[0].photo_reference} />}
-        />
-      ))}
+    <div className="p-4">
+      <h1 className="font-bold text-lg mb-2">Nearby Restaurants</h1>
+      <div className="grid grid-cols-1 xs:grid-cols-2 md:grid-cols-3 xl:grid-cols-4 gap-6">
+        {/* { restaurants.map((restaurant: NearbySearchRestaurant) => (
+            <RestaurantCard
+              key={restaurant.place_id}
+              restaurant={restaurant}
+            />
+        ))} */}
+        restaurant list
+      </div>
     </div>
   );
+
 };
 
 export default RestaurantList;

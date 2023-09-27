@@ -6,14 +6,22 @@ import Link from "next/link";
 import { NearbySearchRestaurant } from "@/utils/interfaces";
 import { extractLocation } from "@/utils/utils";
 import MapMarkerIcon from "./icons/MapMarkerIcon";
+import useSWRImmutable from "swr/immutable";
+import Image from "next/image";
 
-const RestaurantCard = ({
-  restaurant,
-  RestaurantImage,
-}: {
-  restaurant: NearbySearchRestaurant;
-  RestaurantImage: JSX.Element;
-}) => {
+async function fetchRestaurantImg(requestUrl: string) {
+  const res  = await fetch(requestUrl);
+  const data = await res.json();
+  return data.imageUrl;
+};
+
+const RestaurantCard = ({ restaurant }: { restaurant: NearbySearchRestaurant }) => {
+
+  const { 
+    data: imgUrl, 
+    error, 
+    isLoading
+  } = useSWRImmutable(`/api/place-photo?photoRef=${restaurant.photos[0].photo_reference}`, fetchRestaurantImg);
 
   return (
     <Card
@@ -24,7 +32,12 @@ const RestaurantCard = ({
       className="w-full flex flex-col"
     >
       <CardBody className="p-0 w-full min-h-[200px]">
-        { RestaurantImage }
+        <Image
+          src={imgUrl}
+          fill={true}
+          className="rounded-none object-cover"
+          alt="image"
+         />
       </CardBody>
 
       <CardBody className="h-max flex flex-row gap-2 px-3 py-4">
