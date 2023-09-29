@@ -12,7 +12,7 @@ export async function GET(request: Request) {
   const params = {
     // required: location & radius
     location: `${latitude},${longitude}`,
-    radius: 500, // in metres
+    radius: 500,    // in metres
     keyword: "restaurant,food",
   };
 
