@@ -9,8 +9,6 @@ export default async function ExplorePage() {
       </div>
 
       {/* <div>Filter options</div> */}
-
-      <div>Restaurants in list mode</div>
     </main>
   )
 }

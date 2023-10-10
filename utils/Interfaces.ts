@@ -32,7 +32,7 @@ export interface NearbySearchRestaurant {
   };
   photos: {
     height: number;
-    html_attributions: string[];
+      html_attributions: string[];
     photo_reference: string;
     width: number;
   }[];
@@ -48,4 +48,47 @@ export interface NearbySearchRestaurant {
   types: string[];
   user_ratings_total: number;
   vicinity: string;
+}
+
+export interface SelectedRestaurant {
+  formatted_address: string;
+  geometry: {
+    location: {
+      lat: number;
+      lng: number;
+    };
+    viewport: {
+      south: number;
+      west: number;
+      north: number;
+      east: number;
+    };
+  };
+  name: string;
+  opening_hours: {
+    open_now: boolean;
+    periods: {
+      close: {
+        day: number;
+        time: string;
+        hours: number;
+        minutes: number;
+      };
+      open: {
+        day: number;
+        time: string;
+        hours: number;
+        minutes: number;
+      };
+    }[];
+    weekday_text: string[];
+  };
+  photos: {
+    height: number;
+    html_attributions: string[];
+    width: number;
+    getUrl: () => string;
+  }[];
+  place_id: string;
+  html_attributions: string[];
 }
