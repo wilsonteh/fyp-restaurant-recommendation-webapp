@@ -1,4 +1,4 @@
-import { IconProps } from "@/utils/interfaces";
+import { IconProps } from "@/utils/Interfaces";
 
 const ProfileIcon = ({ color, fill, className, stroke }: IconProps) => {
   return (

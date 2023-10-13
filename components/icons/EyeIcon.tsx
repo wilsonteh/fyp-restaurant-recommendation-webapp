@@ -1,5 +1,4 @@
-import { IconProps } from "@/utils/interfaces";
-
+import { IconProps } from "@/utils/Interfaces";
 interface EyeIconProps extends IconProps {
   show: boolean;
 }

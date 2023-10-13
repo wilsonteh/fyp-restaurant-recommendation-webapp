@@ -1,4 +1,4 @@
-import { IconProps } from "@/utils/interfaces";
+import { IconProps } from "@/utils/Interfaces";
 
 const SignoutIcon = (props: any) => {
   return (

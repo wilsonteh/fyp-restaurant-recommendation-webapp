@@ -1,4 +1,4 @@
-import { IconProps } from "@/utils/interfaces";
+import { IconProps } from "@/utils/Interfaces";
 
 const MapMarkerIcon = ({ color, fill, className, stroke }: IconProps) => {
   return (
@@ -6,7 +6,7 @@ const MapMarkerIcon = ({ color, fill, className, stroke }: IconProps) => {
       <svg
         xmlns="http://www.w3.org/2000/svg"
         color={color || ""}
-        fill={fill || "black"}
+        fill={fill || "currentColor"}
         viewBox="0 0 384 512"
         strokeWidth={stroke || "1.5"}
         stroke="currentColor"

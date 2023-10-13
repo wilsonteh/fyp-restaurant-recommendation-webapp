@@ -1,4 +1,4 @@
-import { IconProps } from "@/utils/interfaces";
+import { IconProps } from "@/utils/Interfaces";
 
 const GithubIcon = ({ color, fill, className, stroke }: IconProps) => {
   return (
