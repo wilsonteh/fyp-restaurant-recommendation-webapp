@@ -3,7 +3,7 @@ import { Card, CardBody, CardFooter, CardHeader, image } from "@nextui-org/react
 import StarIcon from "./icons/StarIcon";
 import DoorIcon from "./icons/DoorIcon";
 import Link from "next/link";
-import { NearbySearchRestaurant } from "@/utils/interfaces";
+import { NearbySearchRestaurant } from "@/utils/Interfaces";
 import { extractLocation } from "@/utils/utils";
 import MapMarkerIcon from "./icons/MapMarkerIcon";
 import useSWRImmutable from "swr/immutable";

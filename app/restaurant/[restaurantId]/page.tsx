@@ -1,3 +1,4 @@
+import RestaurantDetail from "@/components/RestaurantDetail";
 
 export default function RestaurantDetailPage({
   params,
@@ -6,7 +7,8 @@ export default function RestaurantDetailPage({
 }) {
   return (
     <main className="max-w-screen-xl mx-auto h-screen border-red-500">
-      restaurant { params.restaurantId } detail page 
+      restaurant id: { params.restaurantId }  
+      <RestaurantDetail />
     </main>
   );
 }

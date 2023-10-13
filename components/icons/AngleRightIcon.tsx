@@ -6,13 +6,13 @@ const AngleDownIcon = ({ color, fill, className, stroke }: IconProps) => {
       <svg
         xmlns="http://www.w3.org/2000/svg"
         color={color || ""}
-        fill={fill || "black"}
+        fill={fill || "currentColor"}
         viewBox="0 0 320 512"
         strokeWidth={stroke || "1.5"}
         stroke="currentColor"
         className={className || "w-5 h-5"}
       >
-        <path d="M143 352.3L7 216.3c-9.4-9.4-9.4-24.6 0-33.9l22.6-22.6c9.4-9.4 24.6-9.4 33.9 0l96.4 96.4 96.4-96.4c9.4-9.4 24.6-9.4 33.9 0l22.6 22.6c9.4 9.4 9.4 24.6 0 33.9l-136 136c-9.2 9.4-24.4 9.4-33.8 0z" />
+        <path d="M278.6 233.4c12.5 12.5 12.5 32.8 0 45.3l-160 160c-12.5 12.5-32.8 12.5-45.3 0s-12.5-32.8 0-45.3L210.7 256 73.4 118.6c-12.5-12.5-12.5-32.8 0-45.3s32.8-12.5 45.3 0l160 160z" />
       </svg>
     </span>
   );
