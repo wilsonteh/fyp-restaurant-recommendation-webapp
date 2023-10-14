@@ -1,6 +1,6 @@
 import { IconProps } from "@/utils/Interfaces";
 
-const ServiceIcon = ({ color, fill, className, stroke }: IconProps) => {
+const BellConcierge = ({ color, fill, className, stroke }: IconProps) => {
   return (
     <span className="">
       <svg
@@ -18,4 +18,4 @@ const ServiceIcon = ({ color, fill, className, stroke }: IconProps) => {
   );
 };
 
-export default ServiceIcon;
+export default BellConcierge;

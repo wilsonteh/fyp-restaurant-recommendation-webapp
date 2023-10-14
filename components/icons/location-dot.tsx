@@ -1,6 +1,6 @@
 import { IconProps } from "@/utils/Interfaces";
 
-const MapMarkerIcon = ({ color, fill, className, stroke }: IconProps) => {
+const LocationDot = ({ color, fill, className, stroke }: IconProps) => {
   return (
     <span className="">
       <svg
@@ -18,4 +18,4 @@ const MapMarkerIcon = ({ color, fill, className, stroke }: IconProps) => {
   );
 };
 
-export default MapMarkerIcon;
+export default LocationDot;

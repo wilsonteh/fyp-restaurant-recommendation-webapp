@@ -1,18 +1,19 @@
 "use client";
 import { useForm, SubmitHandler } from "react-hook-form";
 import { useEffect, useState } from "react";
-import EyeIcon from "../icons/EyeIcon";
+import Eye from "../icons/eye";
 import { Button } from "@nextui-org/button";
 import { Input } from "@nextui-org/input";
 import { auth, signInWithFacebook, signInWithGoogle, signInWithPassword } from "@/firebase/auth";
 import { useRouter } from "next/navigation";
 import { signinToast } from "@/utils/toast";
-import GoogleIcon from "../icons/GoogleIcon";
-import FacebookIcon from "../icons/FacebookIcon";
+import Google from "../icons/google";
+import Facebook from "../icons/facebook";
 import TwitterXIcon from "../icons/TwitterXIcon";
-import GithubIcon from "../icons/GithubIcon";
+import Github from "../icons/github";
 import Link from "next/link";
 import { useAuthState } from "react-firebase-hooks/auth";
+import EyeSlash from "../icons/eye-slash";
 
 interface LoginFormData {
   email: string;
@@ -99,7 +100,7 @@ const LoginForm = () => {
         />
 
         <Input
-          type={showPassword ? "password" : "text"}
+          type={showPassword ? "text" : "password"}
           label="Password"
           variant="bordered"
           radius="sm"
@@ -113,7 +114,7 @@ const LoginForm = () => {
               className="p-1 rounded-full hover:bg-slate-100"
               onClick={() => setShowPassword(!showPassword)}
             >
-              {<EyeIcon show={showPassword} />}
+              { showPassword ? <Eye fill="black" /> : <EyeSlash fill="black" /> }
             </button>
           }
           errorMessage={errors.password?.message}
@@ -131,7 +132,7 @@ const LoginForm = () => {
 
         <div className="grid grid-cols-2 gap-4">
           <Button
-            startContent={<GoogleIcon className="w-4 h-4" />}
+            startContent={<Google className="w-4 h-4" />}
             className="bg-light text-dark border-2 border-dark/90"
             onClick={signInWithGoogle}
             >
@@ -139,7 +140,7 @@ const LoginForm = () => {
           </Button>
 
           <Button
-            startContent={<FacebookIcon fill="#EEF2F4" className="w-4 h-4" />}
+            startContent={<Facebook fill="#EEF2F4" className="w-4 h-4" />}
             className="bg-[#4267B2] text-light"
             onClick={signInWithFacebook}
             >

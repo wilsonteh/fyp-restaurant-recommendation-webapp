@@ -1,6 +1,6 @@
 import { IconProps } from "@/utils/Interfaces";
 
-const DollarIcon = ({ color, fill, className, stroke }: IconProps) => {
+const DollarSign = ({ color, fill, className, stroke }: IconProps) => {
   return (
     <span className="">
       <svg
@@ -18,4 +18,4 @@ const DollarIcon = ({ color, fill, className, stroke }: IconProps) => {
   );
 };
 
-export default DollarIcon;
+export default DollarSign;

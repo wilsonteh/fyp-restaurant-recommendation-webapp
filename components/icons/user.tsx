@@ -1,12 +1,12 @@
 import { IconProps } from "@/utils/Interfaces";
 
-const ProfileIcon = ({ color, fill, className, stroke }: IconProps) => {
+const User = ({ color, fill, className, stroke }: IconProps) => {
   return (
     <span className="">
       <svg
         xmlns="http://www.w3.org/2000/svg"
         color={color || ""}
-        fill={fill || "black"}
+        fill={fill || "currentColor"}
         viewBox="0 0 448 512"
         strokeWidth={stroke || "1.5"}
         stroke="currentColor"
@@ -18,4 +18,4 @@ const ProfileIcon = ({ color, fill, className, stroke }: IconProps) => {
   );
 };
 
-export default ProfileIcon;
+export default User;

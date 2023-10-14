@@ -1,6 +1,6 @@
 import { IconProps } from "@/utils/Interfaces";
 
-const PenIcon = ({ color, fill, className, stroke }: IconProps) => {
+const Pen = ({ color, fill, className, stroke }: IconProps) => {
   return (
     <span className="">
       <svg
@@ -18,4 +18,4 @@ const PenIcon = ({ color, fill, className, stroke }: IconProps) => {
   );
 };
 
-export default PenIcon;
+export default Pen;

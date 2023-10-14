@@ -1,6 +1,6 @@
 import { IconProps } from "@/utils/Interfaces";
 
-const InfoIcon = ({ color, fill, className, stroke }: IconProps) => {
+const CircleInfo = ({ color, fill, className, stroke }: IconProps) => {
   return (
     <span className="">
       <svg
@@ -18,4 +18,4 @@ const InfoIcon = ({ color, fill, className, stroke }: IconProps) => {
   );
 };
 
-export default InfoIcon;
+export default CircleInfo;

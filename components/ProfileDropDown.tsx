@@ -9,10 +9,10 @@ import {
   NavbarItem,
   User,
 } from "@nextui-org/react";
-import AngleDownIcon from "./icons/AngleDownIcon";
+import AngleDown from "./icons/angle-down";
 import Link from "next/link";
 import { profileDropdownItems } from "@/utils/constants";
-import SignoutIcon from "./icons/SignoutIcon";
+import RightFromBracket from "./icons/right-from-bracket";
 import { signOutUser } from "@/firebase/auth";
 
 interface ProfileDropDownProps {
@@ -81,7 +81,7 @@ const ProfileDropDown = ({ user }: ProfileDropDownProps) => {
 
         <DropdownSection className="px-2">
           <DropdownItem
-            startContent={<SignoutIcon className="w-4 h-4"  />}
+            startContent={<RightFromBracket className="w-4 h-4"  />}
             onPress={signOutUser}
             classNames={{
               base: [

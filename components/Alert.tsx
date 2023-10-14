@@ -2,7 +2,7 @@
 import { Dismiss } from "flowbite";
 import type { DismissOptions, DismissInterface } from "flowbite";
 import { useRef } from "react";
-import CrossIcon from "./icons/CrossIcon";
+import Xmark from "./icons/xmark";
 
 interface AlertProps {
   text: string;
@@ -53,7 +53,7 @@ const Alert = ({ text, type, bordered }: AlertProps) => {
         ref={triggerElement}
       >
         <span className="sr-only">Dismiss</span>
-        <CrossIcon className="w-3 h-3" fill={dismissFill[type]} />  
+        <Xmark className="w-3 h-3" fill={dismissFill[type]} />  
       </button>
     </div>
   );

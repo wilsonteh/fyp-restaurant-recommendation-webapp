@@ -1,6 +1,6 @@
 "use client";
 import { Button, Input } from "@nextui-org/react";
-import SearchIcon from "./icons/SearchIcon";
+import MagnifyingGlass from "./icons/magnifying-glass";
 import { usePlacesWidget } from "react-google-autocomplete";
 import { useState } from "react";
 import SelectedRestaurant from "./SelectedRestaurant";
@@ -34,7 +34,7 @@ const SearchBar = () => {
             input: "text-foreground pl-2",
             inputWrapper: "p-0 pl-4",
           }}
-          startContent={<SearchIcon className="w-4 h-4" />}
+          startContent={<MagnifyingGlass className="w-4 h-4" />}
           endContent={
             <Button variant="solid" color="primary">
               Search

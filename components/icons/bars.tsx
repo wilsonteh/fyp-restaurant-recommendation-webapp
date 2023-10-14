@@ -1,12 +1,12 @@
 import { IconProps } from "@/utils/Interfaces";
 
-const HamburgerIcon = ({ color, fill, className, stroke }: IconProps) => {
+const Bars = ({ color, fill, className, stroke }: IconProps) => {
   return (
     <span className="">
       <svg 
         xmlns="http://www.w3.org/2000/svg" 
         color={color || ""}
-        fill={fill || "black"}
+        fill={fill || "currentColor"}
         viewBox="0 0 448 512"
         strokeWidth={stroke || "1.5"}
         stroke="currentColor"
@@ -20,4 +20,4 @@ const HamburgerIcon = ({ color, fill, className, stroke }: IconProps) => {
   );
 };
 
-export default HamburgerIcon;
+export default Bars;

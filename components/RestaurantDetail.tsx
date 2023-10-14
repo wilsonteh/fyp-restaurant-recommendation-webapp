@@ -2,13 +2,13 @@
 import { Button, Tab, Tabs } from "@nextui-org/react";
 import Image from "next/image";
 import { useState } from "react";
-import InfoIcon from "./icons/InfoIcon";
-import MapMarkerIcon from "./icons/MapMarkerIcon";
-import PenIcon from "./icons/PenIcon";
-import UtensilsIcon from "./icons/UtensilsIcon";
-import ServiceIcon from "./icons/ServiceIcon";
-import DollarIcon from "./icons/DollarIcon";
-import HeartIcon from "./icons/HeartIcon";
+import CircleInfo from "./icons/circle-info";
+import LocationDot from "./icons/location-dot";
+import Pen from "./icons/pen";
+import Utensils from "./icons/utensils";
+import BellConcierge from "./icons/bell-concierge";
+import DollarSign from "./icons/dollar-sign";
+import Heart from "./icons/heart";
 import CircleChevronRight from "./icons/circle-chevron-right";
 import LocationArrow from "./icons/location-arrow";
 import ReviewList from "./ReviewList";
@@ -72,7 +72,7 @@ const RestaurantDetail = () => {
             key="details"
             title={
               <div className="flex items-center space-x-2">
-                <InfoIcon />
+                <CircleInfo />
                 <span>Details</span>
               </div>
             }
@@ -89,22 +89,22 @@ const RestaurantDetail = () => {
                 <h4 className="font-medium">Rating by component</h4>
                 <div className="flex flex-col gap-3 text-sm">
                   <div className="flex items-center gap-x-2">
-                    <UtensilsIcon className="w-4 h-4" />
+                    <Utensils className="w-4 h-4" />
                     <span className="flex-initial w-[150px]">Food</span>
                     <span>4.2</span>
                   </div>
                   <div className="flex items-center gap-x-2">
-                    <ServiceIcon className="w-4 h-4" />
+                    <BellConcierge className="w-4 h-4" />
                     <span className="flex-initial w-[150px]">Service</span>
                     <span>4.2</span>
                   </div>
                   <div className="flex items-center gap-x-2">
-                    <DollarIcon className="w-4 h-4" />
+                    <DollarSign className="w-4 h-4" />
                     <span className="flex-initial w-[150px]">Value</span>
                     <span>4.2</span>
                   </div>
                   <div className="flex items-center gap-x-2">
-                    <HeartIcon className="w-4 h-4" />
+                    <Heart className="w-4 h-4" />
                     <span className="flex-initial w-[150px]">Atmosphere</span>
                     <span>4.2</span>
                   </div>
@@ -125,7 +125,7 @@ const RestaurantDetail = () => {
             key="location"
             title={
               <div className="flex items-center space-x-2">
-                <MapMarkerIcon />
+                <LocationDot />
                 <span>Location</span>
               </div>
             }
@@ -157,7 +157,7 @@ const RestaurantDetail = () => {
             key="reviews"
             title={
               <div className="flex items-center space-x-2">
-                <PenIcon />
+                <Pen />
                 <span>Reviews</span>
               </div>
             }
@@ -166,7 +166,7 @@ const RestaurantDetail = () => {
               <Button
                 size="sm"
                 radius="full"
-                endContent={<PenIcon className="w-3 h-3" />}
+                endContent={<Pen className="w-3 h-3" />}
                 className="bg-gray-800 text-primary-400"
                 >
                 Write a review
