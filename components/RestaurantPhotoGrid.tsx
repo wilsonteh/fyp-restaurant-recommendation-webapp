@@ -1,35 +1,34 @@
+"use client";
+import { Button } from "@nextui-org/react";
 import Image from "next/image";
 
-async function fetchPhotos(photoRefs: String[]) {
-
-  const imageUrls = await Promise.all(photoRefs.map(async (photoRef) => {
-    const res = await fetch(`${process.env.HOST_URL}/api/place-photo?photoRef=${photoRef}`);
-    if (!res.ok) {
-      throw new Error(`Failed to fetch photo of ref: ${photoRef}`);
-    }
-    return res.json();
-  })) as string[];
-
-  return imageUrls;
+interface RestaurantPhotoGridProps {
+  photos: {
+    url: string;
+    width: number;
+    height: number;
+  }[];
 }
 
-export default async function RestaurantPhotoGrid({ photoRefs }: { photoRefs: String[] }) {
-
-  const imageUrls = await fetchPhotos(photoRefs);
-  // console.log("🚀 ~ file: RestaurantPhotoGrid.tsx:18 ~ RestaurantPhotoGrid ~ imageUrls:", imageUrls)
+export default function RestaurantPhotoGrid({ photos }: RestaurantPhotoGridProps) {
 
   return (
-    <div className="grid grid-cols-4 gap-2">
-      { imageUrls.map((imageUrl, index) => (
-        <Image
-          key={index}
-          src={imageUrl}
-          width={400}
-          height={1600}
-          alt="restaurant photo"
-          className="w-full h-96 object-cover"
-        />
-      ))}
-    </div>
+    <section className="px-4">
+      <div className="grid grid-cols-5 gap-2">
+        { photos.slice(0, 5).map((photo, i) => (
+          <div key={i} className="relative aspect-square">
+            <Image
+              className="rounded-lg absolute inset-0 w-full h-full object-cover"
+              src={photo.url}
+              width={500}
+              height={200}
+              alt="restaurant photo"
+              />
+          </div>
+        ))}
+      </div>
+
+      {/* <Button>View All</Button> */}
+    </section>
   );
 }
