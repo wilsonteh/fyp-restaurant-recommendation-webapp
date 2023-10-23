@@ -19,5 +19,5 @@ export async function GET(request: Request) {
   );
   const imageUrl = res.url
 
-  return NextResponse.json({ imageUrl });
+  return NextResponse.json(imageUrl);
 };

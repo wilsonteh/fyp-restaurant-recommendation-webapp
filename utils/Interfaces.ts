@@ -91,4 +91,8 @@ export interface SelectedRestaurant {
   }[];
   place_id: string;
   html_attributions: string[];
-}
+};
+
+
+
+

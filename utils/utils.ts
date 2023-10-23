@@ -8,3 +8,12 @@ export function extractLocation(str: string) {
   const result = trimmed.slice(-2).join(', ');
   return result;
 }
+
+export function thousandSeparator(number: number): string {
+  return number.toString().replace(/\B(?=(\d{3})+(?!\d))/g, ",");
+}
+
+export function getFractionalPart(number: number): number {
+  const fractionalPart = number.toString().split('.')[1];
+  return parseInt(fractionalPart || "0", 10);
+}
