@@ -42,7 +42,7 @@ export default async function RestaurantDetail ({
 
   return (
     <div className="w-full flex flex-col gap-5">
-      <section className="border border-red-5000 flex flex-col gap-2 py-2">
+      <section className="flex flex-col gap-2 py-2">
         <h1 className="text-lg font-semibold text-center">
           { restaurant.name }
         </h1>

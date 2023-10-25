@@ -87,6 +87,7 @@ const RestaurantTab = ({
                 size="sm"
                 endContent={<CircleChevronRight className="w-3 h-3" />}
                 className="bg-gray-800 text-primary-400"
+                onClick={() => setSelectedTab("reviews")}
               >
                 View Reviews
               </Button>
@@ -145,7 +146,7 @@ const RestaurantTab = ({
             Write a review
           </Button>
 
-          <ReviewList />
+          <ReviewList reviews={restaurant.reviews} />
         </div>
       </Tab>
     </Tabs>
