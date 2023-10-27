@@ -1,5 +1,5 @@
 "use client";
-import { Button, Tab, Tabs } from "@nextui-org/react";
+import { Button, Tab, Tabs, useDisclosure } from "@nextui-org/react";
 import { useState } from "react";
 import CircleInfo from "./icons/circle-info";
 import Utensils from "./icons/utensils";
@@ -13,14 +13,21 @@ import LocationArrow from "./icons/location-arrow";
 import Pen from "./icons/pen";
 import ReviewList from "./ReviewList";
 import { RestaurantDetailInterface } from "@/utils/PlaceDetailInterface";
+import ReviewForm from "./ReviewForm";
+import Link from "next/link";
+import { useParams } from "next/navigation";
 
 const RestaurantTab = ({
   restaurant,
 }: {
   restaurant: RestaurantDetailInterface;
 }) => {
+
+  const { restaurantId } = useParams();
+  const { isOpen, onOpen, onOpenChange } = useDisclosure();
   const [selectedTab, setSelectedTab] = useState("details");
   const { weekday_text } = restaurant.current_opening_hours;
+
 
   const OpeningHours = weekday_text.map((text) => {
     const [day, openingHr] = text.split(": ");
@@ -138,15 +145,20 @@ const RestaurantTab = ({
       >
         <div className="">
           <Button
+            as={Link}
+            href={`/restaurant/${restaurantId}/reviews/new`}
             size="sm"
             radius="full"
             endContent={<Pen className="w-3 h-3" />}
             className="bg-gray-800 text-primary-400"
+            onClick={onOpen}
+
           >
             Write a review
           </Button>
 
-          <ReviewList reviews={restaurant.reviews} />
+          {/* <ReviewList reviews={restaurant.reviews} /> */}
+
         </div>
       </Tab>
     </Tabs>

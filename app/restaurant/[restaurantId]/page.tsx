@@ -1,5 +1,4 @@
 import RestaurantDetail from "@/components/RestaurantDetail";
-import RestaurantPhotoGrid from "@/components/RestaurantPhotoGrid";
 import { RestaurantDetailInterface } from "@/utils/PlaceDetailInterface";
 
 async function fetchRestaurant(placeId: string) {

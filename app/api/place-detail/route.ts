@@ -8,9 +8,12 @@ export async function GET(request: Request) {
 
   const { searchParams } = new URL(request.url);
   const placeId = searchParams.get("placeId");
+  const fields = searchParams.get("fields");
+  // searchParams may or may not contain the "fields" param
+  const fieldsParam = fields ? `&fields=${fields}` : "";
 
   const res = await fetch (
-    `${BASE_URL}?key=${API_KEY}&place_id=${placeId}`, 
+    `${BASE_URL}?key=${API_KEY}&place_id=${placeId}&${fieldsParam}`, 
     { 
       headers: {
         'Content-Type': 'application/json'
