@@ -1,8 +1,7 @@
 "use client";
 import { Navbar, NavbarMenuToggle, NavbarBrand, NavbarContent, NavbarItem, NavbarMenu, NavbarMenuItem, Button } from "@nextui-org/react";
 import Link from "next/link";
-import { usePathname } from "next/navigation";
-import { useRouter } from "next/router";
+import { usePathname, useRouter } from "next/navigation";
 import { useState } from "react";
 import { useAuthState } from "react-firebase-hooks/auth";
 import { auth } from "../_firebase/auth";

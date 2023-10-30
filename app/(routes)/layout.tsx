@@ -1,4 +1,5 @@
 import '@/styles/globals.css';
+import '@smastrom/react-rating/style.css';
 import type { Metadata } from 'next';
 import { Poppins } from 'next/font/google';
 import Header from '../_components/Header';
