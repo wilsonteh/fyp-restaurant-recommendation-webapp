@@ -1,4 +1,4 @@
-import { IconProps } from "../_utils/Interfaces";
+import { IconProps } from "../_utils/interfaces/Interfaces";
 
 const ThumbsUp = ({ color, fill, className, stroke }: IconProps) => {
   return (

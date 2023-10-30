@@ -1,4 +1,4 @@
-import { Review } from "@/app/_utils/Interfaces";
+import { Review } from "@/app/_utils/interfaces/Interfaces";
 import ReviewItem from "./ReviewItem";
 
 export default function ReviewList({ reviews }: { reviews: Review[] }) {

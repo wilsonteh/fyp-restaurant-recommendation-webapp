@@ -2,7 +2,7 @@ import RestaurantStars from "@/app/_icons/RestaurantStars";
 import ReviewStars from "@/app/_icons/ReviewStars";
 import Globe from "@/app/_icons/globe";
 import PhoneAlt from "@/app/_icons/phone-alt";
-import { RestaurantDetailInterface } from "@/app/_utils/PlaceDetailInterface";
+import { RestaurantDetailInterface } from "@/app/_utils/interfaces/PlaceDetailInterface";
 import { getFractionalPart, thousandSeparator } from "@/app/_utils/utils";
 import Link from "next/link";
 import RestaurantPhotoGrid from "./RestaurantPhotoGrid";

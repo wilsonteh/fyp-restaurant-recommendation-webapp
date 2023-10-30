@@ -1,4 +1,4 @@
-import { RestaurantDetailInterface } from "@/app/_utils/PlaceDetailInterface";
+import { RestaurantDetailInterface } from "@/app/_utils/interfaces/PlaceDetailInterface";
 import RestaurantDetail from "./RestaurantDetail";
 
 async function fetchRestaurant(placeId: string) {

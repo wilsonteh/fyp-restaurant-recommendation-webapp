@@ -4,7 +4,7 @@ import Link from "next/link";
 import useSWRImmutable from "swr/immutable";
 import Image from "next/image";
 import LocationDot from "@/app/_icons/location-dot";
-import { NearbySearchRestaurant } from "@/app/_utils/Interfaces";
+import { NearbySearchRestaurant } from "@/app/_utils/interfaces/Interfaces";
 import { extractLocation } from "@/app/_utils/utils";
 import DoorOpen from "@/app/_icons/door-open";
 import Star from "@/app/_icons/star";

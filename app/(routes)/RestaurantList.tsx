@@ -1,6 +1,6 @@
 "use client";
 import { useLocationContext } from "@/app/_contexts/userLocation";
-import { NearbySearchRestaurant } from "@/app/_utils/Interfaces";
+import { NearbySearchRestaurant } from "@/app/_utils/interfaces/Interfaces";
 import { useEffect, useState } from "react";
 
 const RestaurantList = () => {

@@ -1,7 +1,7 @@
 import { Card, CardBody, CardHeader } from "@nextui-org/react";
 import Image from "next/image";
 import Link from "next/link";
-import { SelectedRestaurant } from "@/app/_utils/Interfaces";
+import { SelectedRestaurant } from "@/app/_utils/interfaces/Interfaces";
 
 interface SelectedPlaceProps {
   place: SelectedRestaurant;
