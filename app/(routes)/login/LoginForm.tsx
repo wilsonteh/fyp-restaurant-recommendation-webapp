@@ -4,6 +4,7 @@ import Eye from "@/app/_icons/eye";
 import EyeSlash from "@/app/_icons/eye-slash";
 import Facebook from "@/app/_icons/facebook";
 import Google from "@/app/_icons/google";
+import { LoginFormData } from "@/app/_utils/interfaces/FormData";
 import { Button } from "@nextui-org/button";
 import { Input } from "@nextui-org/input";
 import Link from "next/link";
@@ -11,11 +12,6 @@ import { useRouter } from "next/navigation";
 import { useEffect, useState } from "react";
 import { useAuthState } from "react-firebase-hooks/auth";
 import { SubmitHandler, useForm } from "react-hook-form";
-
-interface LoginFormData {
-  email: string;
-  password: string;
-}
 
 const LoginForm = () => {
 

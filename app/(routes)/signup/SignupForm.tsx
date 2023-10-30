@@ -4,6 +4,7 @@ import Eye from "@/app/_icons/eye";
 import EyeSlash from "@/app/_icons/eye-slash";
 import Facebook from "@/app/_icons/facebook";
 import Google from "@/app/_icons/google";
+import { SignupFormData } from "@/app/_utils/interfaces/FormData";
 import { Button } from "@nextui-org/button";
 import { Input } from "@nextui-org/input";
 import Link from "next/link";
@@ -12,14 +13,7 @@ import { useEffect, useState } from "react";
 import { useAuthState } from "react-firebase-hooks/auth";
 import { SubmitHandler, useForm } from "react-hook-form";
 
-interface SignupFormData {
-  email: string;
-  password: string;
-  confirmPassword: string;
-}
-
 const SignupForm = () => {
-
   const [showPassword, setShowPassword] = useState<boolean>(false);
   const [showConfirmPassword, setShowConfirmPassword] = useState<boolean>(false);
   const { register, handleSubmit, formState: { errors } } = useForm<SignupFormData>();
