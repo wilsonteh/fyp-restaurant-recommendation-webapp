@@ -20,6 +20,7 @@ export default function DropDownInputs({ control }: any ) {
       <Controller
         name="priceLevel"
         control={control}
+        defaultValue=""
         render={({ field: { onChange, onBlur, value, ref } }) => (
           <Select
             variant="bordered"
@@ -40,8 +41,9 @@ export default function DropDownInputs({ control }: any ) {
 
       <div className="flex gap-8">
         <Controller
-          name="halal"
+          name="hasHalalOption"
           control={control}
+          defaultValue=""
           render={({ field: { onChange, onBlur, value, ref } }) => (
             <Select
             variant="bordered"
@@ -61,8 +63,9 @@ export default function DropDownInputs({ control }: any ) {
         />
         
         <Controller
-          name="vegetarian"
+          name="hasVegetarianOption"
           control={control}
+          defaultValue=""
           render={({ field: { onChange, onBlur, value, ref } }) => (
             <Select
               variant="bordered"

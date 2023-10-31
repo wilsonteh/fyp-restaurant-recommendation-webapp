@@ -1,13 +1,19 @@
 "use client";
 import { ReviewFormData } from "@/app/_utils/interfaces/FormData";
 import { Button, Input, Textarea } from "@nextui-org/react";
-import { useParams } from "next/navigation";
+import { useParams, useRouter } from "next/navigation";
 import { Controller, SubmitHandler, useForm } from "react-hook-form";
 import { Rating as StarRating } from "react-simple-star-rating";
 import DropDownInputs from "./DropDownInputs";
+import { insertDoc } from "@/app/_firebase/firestore";
+import { useAuthState } from "react-firebase-hooks/auth";
+import { auth } from "@/app/_firebase/auth";
+import { serverTimestamp } from "firebase/firestore";
 
 export default function ReviewForm() {
   const { restaurantId } = useParams();
+  const router = useRouter();
+  const [ user ] = useAuthState(auth)
   const {
     register,
     handleSubmit,
@@ -29,6 +35,19 @@ export default function ReviewForm() {
 
   const submitReview: SubmitHandler<ReviewFormData> = async (formData) => {
     console.log(formData);
+    // TODOs: timestamp, restau ref 
+    try {
+      const docRef = await insertDoc("reviews", {
+        ...formData, 
+        author: user?.uid,
+        restaurant: restaurantId, 
+        createdAt: serverTimestamp(),
+      })
+      router.push(`/restaurant/${restaurantId}`);
+      console.log(`Document ${docRef.id} has been added`);
+    } catch (e) {
+      console.error(e);
+    } 
   };
 
   return (
@@ -42,7 +61,7 @@ export default function ReviewForm() {
 
       <div className="flex flex-col gap-4">
         <label htmlFor="">Rate the restaurant</label>
-        <div className="flex gap-2">
+        <div className="flex flex-col gap-2">
           <Controller
             name="rating"
             control={control}
@@ -63,7 +82,11 @@ export default function ReviewForm() {
                 onClick={onChange} onPointerEnter={onBlur} onPointerLeave={onBlur} onPointerMove={onBlur}
               />
             )}
+            rules={{
+              required: "Rating cannot be left empty"
+            }}
           />
+          <span className="text-xs text-red-500"> { errors.rating?.message } </span>
         </div>
 
         <Input

@@ -14,6 +14,6 @@ export interface ReviewFormData {
   title: string;
   comment: string;
   priceLevel: string;
-  halal: boolean;
-  vegetarian: boolean;
+  hasHalalOption: boolean;
+  hasVegetarianOption: boolean;
 };

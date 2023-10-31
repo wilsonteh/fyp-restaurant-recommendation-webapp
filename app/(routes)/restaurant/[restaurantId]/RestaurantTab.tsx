@@ -10,6 +10,7 @@ import Pen from "@/app/_icons/pen";
 import Utensils from "@/app/_icons/utensils";
 import { RestaurantDetailInterface } from "@/app/_utils/interfaces/PlaceDetailInterface";
 import { Button, Tab, Tabs, useDisclosure } from "@nextui-org/react";
+import Image from "next/image";
 import Link from "next/link";
 import { useParams } from "next/navigation";
 import { useState } from "react";
