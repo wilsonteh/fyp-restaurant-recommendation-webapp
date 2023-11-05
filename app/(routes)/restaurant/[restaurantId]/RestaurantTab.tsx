@@ -8,24 +8,27 @@ import LocationArrow from "@/app/_icons/location-arrow";
 import LocationDot from "@/app/_icons/location-dot";
 import Pen from "@/app/_icons/pen";
 import Utensils from "@/app/_icons/utensils";
+import { ReviewSchema } from "@/app/_utils/interfaces/FirestoreSchema";
 import { RestaurantDetailInterface } from "@/app/_utils/interfaces/PlaceDetailInterface";
 import { Button, Tab, Tabs, useDisclosure } from "@nextui-org/react";
 import Image from "next/image";
 import Link from "next/link";
 import { useParams } from "next/navigation";
 import { useState } from "react";
+import ReviewList from "./ReviewList";
 
 const RestaurantTab = ({
   restaurant,
+  reviews, 
 }: {
   restaurant: RestaurantDetailInterface;
+  reviews: ReviewSchema[];
 }) => {
 
   const { restaurantId } = useParams();
   const { isOpen, onOpen, onOpenChange } = useDisclosure();
   const [selectedTab, setSelectedTab] = useState("details");
   const { weekday_text } = restaurant.current_opening_hours;
-
 
   const OpeningHours = weekday_text.map((text) => {
     const [day, openingHr] = text.split(": ");
@@ -155,7 +158,7 @@ const RestaurantTab = ({
             Write a review
           </Button>
 
-          {/* <ReviewList reviews={restaurant.reviews} /> */}
+          <ReviewList reviews={reviews} />
 
         </div>
       </Tab>

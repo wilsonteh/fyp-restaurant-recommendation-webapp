@@ -16,8 +16,10 @@ const nextConfig = {
         hostname: 'via.placeholder.com',
       }
     ]
-  }
-
+  }, 
+  experimental: {
+    
+  },
 }
 
 module.exports = nextConfig

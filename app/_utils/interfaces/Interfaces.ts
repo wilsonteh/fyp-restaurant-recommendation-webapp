@@ -1,9 +1,11 @@
+import { Timestamp } from "firebase/firestore";
+
 export interface IconProps {
   className?: string;
   color?: string;
   fill?: string;
   stroke?: string;
-}
+}; 
 
 export interface NearbySearchRestaurant {
   business_status: string;
@@ -93,17 +95,6 @@ export interface SelectedRestaurant {
   html_attributions: string[];
 };
 
-export interface Review {
-  author_name: string;
-  author_url: string;
-  language: string;
-  original_language: string;
-  profile_photo_url: string;
-  rating: number;
-  relative_time_description: string;
-  text: string;
-  time: number;
-  translated: boolean;
-}
+
 
 

@@ -1,12 +1,16 @@
+"use client";
 import EllipsisV from "@/app/_icons/ellipsis-v";
 import ReviewStars from "@/app/_icons/ReviewStars";
 import ThumbsUp from "@/app/_icons/thumbs-up";
+import { ReviewSchema } from "@/app/_utils/interfaces/FirestoreSchema";
 import { User } from "@nextui-org/react";
+import moment from "moment";
 import Image from "next/image";
 
-interface ReviewItemProps {}
+export default function ReviewItem({ review }: { review: ReviewSchema }) {
 
-export default function ReviewItem() {
+  const sec = review.createdAt.seconds;
+  const relativeTimestamp = moment.unix(sec).startOf('hour').fromNow()
   
   return (
     <div className="p-4">
@@ -14,10 +18,10 @@ export default function ReviewItem() {
         <User
           as="button"
           isFocusable
-          name={"Wilson Teh"}
-          description={"90 written reviews"}
+          name={review.user.displayName}
+          description={"xx written reviews"}
           avatarProps={{
-            src: "https://via.placeholder.com/50x50",
+            src: review.user.avatarUrl,
             size: "md",
           }}
           classNames={{
@@ -31,38 +35,35 @@ export default function ReviewItem() {
       </div>
 
       <div className="p-2 flex flex-col gap-3">
-        <ReviewStars Nstar={4} />
+        <ReviewStars Nstar={review.rating} />
 
         <div className="">
-          <h2 className="font-semibold"> Delightful Dining Experience! </h2>
+          <h2 className="font-semibold"> { review.title } </h2>
 
           <p className="font-light text-justify text-sm">
-            Lorem ipsum dolor sit amet, consectetur adipisicing elit.
-            Repellendus placeat corrupti accusamus nobis incidunt. Ad magni
-            molestiae aspernatur. Ab repellat cum perspiciatis architecto aut
-            earum sint iste aspernatur. Perferendis, nam.
+            { review.comment }
           </p>
         </div>
 
-        <div className="">
+        {/* <div className="">
           <Image
             src="https://via.placeholder.com/125x125"
             width={125}
             height={125}
             alt="review image"
           />
-        </div>
+        </div> */}
 
         <div className="p-2 flex justify-between items-center">
           <div className="text-sm flex items-center gap-2">
             <button>
               <ThumbsUp />
             </button>
-            <span>3</span>
+            <span> { review.likeCount } </span>
           </div>
 
           <div className="text-xs">
-            <span>Written: 23 Sept 2023</span>
+            <span>Written: { relativeTimestamp } </span>
           </div>
         </div>
       </div>

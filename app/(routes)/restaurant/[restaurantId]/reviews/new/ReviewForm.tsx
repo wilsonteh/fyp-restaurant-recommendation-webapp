@@ -14,6 +14,9 @@ export default function ReviewForm() {
   const { restaurantId } = useParams();
   const router = useRouter();
   const [ user ] = useAuthState(auth)
+
+  console.log(user?.photoURL);
+
   const {
     register,
     handleSubmit,
@@ -35,15 +38,20 @@ export default function ReviewForm() {
 
   const submitReview: SubmitHandler<ReviewFormData> = async (formData) => {
     console.log(formData);
-    // TODOs: timestamp, restau ref 
     try {
-      const docRef = await insertDoc("reviews", {
-        ...formData, 
-        author: user?.uid,
-        restaurant: restaurantId, 
-        createdAt: serverTimestamp(),
-      })
       router.push(`/restaurant/${restaurantId}`);
+      const reviewData = {
+        ...formData, 
+        user: {
+          id: user!.uid,
+          displayName: user!.displayName,
+          avatarUrl: user!.photoURL,
+        },
+        restaurantId: restaurantId, 
+        createdAt: serverTimestamp(),
+        likeCount: 0, 
+      }
+      const docRef = await insertDoc("reviews", reviewData);
       console.log(`Document ${docRef.id} has been added`);
     } catch (e) {
       console.error(e);
