@@ -1,13 +1,11 @@
 import {
   DocumentData,
   QueryFieldFilterConstraint,
-  WhereFilterOp,
   addDoc,
   collection,
   getDocs,
   getFirestore,
   query,
-  where,
 } from "firebase/firestore";
 import { app } from "./config";
 
@@ -45,11 +43,9 @@ export const fetchDocsWithCondition = async (
 
   try {
     const querySnapshot = await getDocs(q);
-    const documents: DocumentData[] = [];
-    querySnapshot.forEach((doc) => {
-      documents.push(doc.data());
-    });
+    const documents = querySnapshot.docs.map((doc) => doc.data());
     return documents;
+
   } catch (e) {
     console.error("Error reading documents:", e);
     throw e;

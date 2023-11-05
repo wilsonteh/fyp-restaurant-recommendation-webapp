@@ -8,7 +8,6 @@ import LocationArrow from "@/app/_icons/location-arrow";
 import LocationDot from "@/app/_icons/location-dot";
 import Pen from "@/app/_icons/pen";
 import Utensils from "@/app/_icons/utensils";
-import { ReviewSchema } from "@/app/_utils/interfaces/FirestoreSchema";
 import { RestaurantDetailInterface } from "@/app/_utils/interfaces/PlaceDetailInterface";
 import { Button, Tab, Tabs, useDisclosure } from "@nextui-org/react";
 import Image from "next/image";
@@ -19,10 +18,8 @@ import ReviewList from "./ReviewList";
 
 const RestaurantTab = ({
   restaurant,
-  reviews, 
 }: {
   restaurant: RestaurantDetailInterface;
-  reviews: ReviewSchema[];
 }) => {
 
   const { restaurantId } = useParams();
@@ -158,7 +155,7 @@ const RestaurantTab = ({
             Write a review
           </Button>
 
-          <ReviewList reviews={reviews} />
+          <ReviewList />
 
         </div>
       </Tab>

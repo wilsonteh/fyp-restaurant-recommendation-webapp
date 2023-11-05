@@ -1,19 +1,46 @@
 "use client";
 import { ReviewSchema } from "@/app/_utils/interfaces/FirestoreSchema";
 import ReviewItem from "./ReviewItem";
+import {
+  CollectionHook,
+  useCollection,
+  useCollectionOnce,
+} from "react-firebase-hooks/firestore";
+import { useParams } from "next/navigation";
+import { db } from "@/app/_firebase/firestore";
+import { collection, query, where } from "firebase/firestore";
+import error from "next/error";
 
-export default function ReviewList({ reviews } : { reviews: ReviewSchema[] }) {
+export default function ReviewList({}: // collectionHook,
+{
+  // collectionHook: CollectionHook;
+}) {
+  const { restaurantId } = useParams();
+  // const [reviews, loading, error ] = collectionHook;
+
+  const collectionRef = collection(db, "reviews");
+  const q = query(collectionRef, where("restaurantId", "==", restaurantId));
+  const [reviews, loading, error, reload] = useCollectionOnce(q, {
+    getOptions: { source: "server" },
+  });
 
   return (
     <div className="">
       <h1>Reviews (1,464)</h1>
-      
+
+      { loading && <div>Loading....</div> }
+      { error && <div> {error.message} </div> }
+
       {/* Dropdown filter */}
 
-      { reviews.map((review, i) => (
-        <ReviewItem key={i} review={review} />
-      ))}
-
+      {reviews &&
+        reviews.docs.map((review) => (
+          <ReviewItem
+            key={review.id}
+            reviewRef={review}
+            review={review.data() as ReviewSchema}
+          />
+        ))}
     </div>
   );
-};
+}

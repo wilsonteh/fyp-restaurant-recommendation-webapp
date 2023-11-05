@@ -4,14 +4,26 @@ import ReviewStars from "@/app/_icons/ReviewStars";
 import ThumbsUp from "@/app/_icons/thumbs-up";
 import { ReviewSchema } from "@/app/_utils/interfaces/FirestoreSchema";
 import { User } from "@nextui-org/react";
+import { QueryDocumentSnapshot } from "firebase/firestore";
 import moment from "moment";
 import Image from "next/image";
 
-export default function ReviewItem({ review }: { review: ReviewSchema }) {
+export default function ReviewItem({ 
+  reviewRef, 
+  review, 
+}: { 
+  reviewRef: QueryDocumentSnapshot, 
+  review: ReviewSchema, 
+}) {
 
   const sec = review.createdAt.seconds;
-  const relativeTimestamp = moment.unix(sec).startOf('hour').fromNow()
-  
+  const relativeTimestamp = moment.unix(sec).startOf("hour").fromNow();
+
+  function handleLikeIncrement() {
+    console.log("clicked");
+    // get the review id to identify which review item is being clicked
+  }
+
   return (
     <div className="p-4">
       <div className="flex justify-between items-center">
@@ -38,11 +50,9 @@ export default function ReviewItem({ review }: { review: ReviewSchema }) {
         <ReviewStars Nstar={review.rating} />
 
         <div className="">
-          <h2 className="font-semibold"> { review.title } </h2>
+          <h2 className="font-semibold"> {review.title} </h2>
 
-          <p className="font-light text-justify text-sm">
-            { review.comment }
-          </p>
+          <p className="font-light text-justify text-sm">{review.comment}</p>
         </div>
 
         {/* <div className="">
@@ -56,14 +66,17 @@ export default function ReviewItem({ review }: { review: ReviewSchema }) {
 
         <div className="p-2 flex justify-between items-center">
           <div className="text-sm flex items-center gap-2">
-            <button>
+            <button
+              onClick={handleLikeIncrement}
+              className="p-2 rounded-full hover:bg-slate-200"
+            >
               <ThumbsUp />
             </button>
-            <span> { review.likeCount } </span>
+            <span> {review.likeCount} </span>
           </div>
 
           <div className="text-xs">
-            <span>Written: { relativeTimestamp } </span>
+            <span>Written: {relativeTimestamp} </span>
           </div>
         </div>
       </div>

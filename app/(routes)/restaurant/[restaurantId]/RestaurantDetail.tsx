@@ -90,7 +90,7 @@ export default async function RestaurantDetail ({
       <RestaurantPhotoGrid photos={photos} />
 
       <section className="w-[800px] mx-auto">
-        <RestaurantTab restaurant={restaurant} reviews={reviews} />
+        <RestaurantTab restaurant={restaurant} />
       </section>
 
     </div>
