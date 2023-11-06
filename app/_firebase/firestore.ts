@@ -1,13 +1,17 @@
 import {
   DocumentData,
+  FirestoreError,
   QueryFieldFilterConstraint,
   addDoc,
   collection,
+  doc,
   getDocs,
   getFirestore,
   query,
+  updateDoc,
 } from "firebase/firestore";
 import { app } from "./config";
+import { FirebaseError } from "firebase/app";
 
 export const db = getFirestore(app);
 
@@ -51,3 +55,21 @@ export const fetchDocsWithCondition = async (
     throw e;
   }
 };
+
+export const updateDocument = async (
+  collectionName: string,
+  docId: string,
+  updatedData: any
+) => {
+
+  try {
+    const docRef = doc(db, collectionName, docId);
+    await updateDoc(docRef, updatedData);
+    console.log(`Document with id ${docId} with ${updatedData} is updated!`);
+
+  } catch (e) {
+    console.error("Error updating document", e);
+    throw e;
+  }
+  
+}

@@ -49,7 +49,10 @@ export default function ReviewForm() {
         },
         restaurantId: restaurantId, 
         createdAt: serverTimestamp(),
-        likeCount: 0, 
+        likes: {
+          count: 0, 
+          likedBy: []
+        }, 
       }
       const docRef = await insertDoc("reviews", reviewData);
       console.log(`Document ${docRef.id} has been added`);

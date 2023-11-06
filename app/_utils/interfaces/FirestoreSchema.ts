@@ -9,7 +9,11 @@ export interface ReviewSchema {
   priceLevel: string;
   hasHalalOption: string;
   hasVegetarianOption: string;
-  likeCount: number;
+  // likeCount: number;
+  likes: {
+    count: number;
+    likedBy: string[]
+  }
   createdAt: Timestamp;
   restaurantId: string;
   user: {
