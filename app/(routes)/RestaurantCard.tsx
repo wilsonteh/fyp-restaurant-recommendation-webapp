@@ -17,12 +17,12 @@ async function fetchRestaurantImg(requestUrl: string) {
 
 const RestaurantCard = ({ restaurant }: { restaurant: NearbySearchRestaurant }) => {
 
-  // ! comment these to avoid exp API calls 
-  const { 
-    data: imgUrl, 
-    error, 
-    isLoading
-  } = useSWRImmutable(`/api/place-photo?photoRef=${restaurant.photos[0].photo_reference}`, fetchRestaurantImg);
+  // ! comment these to avoid exp place photo API calls 
+  // const { 
+  //   data: imgUrl, 
+  //   error, 
+  //   isLoading
+  // } = useSWRImmutable(`/api/place-photo?photoRef=${restaurant.photos[0].photo_reference}`, fetchRestaurantImg);
 
   return (
     <Card
@@ -34,8 +34,8 @@ const RestaurantCard = ({ restaurant }: { restaurant: NearbySearchRestaurant }) 
     >
       <CardBody className="p-0 w-full min-h-[200px]">
         <Image
-          src={imgUrl}
-          // src=""
+          // src={imgUrl}
+          src=""
           fill={true}
           className="rounded-none object-cover"
           alt="image"
@@ -61,7 +61,7 @@ const RestaurantCard = ({ restaurant }: { restaurant: NearbySearchRestaurant }) 
           <span className="flex items-center gap-1 whitespace-nowrap">
             <DoorOpen className="w-3 h-3" fill="green" />
             <span>
-              {restaurant.opening_hours.open_now ? "Open Now" : "Closed"}
+              {restaurant.opening_hours?.open_now ? "Open Now" : "Closed"}
             </span>
           </span>
 

@@ -2,6 +2,7 @@
 import { useLocationContext } from "@/app/_contexts/userLocation";
 import { NearbySearchRestaurant } from "@/app/_utils/interfaces/Interfaces";
 import { useEffect, useState } from "react";
+import RestaurantCard from "./RestaurantCard";
 
 const RestaurantList = () => {
 
@@ -22,14 +23,13 @@ const RestaurantList = () => {
         const res = await fetch(requestUrl);
         const data = await res.json();
         const { results } = data;
-        console.log("🚀 ~ file: RestaurantList.tsx:26 ~ fetchData ~ results:", results)
         setRestaurants(results);
         setIsLoading(false);
       }
     }
 
     // ! Toggle comment for line below 
-    // fetchData();
+    fetchData();
     console.log("effect runs");
 
   }, [userLocation.lat, userLocation.lng])
@@ -38,19 +38,19 @@ const RestaurantList = () => {
     <div className="p-4">
       <h1 className="font-bold text-lg mb-2">Nearby Restaurants</h1>
 
-      {/* { isLoading ? (
+      { isLoading ? (
         // *TODO - display skeleton ltr  
         <div>Loading restaurants...</div>
       ) : (
         <div className="grid grid-cols-1 xs:grid-cols-2 md:grid-cols-3 xl:grid-cols-4 gap-6">
           { restaurants?.map((restaurant: NearbySearchRestaurant) => (
-              <RestaurantCard
-                key={restaurant.place_id}
-                restaurant={restaurant}
-              />
+            <RestaurantCard
+              key={restaurant.place_id}
+              restaurant={restaurant}
+            />
           ))}
         </div>
-      )} */}
+      )}
 
     </div>
   );
