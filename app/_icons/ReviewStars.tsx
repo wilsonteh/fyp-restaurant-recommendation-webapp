@@ -8,11 +8,11 @@ const ReviewStars = ({ Nstar }: { Nstar: number }) => {
   return (
     <div className="flex items-center gap-1">
       { new Array(Nstar).fill(0).map((_, i) => (
-        <Star key={i} fill="orange" />
+        <Star key={i} size={20} className="text-orange-500" />
       ))}
 
       { new Array(outlinedStar).fill(0).map((_, i) => (
-        <StarOutline key={i} fill="orange" />
+        <StarOutline key={i} size={20} className="text-orange-500" />
       ))}
     </div>
   );

@@ -4,7 +4,7 @@ const Facebook: React.FC<IconProps> = (props) => {
   const { size, className, ...restProps } = props;
 
   return (
-    <span className="">
+    <span className={className}>
       <svg 
         role="img" 
         xmlns="http://www.w3.org/2000/svg"

@@ -9,13 +9,13 @@ const RestaurantStars = ({ NthStar }: { NthStar: number }) => {
   return (
     <div className="flex items-center gap-1">
       { new Array(NthStar-1).fill(0).map((_, i) => (
-        <Star key={i} fill="orange" />
+        <Star key={i} size={20} className="text-orange-400" />
       ))}
 
-      <StarHalfStroke fill="orange" />
+      <StarHalfStroke size={20} className="text-orange-400" />
       
       { new Array(outlinedStar).fill(0).map((_, i) => (
-        <StarOutline key={i} fill="orange" />
+        <StarOutline key={i} size={20} className="text-orange-400" />
       ))}
     </div>
   );

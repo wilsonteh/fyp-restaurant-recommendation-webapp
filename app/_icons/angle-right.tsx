@@ -4,7 +4,7 @@ const AngleRight: React.FC<IconProps> = (props) => {
   const { size, className, ...restProps } = props;
   
   return (
-    <span className="">
+    <span className={className}>
       <svg
         xmlns="http://www.w3.org/2000/svg"
         viewBox="0 0 320 512"

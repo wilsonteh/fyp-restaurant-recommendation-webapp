@@ -10,6 +10,8 @@ import { where } from "firebase/firestore";
 import Link from "next/link";
 import RestaurantPhotoGrid from "./RestaurantPhotoGrid";
 import RestaurantTab from "./RestaurantTab";
+import { Star } from "@smastrom/react-rating";
+import StarOutline from "@/app/_icons/star-outline";
 
 async function fetchImageUrls(photoRefs: String[]) {
   const imageUrls = await Promise.all(photoRefs.map(async (photoRef) => {
