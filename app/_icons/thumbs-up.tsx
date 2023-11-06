@@ -7,8 +7,8 @@ const ThumbsUp: React.FC<IconProps> = (props) => {
     <span className={className}>
       <svg
         xmlns="http://www.w3.org/2000/svg"
-        fill="currentColor"
         viewBox="0 0 512 512"
+        fill="currentColor"
         width={size}
         height={size}
         {...restProps}
