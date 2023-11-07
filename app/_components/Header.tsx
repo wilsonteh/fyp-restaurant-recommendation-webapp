@@ -1,5 +1,14 @@
 "use client";
-import { Navbar, NavbarMenuToggle, NavbarBrand, NavbarContent, NavbarItem, NavbarMenu, NavbarMenuItem, Button } from "@nextui-org/react";
+import {
+  Navbar,
+  NavbarMenuToggle,
+  NavbarBrand,
+  NavbarContent,
+  NavbarItem,
+  NavbarMenu,
+  NavbarMenuItem,
+  Button,
+} from "@nextui-org/react";
 import Link from "next/link";
 import { usePathname, useRouter } from "next/navigation";
 import { useState } from "react";
@@ -19,24 +28,38 @@ const Header = () => {
   };
 
   return (
-    <Navbar maxWidth="xl" shouldHideOnScroll isBordered isBlurred={false} disableAnimation={false} isMenuDefaultOpen={true} onMenuOpenChange={setIsMenuOpen} >
-      
+    <Navbar
+      maxWidth="xl"
+      shouldHideOnScroll
+      isBordered
+      isBlurred={false}
+      disableAnimation={false}
+      isMenuDefaultOpen={true}
+      onMenuOpenChange={setIsMenuOpen}
+    >
       <NavbarMenuToggle
         aria-label={isMenuOpen ? "Close menu" : "Open menu"}
         className="md:hidden"
       />
 
       <NavbarBrand className="">
-        <h1 className="font-bold text-xl">MakanNow</h1>
+        <h1 className="font-bold text-xl">
+          <Link href="/">MakanNow</Link>
+        </h1>
       </NavbarBrand>
 
       <NavbarContent className="hidden md:flex" justify="center">
-        { navbarItems.map((navItem, i) => (
+        {navbarItems.map((navItem, i) => (
           <NavbarItem key={i}>
-            <Link 
+            <Link
               href={navItem.href}
               className={`capitalize px-2 py-2 rounded-xl
-              ${ isNavItemActive(navItem.href) ? "text-primary-700" : "hover:text-foreground/90 hover:font-medium"}`} >
+              ${
+                isNavItemActive(navItem.href)
+                  ? "text-primary-700"
+                  : "hover:text-foreground/90 hover:font-medium"
+              }`}
+            >
               {navItem.item}
             </Link>
           </NavbarItem>
@@ -48,9 +71,15 @@ const Header = () => {
         <NavbarMenu className="flex flex-col items-center gap-y-6 bg-gray-50 p-6">
           {navbarItems.map((navItem, i) => (
             <NavbarMenuItem key={i} className="">
-              <Link href={navItem.href}
+              <Link
+                href={navItem.href}
                 className={`capitalize w-full px-4 py-2 rounded-xl 
-                ${ isNavItemActive(navItem.href) ? "text-primary-700" : "hover:text-foreground/90 hover:font-medium" }`} >
+                ${
+                  isNavItemActive(navItem.href)
+                    ? "text-primary-700"
+                    : "hover:text-foreground/90 hover:font-medium"
+                }`}
+              >
                 {navItem.item}
               </Link>
             </NavbarMenuItem>
@@ -75,9 +104,7 @@ const Header = () => {
         ) : (
           <ProfileDropDown user={user} />
         )}
-        
       </NavbarContent>
-
     </Navbar>
   );
 };

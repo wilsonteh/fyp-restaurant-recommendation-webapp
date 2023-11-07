@@ -15,6 +15,7 @@ import Link from "next/link";
 import { useParams } from "next/navigation";
 import { useState } from "react";
 import ReviewList from "./ReviewList";
+import LocationTab from "./LocationTab";
 
 const RestaurantTab = ({
   restaurant,
@@ -110,26 +111,7 @@ const RestaurantTab = ({
           </div>
         }
       >
-        <div className="flex flex-col items-center gap-4">
-          <Image
-            src="https://via.placeholder.com/600x300"
-            width={600}
-            height={300}
-            alt="map"
-          />
-          <div className="flex items-center gap-4">
-            <p>
-              { restaurant.formatted_address }
-            </p>
-            <Button
-              size="sm"
-              endContent={<LocationArrow className="w-3 h-3" />}
-              className="bg-gray-800 text-primary-400"
-            >
-              Get directions
-            </Button>
-          </div>
-        </div>
+        <LocationTab restaurant={restaurant} />
       </Tab>
 
       <Tab
@@ -150,7 +132,6 @@ const RestaurantTab = ({
             endContent={<Pen className="w-3 h-3" />}
             className="bg-gray-800 text-primary-400"
             onClick={onOpen}
-
           >
             Write a review
           </Button>

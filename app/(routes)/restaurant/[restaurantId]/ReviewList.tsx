@@ -11,10 +11,7 @@ import { db } from "@/app/_firebase/firestore";
 import { collection, query, where } from "firebase/firestore";
 import error from "next/error";
 
-export default function ReviewList({}: // collectionHook,
-{
-  // collectionHook: CollectionHook;
-}) {
+export default function ReviewList() {
   const { restaurantId } = useParams();
   // const [reviews, loading, error ] = collectionHook;
 
@@ -26,7 +23,7 @@ export default function ReviewList({}: // collectionHook,
 
   return (
     <div className="">
-      <h1>Reviews (1,464)</h1>
+      <h1>Reviews</h1>
 
       { loading && <div>Loading....</div> }
       { error && <div> {error.message} </div> }
