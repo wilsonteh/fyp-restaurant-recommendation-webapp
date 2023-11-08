@@ -9,14 +9,14 @@ import { insertDoc } from "@/app/_firebase/firestore";
 import { useAuthState } from "react-firebase-hooks/auth";
 import { auth } from "@/app/_firebase/auth";
 import { serverTimestamp } from "firebase/firestore";
+import FilesDropzone from "../../FileUpload";
+import { useState } from "react";
+import { ImagePreview } from "@/app/_utils/interfaces/Interfaces";
 
 export default function ReviewForm() {
   const { restaurantId } = useParams();
   const router = useRouter();
   const [ user ] = useAuthState(auth)
-
-  console.log(user?.photoURL);
-
   const {
     register,
     handleSubmit,
@@ -61,6 +61,10 @@ export default function ReviewForm() {
     } 
   };
 
+  // const handleDrop = (acceptedFiles: ImagePreview) => {
+  //   setUploadedFiles(prevFiles => [...prevFiles, ...acceptedFiles]);
+  // }
+
   return (
     <form
       onSubmit={handleSubmit(submitReview)}
@@ -71,7 +75,10 @@ export default function ReviewForm() {
       </h1>
 
       <div className="flex flex-col gap-4">
-        <label htmlFor="">Rate the restaurant</label>
+        <label htmlFor="" className="text-sm font-medium">
+          Rate the restaurant
+          <span className="text-red-500"> *</span>
+        </label>
         <div className="flex flex-col gap-2">
           <Controller
             name="rating"
@@ -122,6 +129,8 @@ export default function ReviewForm() {
         />
 
         <DropDownInputs control={control} />
+        
+        <FilesDropzone />
       </div>
 
       <Button type="submit" color="primary">

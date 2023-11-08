@@ -1,9 +1,14 @@
 import { Timestamp } from "firebase/firestore";
 
 export interface IconProps extends React.SVGProps<SVGSVGElement> {
-  size?: number;
+  size: number;
   className?: string;
 }; 
+
+export interface ImagePreview extends File {
+  preview: string;
+  id: string;
+}
 
 export interface NearbySearchRestaurant {
   business_status: string;
@@ -92,7 +97,5 @@ export interface SelectedRestaurant {
   place_id: string;
   html_attributions: string[];
 };
-
-
 
 
