@@ -10,6 +10,12 @@ export interface ImagePreview extends File {
   id: string;
 }
 
+export interface Photo {
+  url: string;
+  width: number;
+  height: number;
+}
+
 export interface NearbySearchRestaurant {
   business_status: string;
   geometry: {
