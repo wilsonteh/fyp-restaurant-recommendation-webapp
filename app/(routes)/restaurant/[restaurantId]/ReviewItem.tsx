@@ -88,7 +88,7 @@ export default function ReviewItem({
           }}
         />
         <button>
-          <EllipsisV />
+          <EllipsisV size={15} />
         </button>
       </div>
 
@@ -101,14 +101,17 @@ export default function ReviewItem({
           <p className="font-light text-justify text-sm">{review.comment}</p>
         </div>
 
-        {/* <div className="">
-          <Image
-            src="https://via.placeholder.com/125x125"
-            width={125}
-            height={125}
-            alt="review image"
-          />
-        </div> */}
+        <div className="flex gap-4">
+          { review.imageUrls?.map(url => (
+            <Image
+              key={url}
+              src={url}
+              width={125}
+              height={125}
+              alt="review image"
+            />
+          ))}
+        </div>
 
         <div className="p-2 flex justify-between items-center">
           <div className="text-sm flex items-center gap-2">

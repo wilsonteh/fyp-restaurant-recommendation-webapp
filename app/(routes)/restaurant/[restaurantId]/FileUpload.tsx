@@ -10,10 +10,14 @@ import { useDropzone } from "react-dropzone";
 import { v4 as uuidv4 } from 'uuid';
 import ConfirmDeleteBox from "./ConfirmDeleteBox";
 
-export default function FilesDropzone({  }: any) {
-  // *TODO - : refers to gpt for the below 2 types anno 
+export default function FilesDropzone({
+  uploadedFiles,
+  setUploadedFiles,
+}: {
+  uploadedFiles: ImagePreview[];
+  setUploadedFiles: React.Dispatch<React.SetStateAction<ImagePreview[]>>;
+}) {
   const [files, setFiles] = useState<ImagePreview[]>([]);
-  const [uploadedFiles, setUploadedFiles] = useState<ImagePreview[]>([]);
   const [imgPendingDeletion, setImgPendingDeletion] = useState<string|null>(null);
   // to keep track of image that WILL be deleted for the conditional transition to work
   const [imgToBeDeleted, setImgToBeDeleted] = useState<string|null>(null);
@@ -27,17 +31,10 @@ export default function FilesDropzone({  }: any) {
       console.log(acceptedFiles);
       setFiles(acceptedFiles.map(file => Object.assign(file, {
         preview: URL.createObjectURL(file),
-        // assign a unique id 
-        id: uuidv4(),
+        id: uuidv4(), // assign a unique id 
       })));
     }
   });
-
-  // when trash icon is clicked 
-  const reqDeleteImgPreview = (fileId: string) => {
-    // toggle the confirm delete box 
-    imgPendingDeletion ? setImgPendingDeletion(null) : setImgPendingDeletion(fileId)
-  }
 
   const deleteImgPreview = (fileId: string) => {
     setImgToBeDeleted(fileId);
@@ -52,7 +49,7 @@ export default function FilesDropzone({  }: any) {
     // Make sure to revoke the data uris to avoid memory leaks, will run on unmount
     return () => files.forEach((file) => URL.revokeObjectURL(file.preview))
 
-  }, [files]);
+  }, [files, setUploadedFiles]);
 
   const imagePreview = uploadedFiles?.map((file) => (
     <div
@@ -70,12 +67,14 @@ export default function FilesDropzone({  }: any) {
         />
       </div>
       <Button
-        className="absolute -top-2 -right-2 cursor-pointer z-20 bg-opacity-90"
+        className="absolute -top-2 -right-2 cursor-pointer z-30 bg-opacity-90"
         variant="solid"
         color="danger"
         size="sm"
         isIconOnly
-        onClick={() => reqDeleteImgPreview(file.id)}
+        onClick={() => {
+          imgPendingDeletion ? setImgPendingDeletion(null) : setImgPendingDeletion(file.id)
+        }}
       >
         <TrashAlt size={14} />
       </Button>

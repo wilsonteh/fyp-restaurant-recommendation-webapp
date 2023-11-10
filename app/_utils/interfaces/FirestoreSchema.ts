@@ -6,10 +6,10 @@ export interface ReviewSchema {
   rating: number;
   title: string;
   comment: string;
+  imageUrls: string[]
   priceLevel: string;
   hasHalalOption: string;
   hasVegetarianOption: string;
-  // likeCount: number;
   likes: {
     count: number;
     likedBy: string[]
