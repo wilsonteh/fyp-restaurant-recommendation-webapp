@@ -37,7 +37,6 @@ export default function RestaurantPhotoGrid({ photos }: { photos: Photo[] }) {
           onOpenChange={onOpenChange}
           /> 
       )}
-
     </section>
   );
 }
