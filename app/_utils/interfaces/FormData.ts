@@ -11,6 +11,10 @@ export interface LoginFormData {
 
 export interface ReviewFormData {
   rating: number;
+  foodRating: number;
+  serviceRating: number;
+  valueRating: number;
+  atmosphereRating: number;
   title: string;
   comment: string;
   priceLevel: string;

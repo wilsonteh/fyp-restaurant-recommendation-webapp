@@ -3,8 +3,6 @@ import { ReviewFormData } from "@/app/_utils/interfaces/FormData";
 import { Button, Input, Textarea } from "@nextui-org/react";
 import { useParams, useRouter } from "next/navigation";
 import { Controller, SubmitHandler, useForm } from "react-hook-form";
-import { ItemStyles, Star, Rating as StarRating, ThinRoundedStar } from '@smastrom/react-rating';
-import { Rating as SRating } from "react-simple-star-rating";
 import DropDownInputs from "./DropDownInputs";
 import { insertDoc } from "@/app/_firebase/firestore";
 import { useAuthState } from "react-firebase-hooks/auth";
@@ -17,6 +15,7 @@ import { useUploadFile } from 'react-firebase-hooks/storage';
 import { ref } from 'firebase/storage';
 import { v4 as uuidv4 } from 'uuid';
 import { getImageUrls, storage } from "@/app/_firebase/storage";
+import RatingInput from "./RatingInput";
 
 export default function ReviewForm() {
   const { restaurantId } = useParams();
@@ -32,25 +31,16 @@ export default function ReviewForm() {
   } = useForm<ReviewFormData>({
     mode: 'onBlur', 
     defaultValues: {
-      rating: 0,
+      rating: 0, foodRating: 0, serviceRating: 0, valueRating: 0, atmosphereRating: 0,
     }
   });
   const [uploadFile, uploading, snapshot, error] = useUploadFile()
 
-  const ratingStyles: ItemStyles = {
-    itemShapes: Star, 
-    itemStrokeWidth: 1, 
-    activeFillColor: '#fb923c',
-    activeStrokeColor: '#f97316',
-    inactiveFillColor: '#fed7aa',
-    inactiveStrokeColor: '#fdba74', 
-  }
-
-  const title = register("title", {
+  const titleReg = register("title", {
     required: "Title cannot be left empty",
   });
 
-  const comment = register("comment", {
+  const commentReg = register("comment", {
     required: "Comment cannot be left empty",
     validate: {
       length: (comment) =>
@@ -59,16 +49,15 @@ export default function ReviewForm() {
   });
 
   const uploadImages = async () => {
-    const imagePaths = []
     try {
-      for (let file of uploadedFiles) {
+      const imagePaths = await Promise.all(uploadedFiles.map(async (file) => {
         const uniqueName = `${uuidv4()}-${file.name}`;
         const imagePath = `reviews/${uniqueName}`;
         const storageRef = ref(storage, imagePath);
         const result = await uploadFile(storageRef, file);
-        imagePaths.push(imagePath)
-        return imagePaths;
-      }
+        return imagePath;
+      }));
+      return imagePaths;
     } catch (e) {
       console.error(`Error uploading images to storage`, e);
     }
@@ -76,14 +65,14 @@ export default function ReviewForm() {
 
   const submitReview: SubmitHandler<ReviewFormData> = async (formData) => {
     console.log(formData);
-    // setIsFormSubmitting(true);
+    setIsFormSubmitting(true);
     try {
-      // const imagePaths = await uploadImages();
-      // const imageUrls = await getImageUrls(imagePaths!);
-      // router.push(`/restaurant/${restaurantId}`);
+      const imagePaths = await uploadImages();
+      const imageUrls = await getImageUrls(imagePaths!);
+      router.push(`/restaurant/${restaurantId}`);
       const reviewData = {
         ...formData, 
-        // imageUrls, 
+        imageUrls, 
         user: {
           id: user!.uid,
           displayName: user!.displayName,
@@ -96,10 +85,10 @@ export default function ReviewForm() {
           likedBy: []
         }, 
       }
-      // console.log("reviewData", reviewData);
-      // const docRef = await insertDoc("reviews", reviewData);
-      // console.log(`Document ${docRef.id} has been added`);
-      // setIsFormSubmitting(false);
+      console.log("reviewData", reviewData);
+      const docRef = await insertDoc("reviews", reviewData);
+      console.log(`Document ${docRef.id} has been added`);
+      setIsFormSubmitting(false);
       
     } catch (e) {
       console.error(e);
@@ -116,29 +105,53 @@ export default function ReviewForm() {
       </h1>
 
       <div className="flex flex-col gap-4">
-        <label htmlFor="" className="text-sm font-medium">
-          Rate the restaurant
-          <span className="text-red-500"> *</span>
-        </label>
-        <div className="flex flex-col gap-2">
-          <Controller
-            control={control}
+        <div>
+          <RatingInput
             name="rating"
-            rules={{
-              required: "Rating cannot be left empty", 
-              validate: (rating) => rating > 0 || "Rating cannot be left empty", 
-            }}
-            render={({ field: { onChange, onBlur, value } }) => (
-              <StarRating
-                value={value}
-                style={{ maxWidth: 200 }}
-                itemStyles={ratingStyles}
-                onChange={onChange}
-                onBlur={onBlur}
+            label="Rate the restaurant"
+            maxWidth={220}
+            control={control}
+            errors={errors}
+            required
+            />
+        </div>
+
+        <div className="flex flex-col gap-4">
+          <div className="flex gap-12">
+            <RatingInput
+              name="foodRating"
+              label="Food"
+              maxWidth={170}
+              control={control}
+              errors={errors}
               />
-            )}
-          />
-          <span className="text-xs text-red-500">{errors.rating?.message}</span>
+              
+            <RatingInput
+              name="serviceRating"
+              label="Service"
+              maxWidth={170}
+              control={control}
+              errors={errors}
+              />
+          </div>
+
+          <div className="flex gap-12">
+            <RatingInput
+              name="valueRating"
+              label="Value for money"
+              maxWidth={170}
+              control={control}
+              errors={errors}
+              />
+              
+            <RatingInput
+              name="atmosphereRating"
+              label="Restaurant atmosphere"
+              maxWidth={170}
+              control={control}
+              errors={errors}
+              />
+          </div>
         </div>
 
         <Input
@@ -148,7 +161,10 @@ export default function ReviewForm() {
           labelPlacement="outside"
           placeholder="Give your review a title"
           isRequired={true}
-          onChange={title.onChange} onBlur={title.onBlur} name={title.name} ref={title.ref}
+          onChange={titleReg.onChange}
+          onBlur={titleReg.onBlur}
+          name={titleReg.name}
+          ref={titleReg.ref}
           errorMessage={errors.title?.message}
         />
 
@@ -159,7 +175,10 @@ export default function ReviewForm() {
           labelPlacement="outside"
           placeholder="Share your experience with the restaurant, from its food, service, pricing, atmosphere"
           isRequired={true}
-          onChange={comment.onChange} onBlur={comment.onBlur} name={comment.name} ref={comment.ref}
+          onChange={commentReg.onChange}
+          onBlur={commentReg.onBlur}
+          name={commentReg.name}
+          ref={commentReg.ref}
           errorMessage={errors.comment?.message}
         />
 
