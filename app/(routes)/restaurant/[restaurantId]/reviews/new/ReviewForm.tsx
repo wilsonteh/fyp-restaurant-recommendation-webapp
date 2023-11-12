@@ -21,12 +21,11 @@ export default function ReviewForm() {
   const { restaurantId } = useParams();
   const router = useRouter();
   const [uploadedFiles, setUploadedFiles] = useState<ImagePreview[]>([]);
-  const [isFormSubmitting, setIsFormSubmitting] = useState(false);
   const [ user ] = useAuthState(auth)
   const {
     register,
     handleSubmit,
-    formState: { errors },
+    formState: { errors, isSubmitting, isSubmitSuccessful },
     control,
   } = useForm<ReviewFormData>({
     mode: 'onBlur', 
@@ -67,7 +66,6 @@ export default function ReviewForm() {
 
   const submitReview: SubmitHandler<ReviewFormData> = async (formData) => {
     console.log(formData);
-    setIsFormSubmitting(true);
     try {
       const imagePaths = await uploadImages();
       const imageUrls = await getImageUrls(imagePaths!);
@@ -90,8 +88,7 @@ export default function ReviewForm() {
       const docRef = await insertDoc("reviews", reviewData);
       console.log(`Document ${docRef.id} has been added`);
       router.push(`/restaurant/${restaurantId}`);
-      setIsFormSubmitting(false);
-      
+
     } catch (e) {
       console.error(e);
     } 
@@ -115,7 +112,7 @@ export default function ReviewForm() {
             control={control}
             errors={errors}
             required
-            />
+          />
         </div>
 
         <div className="flex flex-col gap-4">
@@ -126,16 +123,15 @@ export default function ReviewForm() {
               maxWidth={170}
               control={control}
               errors={errors}
-              required
-              />
-              
+            />
+
             <RatingInput
               name="rating.service"
               label="Service"
               maxWidth={170}
               control={control}
               errors={errors}
-              />
+            />
           </div>
 
           <div className="flex gap-12">
@@ -145,15 +141,15 @@ export default function ReviewForm() {
               maxWidth={170}
               control={control}
               errors={errors}
-              />
-              
+            />
+
             <RatingInput
               name="rating.atmosphere"
               label="Restaurant atmosphere"
               maxWidth={170}
               control={control}
               errors={errors}
-              />
+            />
           </div>
         </div>
 
@@ -193,8 +189,12 @@ export default function ReviewForm() {
         />
       </div>
 
-      <Button type="submit" color="primary" isDisabled={isFormSubmitting}>
-        {isFormSubmitting ? "Loading..." : "Submit"}
+      <Button
+        type="submit"
+        color="primary"
+        isLoading={isSubmitting}
+      >
+        {isSubmitting ? "Submitting..." : "Submit"}
       </Button>
     </form>
   );
