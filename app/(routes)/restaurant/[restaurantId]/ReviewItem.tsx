@@ -5,7 +5,7 @@ import EllipsisV from "@/app/_icons/ellipsis-v";
 import ReviewStars from "@/app/_icons/ReviewStars";
 import ThumbsUp from "@/app/_icons/thumbs-up";
 import { ReviewSchema } from "@/app/_utils/interfaces/FirestoreSchema";
-import { User } from "@nextui-org/react";
+import { Button, Tooltip, User } from "@nextui-org/react";
 import {
   arrayRemove,
   arrayUnion,
@@ -20,6 +20,7 @@ import moment from "moment";
 import Image from "next/image";
 import { useEffect, useState } from "react";
 import { useAuthState } from "react-firebase-hooks/auth";
+import MultiRatings from "./ReviewRatings";
 
 export default function ReviewItem({
   reviewRef,
@@ -65,9 +66,9 @@ export default function ReviewItem({
       setLikeCount(review.likes.count);
       if (user) setHasLiked(review.likes.likedBy.includes(user.uid));
     });
-    console.log(likeCount);
 
     return unsub;
+    
   }, [likeCount, reviewRef.id, user]);
 
   return (
@@ -93,7 +94,11 @@ export default function ReviewItem({
       </div>
 
       <div className="p-2 flex flex-col gap-3">
-        <ReviewStars Nstar={review.rating} />
+        
+        <div className="flex items-center gap-4">
+          <ReviewStars Nstar={review.rating.main} />
+          <MultiRatings rating={review.rating} />
+        </div>
 
         <div className="">
           <h2 className="font-semibold"> {review.title} </h2>

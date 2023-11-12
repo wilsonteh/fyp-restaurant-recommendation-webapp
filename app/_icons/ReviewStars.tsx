@@ -1,7 +1,11 @@
 import Star from "./star";
 import StarOutline from "./star-outline";
 
-const ReviewStars = ({ Nstar }: { Nstar: number }) => {
+const ReviewStars = ({ 
+  Nstar 
+} : { 
+  Nstar: number 
+}) => {
 
   let outlinedStar = 5 - Nstar;
 

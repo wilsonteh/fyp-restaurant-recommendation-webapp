@@ -87,9 +87,9 @@ export default function ReviewForm() {
         }, 
       }
       console.log("reviewData", reviewData);
-      // const docRef = await insertDoc("reviews", reviewData);
-      // console.log(`Document ${docRef.id} has been added`);
-      // router.push(`/restaurant/${restaurantId}`);
+      const docRef = await insertDoc("reviews", reviewData);
+      console.log(`Document ${docRef.id} has been added`);
+      router.push(`/restaurant/${restaurantId}`);
       setIsFormSubmitting(false);
       
     } catch (e) {
