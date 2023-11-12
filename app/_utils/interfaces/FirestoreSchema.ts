@@ -2,8 +2,13 @@ import { Timestamp } from "firebase/firestore";
 
 // Based on Firestore's Review collection schema
 export interface ReviewSchema {
-  toJSON(): any;
-  rating: number;
+  rating: {
+    main: number;
+    food: number;
+    service: number;
+    value: number;
+    atmosphere: number;
+  }
   title: string;
   comment: string;
   imageUrls: string[]

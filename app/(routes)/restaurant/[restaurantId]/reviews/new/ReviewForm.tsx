@@ -1,6 +1,6 @@
 "use client";
 import { ReviewFormData } from "@/app/_utils/interfaces/FormData";
-import { Button, Input, Textarea } from "@nextui-org/react";
+import { Button, Input, Textarea, user } from "@nextui-org/react";
 import { useParams, useRouter } from "next/navigation";
 import { Controller, SubmitHandler, useForm } from "react-hook-form";
 import DropDownInputs from "./DropDownInputs";
@@ -31,7 +31,9 @@ export default function ReviewForm() {
   } = useForm<ReviewFormData>({
     mode: 'onBlur', 
     defaultValues: {
-      rating: 0, foodRating: 0, serviceRating: 0, valueRating: 0, atmosphereRating: 0,
+      rating: {
+        main: 0, food: 0, service: 0, value: 0, atmosphere: 0
+      }
     }
   });
   const [uploadFile, uploading, snapshot, error] = useUploadFile()
@@ -69,7 +71,6 @@ export default function ReviewForm() {
     try {
       const imagePaths = await uploadImages();
       const imageUrls = await getImageUrls(imagePaths!);
-      router.push(`/restaurant/${restaurantId}`);
       const reviewData = {
         ...formData, 
         imageUrls, 
@@ -86,8 +87,9 @@ export default function ReviewForm() {
         }, 
       }
       console.log("reviewData", reviewData);
-      const docRef = await insertDoc("reviews", reviewData);
-      console.log(`Document ${docRef.id} has been added`);
+      // const docRef = await insertDoc("reviews", reviewData);
+      // console.log(`Document ${docRef.id} has been added`);
+      // router.push(`/restaurant/${restaurantId}`);
       setIsFormSubmitting(false);
       
     } catch (e) {
@@ -107,7 +109,7 @@ export default function ReviewForm() {
       <div className="flex flex-col gap-4">
         <div>
           <RatingInput
-            name="rating"
+            name="rating.main"
             label="Rate the restaurant"
             maxWidth={220}
             control={control}
@@ -119,15 +121,16 @@ export default function ReviewForm() {
         <div className="flex flex-col gap-4">
           <div className="flex gap-12">
             <RatingInput
-              name="foodRating"
+              name="rating.food"
               label="Food"
               maxWidth={170}
               control={control}
               errors={errors}
+              required
               />
               
             <RatingInput
-              name="serviceRating"
+              name="rating.service"
               label="Service"
               maxWidth={170}
               control={control}
@@ -137,7 +140,7 @@ export default function ReviewForm() {
 
           <div className="flex gap-12">
             <RatingInput
-              name="valueRating"
+              name="rating.value"
               label="Value for money"
               maxWidth={170}
               control={control}
@@ -145,7 +148,7 @@ export default function ReviewForm() {
               />
               
             <RatingInput
-              name="atmosphereRating"
+              name="rating.atmosphere"
               label="Restaurant atmosphere"
               maxWidth={170}
               control={control}

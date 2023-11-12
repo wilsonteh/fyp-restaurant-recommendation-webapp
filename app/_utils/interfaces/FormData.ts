@@ -10,11 +10,13 @@ export interface LoginFormData {
 };
 
 export interface ReviewFormData {
-  rating: number;
-  foodRating: number;
-  serviceRating: number;
-  valueRating: number;
-  atmosphereRating: number;
+  rating: {
+    main: number;
+    food: number;
+    service: number;
+    value: number;
+    atmosphere: number;
+  }
   title: string;
   comment: string;
   priceLevel: string;

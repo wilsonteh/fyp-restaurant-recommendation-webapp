@@ -20,7 +20,7 @@ export default function DropDownInputs({ control }: any ) {
       <Controller
         name="priceLevel"
         control={control}
-        defaultValue={null}
+        defaultValue=""
         render={({ field: { onChange, onBlur, value, ref } }) => (
           <Select
             variant="bordered"
