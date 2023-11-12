@@ -20,7 +20,8 @@ import moment from "moment";
 import Image from "next/image";
 import { useEffect, useState } from "react";
 import { useAuthState } from "react-firebase-hooks/auth";
-import MultiRatings from "./ReviewRatings";
+import MultiRatingsPopover from "./MultiRatingsPopover";
+import { ItemStyles, Rating, Star } from "@smastrom/react-rating";
 
 export default function ReviewItem({
   reviewRef,
@@ -36,6 +37,15 @@ export default function ReviewItem({
   const sec = review.createdAt.seconds;
   const relativeTimestamp = moment.unix(sec).startOf("hour").fromNow();
 
+  const starRatingStyles: ItemStyles = {
+    itemShapes: Star, 
+    itemStrokeWidth: 2, 
+    activeFillColor: ['#dc2626', '#f97316', '#facc15', '#a3e635', '#22c55e'],
+    activeStrokeColor: ['#c42727', '#e9680c', '#eabd0b', '#95db24', '#23a954'],
+    inactiveFillColor: 'white',
+    inactiveStrokeColor: '#c1c1c1',
+  }
+
   const handleLikeIncrement = async () => {
     // ensure user is authenticated
     if (!user) {
@@ -44,13 +54,11 @@ export default function ReviewItem({
     }
 
     const reviewDocRef = doc(db, "reviews", reviewRef.id);
-
     if (hasLiked) {
       await updateDoc(reviewDocRef, {
         "likes.count": increment(-1),
         "likes.likedBy": arrayRemove(user.uid),
       });
-
     } else {
       await updateDoc(reviewDocRef, {
         "likes.count": increment(1),
@@ -94,10 +102,18 @@ export default function ReviewItem({
       </div>
 
       <div className="p-2 flex flex-col gap-3">
-        
         <div className="flex items-center gap-4">
-          <ReviewStars Nstar={review.rating.main} />
-          <MultiRatings rating={review.rating} />
+          <Rating
+            value={review.rating.main}
+            style={{ maxWidth: 130 }}
+            itemStyles={starRatingStyles}
+            readOnly
+          />
+
+          <MultiRatingsPopover
+            rating={review.rating}
+            ratingStyles={starRatingStyles}
+          />
         </div>
 
         <div className="">
@@ -107,7 +123,7 @@ export default function ReviewItem({
         </div>
 
         <div className="flex gap-4">
-          { review.imageUrls?.map(url => (
+          {review.imageUrls?.map((url) => (
             <Image
               key={url}
               src={url}
@@ -124,7 +140,10 @@ export default function ReviewItem({
               onClick={handleLikeIncrement}
               className="p-2 rounded-full hover:bg-slate-200"
             >
-              <ThumbsUp size={20} className={`${hasLiked ? 'text-primary-600' : ''}`} />
+              <ThumbsUp
+                size={20}
+                className={`${hasLiked ? "text-primary-600" : ""}`}
+              />
             </button>
             <span> {likeCount} </span>
           </div>

@@ -29,9 +29,7 @@ export default function RatingInput({
     inactiveFillColor: 'white',
     inactiveStrokeColor: '#c1c1c1', 
   }
-
-  // console.log("🚀", errors.rating && [item])
-
+  
   return (
     <div className="flex flex-col items-start">
       <label htmlFor="" className="text-sm font-medium">

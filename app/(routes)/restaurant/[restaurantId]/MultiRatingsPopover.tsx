@@ -1,21 +1,22 @@
 "use client";
-
 import { Button, Popover, PopoverContent, PopoverTrigger } from "@nextui-org/react";
-import { Rating } from "@smastrom/react-rating";
+import { ItemStyles, Rating } from "@smastrom/react-rating";
 
-export default function MultiRatings({
+export default function MultiRatingsPopover({
   rating, 
+  ratingStyles, 
 } : {
   rating: {
     main: number; food: number; service: number; value: number; atmosphere: number;
   }
+  ratingStyles: ItemStyles;
 }) {
 
   const ratings = [
     { name: 'food', value: 4.4 },
     { name: 'service', value: 4.1 },
     { name: 'value for money', value: 3.7 },
-    { name: 'atmosphere', value: 3.89 },
+    { name: 'atmosphere', value: 3.1 },
   ]
 
   return (
@@ -39,7 +40,13 @@ export default function MultiRatings({
             className="w-full flex flex-row justify-between gap-4 capitalize"
           >
             <h4 className=""> {rating.name} </h4>
-            <Rating value={rating.value} style={{ maxWidth: 80 }} readOnly />
+
+            <Rating
+              value={rating.value}
+              style={{ maxWidth: 80 }}
+              itemStyles={ratingStyles}
+              readOnly
+            />
           </div>
         ))}
       </PopoverContent>
