@@ -6,7 +6,7 @@ interface LocationContextType {
   lng: number,
 }
 
-const LocationContext = createContext<LocationContextType | null>(null);
+const LocationContext = createContext<LocationContextType|null>(null);
 
 export const LocationContextProvider = ({
   children,
@@ -26,7 +26,6 @@ export const LocationContextProvider = ({
       lng: pos.coords.longitude,
     })
   };
-
 
   const error = (err: GeolocationPositionError) => {
     if (err.PERMISSION_DENIED) {
@@ -52,7 +51,9 @@ export const LocationContextProvider = ({
       }
     };
     getUserLocation();
-  }, []);
+    console.log("🌍", userLocation);
+    
+  }, [userLocation]);
 
   return (
     <LocationContext.Provider 

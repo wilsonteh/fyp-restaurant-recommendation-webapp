@@ -29,10 +29,10 @@ export default function RootLayout({
     <html lang="en" className={`${poppins.variable}`}>
       <body className='font-poppins'>
         <Providers>
-          <LocationContextProvider>
+          {/* <LocationContextProvider> */}
             <Header />
             { children }
-          </LocationContextProvider>
+          {/* </LocationContextProvider> */}
         </Providers>
       </body>
     </html>

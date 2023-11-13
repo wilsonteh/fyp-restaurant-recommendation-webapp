@@ -37,7 +37,7 @@ export default function PhotoModal({
           <Image
             src={photo.url}
             alt={photo.url}
-            className="rounded-xl border-red-500 border-2"
+            className="rounded-xl"
             width={photo.width}
             height={photo.height}
           />
