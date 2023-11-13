@@ -55,7 +55,7 @@ const RestaurantTab = ({
         key="details"
         title={
           <div className="flex items-center space-x-2">
-            <CircleInfo />
+            <CircleInfo size={15} />
             <span>Details</span>
           </div>
         }
@@ -70,28 +70,28 @@ const RestaurantTab = ({
             <h4 className="font-medium">Rating by component</h4>
             <div className="flex flex-col gap-3 text-sm">
               <div className="flex items-center gap-x-2">
-                <Utensils className="w-4 h-4" />
+                <Utensils size={15} />
                 <span className="flex-initial w-[150px]">Food</span>
                 <span>4.2</span>
               </div>
               <div className="flex items-center gap-x-2">
-                <BellConcierge className="w-4 h-4" />
+                <BellConcierge size={15} />
                 <span className="flex-initial w-[150px]">Service</span>
                 <span>4.2</span>
               </div>
               <div className="flex items-center gap-x-2">
-                <DollarSign className="w-4 h-4" />
+                <DollarSign size={15} />
                 <span className="flex-initial w-[150px]">Value</span>
                 <span>4.2</span>
               </div>
               <div className="flex items-center gap-x-2">
-                <Heart className="w-4 h-4" />
+                <Heart size={15} />
                 <span className="flex-initial w-[150px]">Atmosphere</span>
                 <span>4.2</span>
               </div>
               <Button
                 size="sm"
-                endContent={<CircleChevronRight className="w-3 h-3" />}
+                endContent={<CircleChevronRight size={12} />}
                 className="bg-gray-800 text-primary-400"
                 onClick={() => setSelectedTab("reviews")}
               >
@@ -106,7 +106,7 @@ const RestaurantTab = ({
         key="location"
         title={
           <div className="flex items-center space-x-2">
-            <LocationDot />
+            <LocationDot size={15} />
             <span>Location</span>
           </div>
         }
@@ -118,7 +118,7 @@ const RestaurantTab = ({
         key="reviews"
         title={
           <div className="flex items-center space-x-2">
-            <Pen />
+            <Pen size={15} />
             <span>Reviews</span>
           </div>
         }
@@ -129,7 +129,7 @@ const RestaurantTab = ({
             href={`/restaurant/${restaurantId}/reviews/new`}
             size="sm"
             radius="full"
-            endContent={<Pen className="w-3 h-3" />}
+            endContent={<Pen size={10} className="w-3 h-3" />}
             className="bg-gray-800 text-primary-400"
             onClick={onOpen}
           >

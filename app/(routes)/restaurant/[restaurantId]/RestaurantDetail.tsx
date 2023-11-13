@@ -12,7 +12,9 @@ import RestaurantPhotoGrid from "./RestaurantPhotoGrid";
 import RestaurantTab from "./RestaurantTab";
 import { Star } from "@smastrom/react-rating";
 import StarOutline from "@/app/_icons/star-outline";
+import { getImageSize } from "react-image-size";
 
+// fetch restaurant images urls for `RestaurantPhotoGrid`
 async function fetchImageUrls(photoRefs: String[]) {
   const imageUrls = await Promise.all(photoRefs.map(async (photoRef) => {
     const res = await fetch(`${process.env.HOST_URL}/api/place-photo?photoRef=${photoRef}`);
@@ -25,6 +27,7 @@ async function fetchImageUrls(photoRefs: String[]) {
   return imageUrls;
 };
 
+// fetch all reviews for that particular restaurant 
 async function fetchReviews(restaurantId: string) {
   const query = [
     where('restaurantId', '==', restaurantId),
@@ -38,7 +41,7 @@ export default async function RestaurantDetail ({
 }: { 
   restaurant: RestaurantDetailInterface 
 }) {
-  // data fetching 
+  // *NOTE - data fetching on the server //
   const photoRefs = restaurant.photos.map(photo => photo.photo_reference);
   const imageUrls = await fetchImageUrls(photoRefs);
   const reviews = await fetchReviews(restaurant.place_id);
@@ -48,7 +51,7 @@ export default async function RestaurantDetail ({
     height: photo.height,
   }))
 
-  const photos = imageDimensions.map((dimension, i) =>({
+  const restaurantPhotos = imageDimensions.map((dimension, i) =>({
     ...dimension, url: imageUrls[i]
   }))
 
@@ -71,7 +74,7 @@ export default async function RestaurantDetail ({
         
         <div className="flex justify-center items-center gap-4">
           <div className="flex items-center gap-2">
-            <PhoneAlt className="w-4 h-4" />
+            <PhoneAlt size={15} className="w-4 h-4" />
             <Link href={`tel:+60162034216`} className="underline"> 
               { restaurant.formatted_phone_number } 
             </Link>
@@ -80,7 +83,7 @@ export default async function RestaurantDetail ({
           { restaurant.website && (
             <div className="flex items-center gap-2">
               <>
-                <Globe className="w-4 h-4" />
+                <Globe size={15} className="w-4 h-4" />
                 <Link href={restaurant.website} className="underline">
                   website
                 </Link>
@@ -89,7 +92,7 @@ export default async function RestaurantDetail ({
         </div>
       </section>
 
-      <RestaurantPhotoGrid photos={photos} />
+      <RestaurantPhotoGrid photos={restaurantPhotos} />
 
       <section className="w-[800px] mx-auto">
         <RestaurantTab restaurant={restaurant} />

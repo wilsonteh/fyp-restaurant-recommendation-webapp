@@ -1,27 +1,28 @@
 "use client";
 import { auth } from "@/app/_firebase/auth";
-import { db, updateDocument } from "@/app/_firebase/firestore";
+import { db } from "@/app/_firebase/firestore";
 import EllipsisV from "@/app/_icons/ellipsis-v";
-import ReviewStars from "@/app/_icons/ReviewStars";
 import ThumbsUp from "@/app/_icons/thumbs-up";
 import { ReviewSchema } from "@/app/_utils/interfaces/FirestoreSchema";
-import { Button, Tooltip, User } from "@nextui-org/react";
+import { User, image, useDisclosure } from "@nextui-org/react";
+import { ItemStyles, Rating, Star } from "@smastrom/react-rating";
 import {
+  QueryDocumentSnapshot,
   arrayRemove,
   arrayUnion,
   doc,
-  DocumentData,
   increment,
   onSnapshot,
-  QueryDocumentSnapshot,
-  updateDoc,
+  updateDoc
 } from "firebase/firestore";
 import moment from "moment";
 import Image from "next/image";
 import { useEffect, useState } from "react";
 import { useAuthState } from "react-firebase-hooks/auth";
 import MultiRatingsPopover from "./MultiRatingsPopover";
-import { ItemStyles, Rating, Star } from "@smastrom/react-rating";
+import { Dimensions, getImageSize } from 'react-image-size';
+import PhotoModal from "./PhotoModal";
+import { Photo } from "@/app/_utils/interfaces/Interfaces";
 
 export default function ReviewItem({
   reviewRef,
@@ -30,12 +31,19 @@ export default function ReviewItem({
   reviewRef: QueryDocumentSnapshot;
   review: ReviewSchema;
 }) {
-  const [user] = useAuthState(auth);
-  const [likeCount, setLikeCount] = useState<number | null>(null);
-  const [hasLiked, setHasLiked] = useState<boolean | null>(null);
 
+  const [user] = useAuthState(auth);
+  const [likeCount, setLikeCount] = useState<number|null>(null);
+  const [hasLiked, setHasLiked] = useState<boolean|null>(null);
+  const [photoShown, setPhotoShown] = useState<Photo|null>(null);
+  const { isOpen, onOpen, onOpenChange } = useDisclosure();
+  
   const sec = review.createdAt.seconds;
   const relativeTimestamp = moment.unix(sec).startOf("hour").fromNow();
+
+  // review.imageUrls?.map(url => ({
+  //   ...url, image: 1
+  // }))
 
   const starRatingStyles: ItemStyles = {
     itemShapes: Star, 
@@ -67,6 +75,28 @@ export default function ReviewItem({
     }
   };
 
+  const fetchImageDimension = async (imageUrl: string) => {
+    try {
+      const dimensions = await getImageSize(imageUrl);
+      return dimensions
+
+    } catch (e) {
+      console.error("Error fetching image dimension", e);
+    }
+  }
+
+  // when clicking on a review image
+  const handleImageClick = async (imageUrl: string) => {
+    onOpen()
+    const dimension = await fetchImageDimension(imageUrl) as Dimensions;
+    setPhotoShown({
+      url: imageUrl, 
+      width: dimension?.width, 
+      height: dimension?.height
+    })
+
+  }
+
   useEffect(() => {
     const reviewDocRef = doc(db, "reviews", reviewRef.id);
     const unsub = onSnapshot(reviewDocRef, (doc) => {
@@ -77,7 +107,7 @@ export default function ReviewItem({
 
     return unsub;
     
-  }, [likeCount, reviewRef.id, user]);
+  }, [reviewRef.id, user]);
 
   return (
     <div className="p-4">
@@ -129,9 +159,19 @@ export default function ReviewItem({
               src={url}
               width={125}
               height={125}
+              className="cursor-pointer"
               alt="review image"
+              onClick={() => handleImageClick(url)}
             />
           ))}
+
+          {photoShown && (
+            <PhotoModal
+              photo={photoShown}
+              isOpen={isOpen}
+              onOpenChange={onOpenChange}
+            />
+          )}
         </div>
 
         <div className="p-2 flex justify-between items-center">

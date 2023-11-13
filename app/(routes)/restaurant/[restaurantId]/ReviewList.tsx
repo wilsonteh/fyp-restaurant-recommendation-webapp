@@ -25,8 +25,8 @@ export default function ReviewList() {
     <div className="">
       <h1>Reviews</h1>
 
-      { loading && <div>Loading....</div> }
-      { error && <div> {error.message} </div> }
+      {/* { loading && <div>Loading....</div> }
+      { error && <div> {error.message} </div> } */}
 
       {/* Dropdown filter */}
 

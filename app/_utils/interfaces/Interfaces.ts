@@ -8,13 +8,13 @@ export interface IconProps extends React.SVGProps<SVGSVGElement> {
 export interface ImagePreview extends File {
   preview: string;
   id: string;
-}
+};
 
 export interface Photo {
   url: string;
   width: number;
   height: number;
-}
+};
 
 export interface NearbySearchRestaurant {
   business_status: string;

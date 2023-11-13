@@ -20,7 +20,7 @@ export default function MultiRatingsPopover({
   ]
 
   return (
-    <Popover defaultOpen={true} className="p-4 text-xs">
+    <Popover className="p-4 text-xs">
       <PopoverTrigger>
         <Button
           color="secondary"

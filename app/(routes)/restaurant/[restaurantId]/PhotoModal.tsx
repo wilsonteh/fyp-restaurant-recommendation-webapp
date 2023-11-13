@@ -17,24 +17,27 @@ export default function PhotoModal({
 }: {
   photo: Photo;
   isOpen: boolean; 
-  onOpenChange: () => void; 
+  onOpenChange?: () => void; 
 }) {
 
+  console.log('🚀 photo: ', photo);
+
   return (
-    <Modal 
-      isOpen={isOpen} 
+    <Modal
+      isOpen={isOpen}
       onOpenChange={onOpenChange}
       classNames={{
-        body: "p-1",
-        closeButton: "hidden"
+        wrapper: "",
+        body: "p-1 w-fit",
+        closeButton: "hidden",
       }}
     >
       <ModalContent>
         <ModalBody>
           <Image
             src={photo.url}
-            alt="image"
-            className="rounded-xl"
+            alt={photo.url}
+            className="rounded-xl border-red-500 border-2"
             width={photo.width}
             height={photo.height}
           />
