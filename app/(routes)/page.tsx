@@ -34,19 +34,8 @@ export default async function HomePage() {
 
   return (
     <main className="max-w-[1300px] mx-auto">
-      {/* Top Picked Restaurants - use Sunway Uni sa default location */}
-      <PopularRestaurantList />
-
-      {/* Nearby restaurants */}
-      {/* <NearbyRestaurantList /> */}
-
-      {/* <div>
-          { restaurants?.map((restaurant: any) => (
-            <div key={restaurant.name} className="">
-              { restaurant.name }
-            </div>
-          ))}
-        </div> */}
+      {/* <PopularRestaurantList /> */}
+      <NearbyRestaurantList />
     </main>
   );
 };

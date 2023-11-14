@@ -22,7 +22,7 @@ const RestaurantCard = ({ restaurant }: { restaurant: NearbySearchRestaurant }) 
   //   data: imgUrl, 
   //   error, 
   //   isLoading
-  // } = useSWRImmutable(`/api/place-photo?photoRef=${restaurant.photos[0].photo_reference}`, fetchRestaurantImg);
+  // } = useSWRImmutable(`/api/place-photo?photoRef=${restaurant.photos[0]?.photo_reference}`, fetchRestaurantImg);
 
   return (
     <Card
@@ -50,23 +50,23 @@ const RestaurantCard = ({ restaurant }: { restaurant: NearbySearchRestaurant }) 
           </div>
         </div>
 
-        <div className="w-4/12 text-xs flex flex-col items-start justify-center">
+        <div className="w-4/12 text-xs flex flex-col items-start justify-center gap-1">
           <span className="flex items-center gap-1">
-            <Star className="w-3 h-3" fill="orange" />
+            <Star size={15} fill="orange" />
             <span>
               {restaurant.rating.toFixed(1)} ({restaurant.user_ratings_total})
             </span>
           </span>
 
           <span className="flex items-center gap-1 whitespace-nowrap">
-            <DoorOpen className="w-3 h-3" fill="green" />
+            <DoorOpen size={15} fill="green" />
             <span>
               {restaurant.opening_hours?.open_now ? "Open Now" : "Closed"}
             </span>
           </span>
 
           <span className="flex items-center gap-1 whitespace-nowrap">
-            <LocationDot className="w-3 h-3" fill="" />
+            <LocationDot size={15} fill="" />
             {/* TODO - calc distance - hardcoded for now */}
             <span> 3.4 km </span>
           </span>

@@ -13,7 +13,7 @@ export async function GET(request: Request) {
   const params = {
     // required: location & radius
     location: `${latitude},${longitude}`,
-    radius: radius || "500",    // in metres
+    radius: radius || "1000",    // in metres
     keyword: "restaurant,food",
   };
 
@@ -23,8 +23,6 @@ export async function GET(request: Request) {
     `location=${params.location}&` +
     `keyword=${params.keyword}&` +
     `radius=${params.radius}`;
-
-  console.log("🚀 ~ file: route.ts:27 ~ GET ~ requestUrl:", requestUrl)
 
   const res = await fetch(requestUrl, {
     headers: {
