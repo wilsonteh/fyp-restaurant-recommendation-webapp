@@ -3,7 +3,6 @@ import '@smastrom/react-rating/style.css';
 import type { Metadata } from 'next';
 import { Poppins } from 'next/font/google';
 import Header from '../_components/Header';
-import { LocationContextProvider } from '../_contexts/userLocation';
 import { Providers } from './providers';
 
 const poppins = Poppins({
@@ -29,10 +28,8 @@ export default function RootLayout({
     <html lang="en" className={`${poppins.variable}`}>
       <body className='font-poppins'>
         <Providers>
-          {/* <LocationContextProvider> */}
-            <Header />
-            { children }
-          {/* </LocationContextProvider> */}
+          <Header />
+          { children }
         </Providers>
       </body>
     </html>

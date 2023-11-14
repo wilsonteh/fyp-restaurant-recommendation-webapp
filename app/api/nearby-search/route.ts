@@ -8,16 +8,24 @@ export async function GET(request: Request) {
   const { searchParams } = new URL(request.url);
   const latitude = searchParams.get("lat");
   const longitude = searchParams.get("lng");
+  const radius = searchParams.get("radius");
 
   const params = {
     // required: location & radius
     location: `${latitude},${longitude}`,
-    radius: 500,    // in metres
+    radius: radius || "500",    // in metres
     keyword: "restaurant,food",
   };
 
-  const requestUrl = `${BASE_URL}?key=${API_KEY}&location=${params.location}&keyword=${params.keyword}&radius=${params.radius}`
-  
+  const requestUrl = `${BASE_URL}?` +
+    `key=${API_KEY}&` +
+    `type=restaurant&` +
+    `location=${params.location}&` +
+    `keyword=${params.keyword}&` +
+    `radius=${params.radius}`;
+
+  console.log("🚀 ~ file: route.ts:27 ~ GET ~ requestUrl:", requestUrl)
+
   const res = await fetch(requestUrl, {
     headers: {
       "Content-Type": "application/json",
