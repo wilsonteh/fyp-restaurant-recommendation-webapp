@@ -31,7 +31,9 @@ export default function PopularRestaurantGrid({ showN }: { showN: number }) {
     error,
   } = useSWRImmutable(requestUrl, fetchRestaurants);
 
-
+  if (isLoading) return <div>Loading...</div>
+  if (error) return <div>Error...</div>
+  
   return (
     <div className="p-4 flex flex-col gap-2 items-start">
       <h1 className="font-bold text-lg mb-2">Popular Restaurants</h1>

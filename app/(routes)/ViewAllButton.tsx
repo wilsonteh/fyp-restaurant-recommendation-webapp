@@ -8,7 +8,7 @@ export default function ViewAllButton(params: any) {
     <Link
       className="self-end"
       href={{
-        pathname: "/restaurant/popular",
+        pathname: "/restaurants/popular",
         query: {
           ...params,
         },
