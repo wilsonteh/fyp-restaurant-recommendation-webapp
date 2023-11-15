@@ -19,26 +19,26 @@ export const profileDropdownItems = [
   {
     name: 'profile', 
     href: '/user/profile',
-    icon: <User className="w-4 h-4" /> 
+    icon: <User size={15} /> 
   }, 
   {
     name: 'settings',
     href: '/user/settings',
-    icon: <Gear className="w-4 h-4" /> 
+    icon: <Gear size={15} /> 
   }, 
   {
     name: 'customize preferences', 
     href: '/user/preferences', 
-    icon: <Utensils className="w-4 h-4" />
+    icon: <Utensils size={15} />
   },
   {
     name: 'favourited restaurants', 
     href: '/user/favourites', 
-    icon: <Heart className="w-4 h-4" />
+    icon: <Heart size={15} />
   },
   {
     name: 'my reviews', 
     href: '/user/reviews',
-    icon: <Pen className="w-4 h-4" />
+    icon: <Pen size={15} />
   },
 ];

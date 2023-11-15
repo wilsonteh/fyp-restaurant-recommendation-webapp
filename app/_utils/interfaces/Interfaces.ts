@@ -1,20 +1,34 @@
-import { Timestamp } from "firebase/firestore";
-
 export interface IconProps extends React.SVGProps<SVGSVGElement> {
   size: number;
   className?: string;
 }; 
 
+// ImagePreview interface for review photo in review form 
 export interface ImagePreview extends File {
   preview: string;
   id: string;
 };
 
+// Photo interface for RestaurantPhotoGrid & review photo 
 export interface Photo {
   url: string;
   width: number;
   height: number;
 };
+
+// paramters for calling Nearby Search API 
+export interface NearbySearchParams {
+  location: { latitude: string; longitude: string };
+  radius: string;
+  keyword?: string[];
+  maxprice?: 1 | 2 | 3 | 4;
+  minprice?: 1 | 2 | 3 | 4;
+  opennow?: boolean; 
+  pagetoken?: string;
+  rankby?: "prominence" | "distance"; 
+  type?: string;
+}
+
 
 export interface NearbySearchRestaurant {
   business_status: string;

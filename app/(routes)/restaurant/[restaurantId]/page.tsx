@@ -18,8 +18,6 @@ export default async function RestaurantDetailPage({
   const restaurant = await fetchRestaurant(params.restaurantId) as RestaurantDetailInterface;
 
   return (
-    <main className="max-w-screen-xl mx-auto h-screen border-red-500">
-      <RestaurantDetail restaurant={restaurant} />
-    </main>
+    <RestaurantDetail restaurant={restaurant} />
   );
 }

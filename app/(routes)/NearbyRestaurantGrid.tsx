@@ -12,9 +12,9 @@ async function fetchRestaurants(url: string) {
   const data = await res.json();
   const { results } = data;
   return results; 
-}
+};
 
-export default function NearbyRestaurantList() {
+export default function NearbyRestaurantGrid() {
   const [requestUrl, setRequestUrl] = useState("");
   const {
     coords,
