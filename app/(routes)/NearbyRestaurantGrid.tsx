@@ -5,7 +5,8 @@ import RestaurantCard from "./RestaurantCard";
 import useSWRImmutable from "swr/immutable";
 import { useGeolocated } from "react-geolocated";
 import RestaurantsGrid from "./RestaurantsGrid";
-import { Button } from "@nextui-org/react";
+import { Button, Skeleton } from "@nextui-org/react";
+import ViewAllButton from "./ViewAllButton";
 
 async function fetchRestaurants(url: string) {
   const res = await fetch(url);
@@ -47,22 +48,8 @@ export default function NearbyRestaurantGrid({ showN }: { showN: number }) {
       setRequestUrl(`/api/nearby-search?lat=${latitude}&lng=${longitude}`)
     }
   }, [coords, latitude, longitude])
-  
-  // this effect is to let me see the value of the var throughout the lifecycle 
-  // useEffect(() => {
-  //   console.log("latitude", latitude, "longitude", longitude)
-  //   console.log("coords:", coords)
-  //   console.log("positionError", positionError);
-  //   console.log("isGeolocationEnabled", isGeolocationEnabled);
-
-  // }, [coords, isGeolocationEnabled, latitude, longitude, positionError])
 
   const promptGeolocation = () => {
-    console.log(
-      "isGeolocationEnabled", isGeolocationEnabled, 
-      "isGeolocationAvailable", isGeolocationAvailable, 
-      "positionError", positionError, 
-    );
     if (!isGeolocationEnabled) {
       getPosition()
     }
@@ -74,26 +61,28 @@ export default function NearbyRestaurantGrid({ showN }: { showN: number }) {
         <Button color="primary" size="sm" onClick={promptGeolocation}>
           View nearby restaurants
         </Button>
-        <small>Allow access of location to review nearby restaurants</small>
+        <small>Allow access of location to view nearby restaurants</small>
       </div>
     );
   };
 
   const NearbyRestaurants = () => {
     return (
-      <>
+      <div className="flex flex-col gap-2 items-start">
         <h1 className="font-bold text-lg mb-2">Nearby Restaurants</h1>
         <RestaurantsGrid>
           {restaurants
             ?.slice(0, showN)
             .map((restaurant: NearbySearchRestaurant) => (
-            <RestaurantCard key={restaurant.place_id} restaurant={restaurant} />
+              <RestaurantCard key={restaurant.place_id} restaurant={restaurant} />
           ))}
           {/* { restaurants?.map((restaurant: any) => (
             <div key={restaurant.name}> { restaurant.name } </div>
           ))} */}
         </RestaurantsGrid>
-      </>
+
+        <ViewAllButton />
+      </div>
     )
   };
 
@@ -109,7 +98,7 @@ export default function NearbyRestaurantGrid({ showN }: { showN: number }) {
     )
   };
 
-  if (isLoading) return <div>Loading nearby restaurants...</div>
+  if (isLoading) return <div>Loading...</div>
   if (error) return <div>Error!</div>
 
   return (
@@ -128,7 +117,6 @@ export default function NearbyRestaurantGrid({ showN }: { showN: number }) {
         // use this as placeholder for now 
         <div className="">Loading... </div>
       )}
-
     </div>
   );
 

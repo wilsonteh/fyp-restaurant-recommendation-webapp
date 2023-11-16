@@ -11,6 +11,9 @@ import { where } from "firebase/firestore";
 import Link from "next/link";
 import RestaurantPhotoGrid from "./RestaurantPhotoGrid";
 import RestaurantTab from "./RestaurantTab";
+import { Rating } from "@smastrom/react-rating";
+import { starRatingStyles } from "@/app/_utils/constants";
+import StarRating from "./StarRating";
 
 // fetch all reviews for that particular restaurant 
 async function fetchReviews(restaurantId: string) {
@@ -47,13 +50,9 @@ export default async function RestaurantDetail ({
           { restaurant.name }
         </h1>
 
-        <div className="flex justify-center gap-3">
+        <div className="flex justify-center items-center gap-3">
           <span> { restaurant.rating } / 5</span>
-          { getFractionalPart(restaurant.rating) >= 5 ? (
-            <RestaurantStars NthStar={Math.ceil(restaurant.rating)} />
-            ): (
-            <ReviewStars Nstar={Math.floor(restaurant.rating)} />
-          )}
+          <StarRating value={restaurant.rating} />
           <span> ({ thousandSeparator(restaurant.user_ratings_total) }) </span>
         </div>
         

@@ -3,6 +3,7 @@ import Gear from "../_icons/gear";
 import Heart from "../_icons/heart";
 import Pen from "../_icons/pen";
 import Utensils from "../_icons/utensils";
+import { ItemStyles, Star } from "@smastrom/react-rating";
 
 export const navbarItems = [
   {
@@ -42,3 +43,12 @@ export const profileDropdownItems = [
     icon: <Pen size={15} />
   },
 ];
+
+export const starRatingStyles: ItemStyles = {
+  itemShapes: Star, 
+  itemStrokeWidth: 2, 
+  activeFillColor: ['#dc2626', '#f97316', '#facc15', '#a3e635', '#22c55e'],
+  activeStrokeColor: ['#c42727', '#e9680c', '#eabd0b', '#95db24', '#23a954'],
+  inactiveFillColor: 'white',
+  inactiveStrokeColor: '#c1c1c1',
+}

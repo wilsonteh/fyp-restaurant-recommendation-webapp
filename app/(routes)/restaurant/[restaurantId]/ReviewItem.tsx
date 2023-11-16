@@ -23,6 +23,7 @@ import MultiRatingsPopover from "./MultiRatingsPopover";
 import { Dimensions, getImageSize } from 'react-image-size';
 import PhotoModal from "./PhotoModal";
 import { Photo } from "@/app/_utils/interfaces/Interfaces";
+import { starRatingStyles } from "@/app/_utils/constants";
 
 export default function ReviewItem({
   reviewRef,
@@ -40,19 +41,6 @@ export default function ReviewItem({
   
   const sec = review.createdAt.seconds;
   const relativeTimestamp = moment.unix(sec).startOf("hour").fromNow();
-
-  // review.imageUrls?.map(url => ({
-  //   ...url, image: 1
-  // }))
-
-  const starRatingStyles: ItemStyles = {
-    itemShapes: Star, 
-    itemStrokeWidth: 2, 
-    activeFillColor: ['#dc2626', '#f97316', '#facc15', '#a3e635', '#22c55e'],
-    activeStrokeColor: ['#c42727', '#e9680c', '#eabd0b', '#95db24', '#23a954'],
-    inactiveFillColor: 'white',
-    inactiveStrokeColor: '#c1c1c1',
-  }
 
   const handleLikeIncrement = async () => {
     // ensure user is authenticated

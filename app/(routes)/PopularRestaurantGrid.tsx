@@ -46,7 +46,7 @@ export default function PopularRestaurantGrid({ showN }: { showN: number }) {
           ))}
       </RestaurantsGrid>
       
-      {/* <ViewAllButton {...params} /> */}
+      <ViewAllButton {...params} />
 
     </div>
   );
