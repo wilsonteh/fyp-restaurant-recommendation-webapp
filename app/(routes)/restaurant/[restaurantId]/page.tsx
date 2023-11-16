@@ -1,13 +1,6 @@
 import { RestaurantDetailInterface } from "@/app/_utils/interfaces/PlaceDetailInterface";
 import RestaurantDetail from "./RestaurantDetail";
-
-async function fetchRestaurant(placeId: string) {
-  const res = await fetch(`${process.env.HOST_URL}/api/place-detail?placeId=${placeId}`);
-  if (!res.ok) {
-    throw new Error(`Failed to fetch restaurant of id: ${placeId}`);
-  }
-  return res.json();
-}
+import { fetchRestaurantById } from "@/app/_lib/data-fetching";
 
 export default async function RestaurantDetailPage({
   params,
@@ -15,7 +8,7 @@ export default async function RestaurantDetailPage({
   params: { restaurantId: string }
 }) {
 
-  const restaurant = await fetchRestaurant(params.restaurantId) as RestaurantDetailInterface;
+  const restaurant = await fetchRestaurantById(params.restaurantId) as RestaurantDetailInterface;
 
   return (
     <RestaurantDetail restaurant={restaurant} />

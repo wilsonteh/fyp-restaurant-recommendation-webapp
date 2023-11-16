@@ -6,7 +6,7 @@ export default async function HomePage() {
   return (
     <main className="max-w-[1300px] mx-auto">
       <PopularRestaurantGrid showN={8} />
-      {/* <NearbyRestaurantGrid /> */}
+      <NearbyRestaurantGrid showN={8} />
     </main>
   );
 };

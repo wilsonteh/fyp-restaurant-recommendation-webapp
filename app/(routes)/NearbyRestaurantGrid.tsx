@@ -14,7 +14,7 @@ async function fetchRestaurants(url: string) {
   return results; 
 };
 
-export default function NearbyRestaurantGrid() {
+export default function NearbyRestaurantGrid({ showN }: { showN: number }) {
   const [requestUrl, setRequestUrl] = useState("");
   const {
     coords,
@@ -49,13 +49,13 @@ export default function NearbyRestaurantGrid() {
   }, [coords, latitude, longitude])
   
   // this effect is to let me see the value of the var throughout the lifecycle 
-  useEffect(() => {
-    console.log("latitude", latitude, "longitude", longitude)
-    console.log("coords:", coords)
-    console.log("positionError", positionError);
-    console.log("isGeolocationEnabled", isGeolocationEnabled);
+  // useEffect(() => {
+  //   console.log("latitude", latitude, "longitude", longitude)
+  //   console.log("coords:", coords)
+  //   console.log("positionError", positionError);
+  //   console.log("isGeolocationEnabled", isGeolocationEnabled);
 
-  }, [coords, isGeolocationEnabled, latitude, longitude, positionError])
+  // }, [coords, isGeolocationEnabled, latitude, longitude, positionError])
 
   const promptGeolocation = () => {
     console.log(
@@ -84,7 +84,9 @@ export default function NearbyRestaurantGrid() {
       <>
         <h1 className="font-bold text-lg mb-2">Nearby Restaurants</h1>
         <RestaurantsGrid>
-          {restaurants?.map((restaurant: NearbySearchRestaurant) => (
+          {restaurants
+            ?.slice(0, showN)
+            .map((restaurant: NearbySearchRestaurant) => (
             <RestaurantCard key={restaurant.place_id} restaurant={restaurant} />
           ))}
           {/* { restaurants?.map((restaurant: any) => (

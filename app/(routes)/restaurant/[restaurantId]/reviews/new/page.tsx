@@ -1,35 +1,23 @@
+import { fetchImageUrls, fetchRestaurantById, fetchRestaurants } from "@/app/_lib/data-fetching";
 import RestaurantCard from "./RestaurantCard";
 import ReviewForm from "./ReviewForm";
 
-// async function fetchRestaurantInfo(placeId: string) {
-//   const res = await fetch(`${process.env.HOST_URL}/api/place-detail?placeId=${placeId}`);
-//   if (!res.ok) {
-//     throw new Error(`Failed to fetch restaurant of id: ${placeId}`);
-//   }
-//   return res.json();
-// }
-
-// async function fetchImageUrls(photoRefs: String[]) {
-//   const imageUrls = await Promise.all(photoRefs.map(async (photoRef) => {
-//     const res = await fetch(`${process.env.HOST_URL}/api/place-photo?photoRef=${photoRef}`);
-//     if (!res.ok) {
-//       throw new Error(`Failed to fetch photo of ref: ${photoRef}`);
-//     }
-//     return res.json();
-//   })) as string[];
-
-//   return imageUrls;
-// }
-
-export default async function ReviewFormPage() {
+export default async function ReviewFormPage({
+  params,
+} : {
+  params: { restaurantId: string }
+}) {
   
+  const restaurant = await fetchRestaurantById(params.restaurantId)
+  const imageUrl = await fetchImageUrls([restaurant.photos[0].photo_reference]);
+
   return (
-    <div className="border-2 flex gap-4">
+    <div className="flex gap-12">
       <section className="w-1/3">
-        <RestaurantCard />
+        <RestaurantCard restaurant={restaurant} imageUrl={imageUrl[0]} />
       </section>
       <section className="w-2/3">
-        <ReviewForm />
+        <ReviewForm {...restaurant} />
       </section>
     </div>  
   );

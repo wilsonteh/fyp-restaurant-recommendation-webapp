@@ -3,6 +3,7 @@ import RestaurantStars from "@/app/_icons/RestaurantStars";
 import ReviewStars from "@/app/_icons/ReviewStars";
 import Globe from "@/app/_icons/globe";
 import PhoneAlt from "@/app/_icons/phone-alt";
+import { fetchImageUrls } from "@/app/_lib/data-fetching";
 import { ReviewSchema } from "@/app/_utils/interfaces/FirestoreSchema";
 import { RestaurantDetailInterface } from "@/app/_utils/interfaces/PlaceDetailInterface";
 import { getFractionalPart, thousandSeparator } from "@/app/_utils/utils";
@@ -10,22 +11,6 @@ import { where } from "firebase/firestore";
 import Link from "next/link";
 import RestaurantPhotoGrid from "./RestaurantPhotoGrid";
 import RestaurantTab from "./RestaurantTab";
-import { Star } from "@smastrom/react-rating";
-import StarOutline from "@/app/_icons/star-outline";
-import { getImageSize } from "react-image-size";
-
-// fetch restaurant images urls for `RestaurantPhotoGrid`
-async function fetchImageUrls(photoRefs: String[]) {
-  const imageUrls = await Promise.all(photoRefs.map(async (photoRef) => {
-    const res = await fetch(`${process.env.HOST_URL}/api/place-photo?photoRef=${photoRef}`);
-    if (!res.ok) {
-      throw new Error(`Failed to fetch photo of ref: ${photoRef}`);
-    }
-    return res.json();
-  })) as string[];
-
-  return imageUrls;
-};
 
 // fetch all reviews for that particular restaurant 
 async function fetchReviews(restaurantId: string) {

@@ -29,7 +29,7 @@ export interface NearbySearchParams {
   type?: string;
 }
 
-
+// each restaurant item's types returned from Nearby-Search API 
 export interface NearbySearchRestaurant {
   business_status: string;
   geometry: {

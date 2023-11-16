@@ -1,28 +1,43 @@
 "use client";
+import { NearbySearchRestaurant } from "@/app/_utils/interfaces/Interfaces";
+import { RestaurantDetailInterface } from "@/app/_utils/interfaces/PlaceDetailInterface";
 import { Card, CardBody } from "@nextui-org/react";
 import Image from "next/image";
+import Link from "next/link";
+import { useParams } from "next/navigation";
 
-export default function RestaurantCard() {
+export default function RestaurantCard({
+  restaurant, 
+  imageUrl, 
+}: {
+  restaurant: RestaurantDetailInterface; 
+  imageUrl: string;
+}) {
+  const params = useParams()
+  const { restaurantId } = params;
+
   return (
     <Card 
       className="w-fit" 
       isPressable
+      as={Link}
+      href={`/restaurant/${restaurantId}`}
     >
       <CardBody className="w-full">
         <Image
-          src="https://via.placeholder.com/350x250"
-          className="w-full"
-          alt="image"
+          src={imageUrl}
+          className="w-full rounded-lg shadow-md shadow-slate-300"
+          alt={restaurant.name}
           width={350}
           height={250}
         />
 
         <div className="pt-4 px-2">
           <h3 className="font-semibold text-lg">
-            RATA Restaurant @ SS15 Subang Jaya
+            { restaurant.name }
           </h3>
           <p className="text-sm">
-            25, Jalan SS 15/5a, Ss 15, 47500 Subang Jaya, Selangor, Malaysia
+            { restaurant.formatted_address }
           </p>
         </div>
       </CardBody>

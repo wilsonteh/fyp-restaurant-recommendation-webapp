@@ -1,23 +1,25 @@
 "use client";
-import { ReviewFormData } from "@/app/_utils/interfaces/FormData";
-import { Button, Input, Textarea, user } from "@nextui-org/react";
-import { useParams, useRouter } from "next/navigation";
-import { Controller, SubmitHandler, useForm } from "react-hook-form";
-import DropDownInputs from "./DropDownInputs";
-import { insertDoc } from "@/app/_firebase/firestore";
-import { useAuthState } from "react-firebase-hooks/auth";
 import { auth } from "@/app/_firebase/auth";
-import { serverTimestamp } from "firebase/firestore";
-import FilesDropzone from "../../FilesDropzone";
-import { useEffect, useState } from "react";
-import { ImagePreview } from "@/app/_utils/interfaces/Interfaces";
-import { useUploadFile } from 'react-firebase-hooks/storage';
-import { ref } from 'firebase/storage';
-import { v4 as uuidv4 } from 'uuid';
+import { insertDoc } from "@/app/_firebase/firestore";
 import { getImageUrls, storage } from "@/app/_firebase/storage";
+import { ReviewFormData } from "@/app/_utils/interfaces/FormData";
+import { ImagePreview } from "@/app/_utils/interfaces/Interfaces";
+import { Button, Input, Textarea } from "@nextui-org/react";
+import { serverTimestamp } from "firebase/firestore";
+import { ref } from 'firebase/storage';
+import { useParams, useRouter } from "next/navigation";
+import { useState } from "react";
+import { useAuthState } from "react-firebase-hooks/auth";
+import { useUploadFile } from 'react-firebase-hooks/storage';
+import { SubmitHandler, useForm } from "react-hook-form";
+import { v4 as uuidv4 } from 'uuid';
+import FilesDropzone from "../../FilesDropzone";
+import DropDownInputs from "./DropDownInputs";
 import RatingInput from "./RatingInput";
+import { RestaurantDetailInterface } from "@/app/_utils/interfaces/PlaceDetailInterface";
+import Link from "next/link";
 
-export default function ReviewForm() {
+export default function ReviewForm(restaurant: RestaurantDetailInterface) {
   const { restaurantId } = useParams();
   const router = useRouter();
   const [uploadedFiles, setUploadedFiles] = useState<ImagePreview[]>([]);
@@ -100,7 +102,13 @@ export default function ReviewForm() {
       className="border-2 px-6 py-4 flex flex-col gap-4"
     >
       <h1 className="font-medium text-lg text-center">
-        Submit review for RATA Restaurant @ SS15 Subang Jaya
+        <span>Submit review for </span>
+        <Link
+          href={`/restaurant/${restaurantId}`}
+          className="font-semibold hover:text-gray-500"
+        >
+          {restaurant.name}
+        </Link>
       </h1>
 
       <div className="flex flex-col gap-4">
@@ -189,11 +197,7 @@ export default function ReviewForm() {
         />
       </div>
 
-      <Button
-        type="submit"
-        color="primary"
-        isLoading={isSubmitting}
-      >
+      <Button type="submit" color="primary" isLoading={isSubmitting}>
         {isSubmitting ? "Submitting..." : "Submit"}
       </Button>
     </form>
