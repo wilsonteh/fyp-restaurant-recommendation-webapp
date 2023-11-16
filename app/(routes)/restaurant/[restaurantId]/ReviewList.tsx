@@ -20,24 +20,22 @@ export default function ReviewList() {
   const [reviews, loading, error, reload] = useCollectionOnce(q, {
     getOptions: { source: "server" },
   });
+  const reviewN = reviews?.docs.length || 0;
 
   return (
-    <div className="">
-      <h1>Reviews</h1>
+    <div className="flex flex-col gap-2 px-2">
+      <h1>Reviews ({reviewN}) </h1>
 
-      {/* { loading && <div>Loading....</div> }
-      { error && <div> {error.message} </div> } */}
-
-      {/* Dropdown filter */}
-
-      {reviews &&
-        reviews.docs.map((review) => (
-          <ReviewItem
-            key={review.id}
-            reviewRef={review}
-            review={review.data() as ReviewSchema}
-          />
-        ))}
+      <section className="flex flex-col gap-2">
+        {reviews &&
+          reviews?.docs.map((review) => (
+            <ReviewItem
+              key={review.id}
+              reviewRef={review}
+              review={review.data() as ReviewSchema}
+            />
+          ))}
+      </section>
     </div>
   );
 }

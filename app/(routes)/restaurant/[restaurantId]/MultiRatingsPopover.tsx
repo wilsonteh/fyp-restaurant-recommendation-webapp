@@ -1,22 +1,21 @@
 "use client";
+import { Rating } from "@/app/_utils/interfaces/Interfaces";
 import { Button, Popover, PopoverContent, PopoverTrigger } from "@nextui-org/react";
-import { ItemStyles, Rating } from "@smastrom/react-rating";
+import { ItemStyles, Rating as StarRating } from "@smastrom/react-rating";
 
 export default function MultiRatingsPopover({
   rating, 
   ratingStyles, 
 } : {
-  rating: {
-    main: number; food: number; service: number; value: number; atmosphere: number;
-  }
+  rating: Rating;
   ratingStyles: ItemStyles;
 }) {
 
   const ratings = [
-    { name: 'food', value: 4.4 },
-    { name: 'service', value: 4.1 },
-    { name: 'value for money', value: 3.7 },
-    { name: 'atmosphere', value: 3.1 },
+    { name: 'food', value: rating.food }, 
+    { name: 'service', value: rating.service }, 
+    { name: 'value for money', value: rating.value }, 
+    { name: 'atmosphere', value: rating.atmosphere }, 
   ]
 
   return (
@@ -27,9 +26,9 @@ export default function MultiRatingsPopover({
           variant="light"
           size="sm"
           disableRipple
-          className="w-fit font-medium"
+          className="w-fit font-medium p-2 min-w-0"
         >
-          More
+          Detail
         </Button>
       </PopoverTrigger>
 
@@ -41,7 +40,7 @@ export default function MultiRatingsPopover({
           >
             <h4 className=""> {rating.name} </h4>
 
-            <Rating
+            <StarRating
               value={rating.value}
               style={{ maxWidth: 80 }}
               itemStyles={ratingStyles}

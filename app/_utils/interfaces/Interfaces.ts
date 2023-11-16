@@ -118,4 +118,11 @@ export interface SelectedRestaurant {
   html_attributions: string[];
 };
 
+export interface Rating {
+  atmosphere: number;
+  food: number;
+  main: number;
+  service: number;
+  value: number;
+}
 

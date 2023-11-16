@@ -4,18 +4,15 @@ import CircleChevronRight from "@/app/_icons/circle-chevron-right";
 import CircleInfo from "@/app/_icons/circle-info";
 import DollarSign from "@/app/_icons/dollar-sign";
 import Heart from "@/app/_icons/heart";
-import LocationArrow from "@/app/_icons/location-arrow";
 import LocationDot from "@/app/_icons/location-dot";
 import Pen from "@/app/_icons/pen";
 import Utensils from "@/app/_icons/utensils";
 import { RestaurantDetailInterface } from "@/app/_utils/interfaces/PlaceDetailInterface";
-import { Button, Tab, Tabs, useDisclosure } from "@nextui-org/react";
-import Image from "next/image";
-import Link from "next/link";
+import { Button, Tab, Tabs } from "@nextui-org/react";
 import { useParams } from "next/navigation";
 import { useState } from "react";
-import ReviewList from "./ReviewList";
 import LocationTab from "./LocationTab";
+import ReviewTab from "./ReviewTab";
 
 const RestaurantTab = ({
   restaurant,
@@ -24,7 +21,6 @@ const RestaurantTab = ({
 }) => {
 
   const { restaurantId } = useParams();
-  const { isOpen, onOpen, onOpenChange } = useDisclosure();
   const [selectedTab, setSelectedTab] = useState("details");
   const { weekday_text } = restaurant.current_opening_hours;
 
@@ -123,22 +119,7 @@ const RestaurantTab = ({
           </div>
         }
       >
-        <div className="">
-          <Button
-            as={Link}
-            href={`/restaurant/${restaurantId}/reviews/new`}
-            size="sm"
-            radius="full"
-            endContent={<Pen size={10} className="w-3 h-3" />}
-            className="bg-gray-800 text-primary-400"
-            onClick={onOpen}
-          >
-            Write a review
-          </Button>
-
-          <ReviewList />
-
-        </div>
+        <ReviewTab />
       </Tab>
     </Tabs>
   );
