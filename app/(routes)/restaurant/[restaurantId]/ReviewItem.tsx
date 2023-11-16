@@ -153,7 +153,7 @@ export default function ReviewItem({
               src={url}
               width={125}
               height={125}
-              className="cursor-pointer"
+              className="cursor-pointer rounded-md"
               alt="review image"
               onClick={() => handleImageClick(url)}
             />

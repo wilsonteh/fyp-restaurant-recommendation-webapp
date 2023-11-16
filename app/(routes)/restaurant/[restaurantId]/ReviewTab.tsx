@@ -2,8 +2,8 @@
 import Pen from "@/app/_icons/pen";
 import { Button, useDisclosure } from "@nextui-org/react";
 import Link from "next/link";
-import ReviewList from "./ReviewList";
 import { useParams } from "next/navigation";
+import ReviewList from "./ReviewList";
 
 export default function ReviewTab() {
 
@@ -11,9 +11,8 @@ export default function ReviewTab() {
   const { restaurantId } = params;
   const { isOpen, onOpen, onOpenChange } = useDisclosure();
 
-
   return (
-    <div className="flex flex-col items-end gap-2 px-4">
+    <div className="flex flex-col items-start gap-2 px-4">
       <Button
         as={Link}
         href={`/restaurant/${restaurantId}/reviews/new`}
