@@ -23,7 +23,7 @@ const RestaurantCard = ({ restaurant }: { restaurant: NearbySearchRestaurant }) 
   //   error, 
   //   isLoading
   // } = useSWRImmutable(`/api/place-photo?photoRef=${restaurant.photos[0]?.photo_reference}`, fetchRestaurantImg);
-
+  
   return (
     <Card
       isPressable

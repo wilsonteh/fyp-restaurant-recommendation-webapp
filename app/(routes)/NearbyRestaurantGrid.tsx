@@ -7,6 +7,7 @@ import { useGeolocated } from "react-geolocated";
 import RestaurantsGrid from "./RestaurantsGrid";
 import { Button, Skeleton } from "@nextui-org/react";
 import ViewAllButton from "./ViewAllButton";
+import { storeInLocalStorage } from "../_utils/utils";
 
 async function fetchRestaurants(url: string) {
   const res = await fetch(url);
@@ -45,6 +46,7 @@ export default function NearbyRestaurantGrid({ showN }: { showN: number }) {
 
   useEffect(() => {
     if (coords !== undefined) {
+      console.log("🚀 ~ file: NearbyRestaurantGrid.tsx:49 ~ useEffect ~ coords:", coords)
       setRequestUrl(`/api/nearby-search?lat=${latitude}&lng=${longitude}`)
     }
   }, [coords, latitude, longitude])
