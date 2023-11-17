@@ -46,7 +46,6 @@ export default function NearbyRestaurantGrid({ showN }: { showN: number }) {
 
   useEffect(() => {
     if (coords !== undefined) {
-      console.log("🚀 ~ file: NearbyRestaurantGrid.tsx:49 ~ useEffect ~ coords:", coords)
       setRequestUrl(`/api/nearby-search?lat=${latitude}&lng=${longitude}`)
     }
   }, [coords, latitude, longitude])

@@ -1,4 +1,5 @@
 // utility functions 
+import { getImageSize } from "react-image-size";
 
 export function extractLocation(str: string) {
   let split = str.split(',');
@@ -18,7 +19,18 @@ export function getFractionalPart(number: number): number {
   return parseInt(fractionalPart || "0", 10);
 };
 
-// Reusable function to store data in LocalStorage
+// to get image dimension - used for reivew img & img preview 
+export const getImageDimension = async (imageUrl: string) => {
+  try {
+    const dimensions = await getImageSize(imageUrl);
+    return dimensions
+
+  } catch (e) {
+    console.error("Error fetching image dimension", e);
+  }
+}
+
+// to store data in LocalStorage
 export function storeInLocalStorage<T>(key: string, data: T): void {
   try {
     // Convert the data to a JSON string

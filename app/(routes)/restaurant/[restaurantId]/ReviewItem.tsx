@@ -24,6 +24,7 @@ import { useAuthState } from "react-firebase-hooks/auth";
 import { Dimensions, getImageSize } from 'react-image-size';
 import MultiRatingsPopover from "./MultiRatingsPopover";
 import PhotoModal from "./PhotoModal";
+import { getImageDimension } from "@/app/_utils/utils";
 
 export default function ReviewItem({
   reviewRef,
@@ -43,7 +44,6 @@ export default function ReviewItem({
   const datetime = date.toLocaleString();
 
   const sec = review.createdAt.seconds;
-  const relativeTimestamp = moment.unix(sec).startOf("hour").fromNow();
   const { atmosphere, food, main, service, value } = review.rating
 
   const handleLikeIncrement = async () => {
@@ -67,27 +67,16 @@ export default function ReviewItem({
     }
   };
 
-  const fetchImageDimension = async (imageUrl: string) => {
-    try {
-      const dimensions = await getImageSize(imageUrl);
-      return dimensions
-
-    } catch (e) {
-      console.error("Error fetching image dimension", e);
-    }
-  }
-
   // when clicking on a review image
   const handleImageClick = async (imageUrl: string) => {
     onOpen()
-    const dimension = await fetchImageDimension(imageUrl) as Dimensions;
+    const dimension = await getImageDimension(imageUrl) as Dimensions;
     setPhotoShown({
       url: imageUrl, 
       width: dimension?.width, 
       height: dimension?.height
     })
-
-  }
+  };
 
   // effect for liking reviews  
   useEffect(() => {
