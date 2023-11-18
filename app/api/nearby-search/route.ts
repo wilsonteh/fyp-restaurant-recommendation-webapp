@@ -8,29 +8,21 @@ export async function GET(request: Request) {
   const { searchParams } = new URL(request.url);
   const latitude = searchParams.get("lat");
   const longitude = searchParams.get("lng");
+  const keyword = searchParams.get("keyword");
   const radius = searchParams.get("radius");
-  const pageToken = searchParams.get("pagetoken");
 
-  const params = {
+  const p = {
     // required: location & radius
-    keyword: "restaurant,food",
+    type: "restaurant",
     location: `${latitude},${longitude}`,
-    radius: radius || "1000",    // in metres
+    keyword: keyword || undefined,
+    radius: radius || undefined,    // in metres
   };
 
-  let requestUrl = `${BASE_URL}?key=${API_KEY}`;
-  if (!pageToken) {
-    requestUrl += 
-      `&` +
-      `keyword=${params.keyword}&` +
-      `location=${params.location}&` +
-      `radius=${params.radius}` 
-
-  } else if (pageToken) {
-    requestUrl +=
-      `&` + 
-      `pagetoken=${pageToken}`
-  }
+  let requestUrl = `${BASE_URL}?key=${API_KEY}&type=${p.type}&location=${p.location}`;
+  keyword && (requestUrl += `&keyword=${p.keyword}`);
+  radius && (requestUrl += `&radius=${p.radius}`);
+  console.log("🚀 GET ~ requestUrl:", requestUrl)
   
   const res = await fetch(requestUrl, {
     headers: {

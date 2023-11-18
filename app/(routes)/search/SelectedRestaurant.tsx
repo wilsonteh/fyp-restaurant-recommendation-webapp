@@ -9,9 +9,6 @@ interface SelectedPlaceProps {
 
 const SelectedRestaurant = ({ place }: SelectedPlaceProps) => {
 
-  console.log("🚀 ~ file: SelectedPlace.tsx:31 ~ SelectedPlace ~ place:", place);
-  console.log(place.photos[0].getUrl());
-
   return (
     <Card
       as={Link}

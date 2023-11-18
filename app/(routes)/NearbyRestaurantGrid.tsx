@@ -8,6 +8,7 @@ import RestaurantsGrid from "./RestaurantsGrid";
 import { Button, Skeleton } from "@nextui-org/react";
 import ViewAllButton from "./ViewAllButton";
 import { storeInLocalStorage } from "../_utils/utils";
+import useGeolocation from "../_hooks/useGeolocation";
 
 async function fetchRestaurants(url: string) {
   const res = await fetch(url);
@@ -18,28 +19,7 @@ async function fetchRestaurants(url: string) {
 
 export default function NearbyRestaurantGrid({ showN }: { showN: number }) {
   const [requestUrl, setRequestUrl] = useState("");
-  const {
-    coords,
-    isGeolocationAvailable,
-    isGeolocationEnabled,
-    positionError,
-    timestamp,
-    getPosition,
-  } = useGeolocated({
-    positionOptions: {
-      maximumAge: 60000, // 5 mins before retreiving the location agn 
-      timeout: Infinity,
-      enableHighAccuracy: true,
-    },
-    suppressLocationOnMount: true,  // dont prompt location access on initial load
-    isOptimisticGeolocationEnabled: false, 
-    onSuccess(position: GeolocationPosition) {
-      console.log("Geolocation success", position)
-    },
-    onError(positionError?: GeolocationPositionError) {
-      console.error("Geolocation error", positionError)
-    },
-  });
+  const { coords, getPosition, isGeolocationAvailable, isGeolocationEnabled, positionError, timestamp } = useGeolocation();
   const { latitude = 0, longitude = 0 } = coords || {};
   
   const { data: restaurants, isLoading, error } = useSWRImmutable(requestUrl, fetchRestaurants)

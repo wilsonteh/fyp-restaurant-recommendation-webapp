@@ -1,4 +1,4 @@
-import SearchBar from "../explore/SearchBar";
+import SearchBar from "./SearchBar";
 
 export default async function SearchPage() {
 
