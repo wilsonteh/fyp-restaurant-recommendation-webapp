@@ -11,6 +11,10 @@ export const navbarItems = [
     href: "/",
   },
   {
+    item: "search",
+    href: "/search",
+  },
+  {
     item: "explore",
     href: "/explore",
   },
