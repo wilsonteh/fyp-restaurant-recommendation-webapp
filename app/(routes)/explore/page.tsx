@@ -5,49 +5,56 @@ import LocationArrow from "@/app/_icons/location-arrow";
 import { fetcher } from "@/app/_lib/swr/fetcher";
 import { priceScales } from "@/app/_utils/constants";
 import { NearbySearchRestaurant } from "@/app/_utils/interfaces/Interfaces";
-import { extractLocation, thousandSeparator } from "@/app/_utils/utils";
+import { thousandSeparator } from "@/app/_utils/utils";
 import { Button, Card, CardBody, Chip, Tooltip } from "@nextui-org/react";
 import Image from "next/image";
 import Link from "next/link";
-import { useState } from "react";
+import { useSearchParams } from "next/navigation";
+import { useEffect, useState } from "react";
 import useSWRImmutable from "swr/immutable";
 import SearchBar from "./SearchBar";
 
 export default function ExplorePage() {
+
+  const searchParams = useSearchParams();
+  const [toFetch, setToFetch] = useState(false);
+
+  useEffect(() => {
+    // for cases where users refresh the page, or enter the url with search params directly 
+    if (searchParams.has('q')) {
+      setToFetch(true);
+    }
+  }, [searchParams])
   
-  // const [toFetch, setToFetch] = useState(false);
-  const [searchQuery, setSearchQuery] = useState("");
-  
+
   return (
     <main className="max-w-screen-md mx-auto h-screen my-4">
-      <SearchBar
-        searchQuery={searchQuery}
-        setSearchQuery={setSearchQuery}
-      />
-
-      {/* improve this condition */}
-      { searchQuery.length > 0 && <SearchResults searchString={searchQuery} /> }
-
+      <SearchBar setToFetch={setToFetch} />
+      <SearchResults toFetch={toFetch} />
     </main>
   );
-}
+};
 
-const SearchResults = ({ searchString }: { searchString: string }) => {
+const SearchResults = ({ toFetch } : { toFetch: boolean }) => {
+
+  const searchParams = useSearchParams();
+  const searchQuery = searchParams.get('q');
+  console.log("🚀 searchQuery:", searchQuery)
 
   const { data, isLoading, error } = useSWRImmutable(
-    `/api/nearby-search?lat=3.067440966219083&lng=101.60387318211183&radius=100000&keyword=${searchString}`, 
+    toFetch ? `/api/nearby-search?lat=3.067440966219083&lng=101.60387318211183&radius=100000&keyword=${searchQuery}` : null, 
     fetcher
   );
   const restaurants = data?.results as NearbySearchRestaurant[];
 
-  console.log(restaurants?.map(r => r?.opening_hours))
-  
+  // console.log(restaurants?.map(r => r?.opening_hours))
+
   if (error) return <div>Failed to load ...</div>
   if (isLoading) return <div>Loading ...</div>
 
   return (
     <div className="grid grid-cols-1 gap-4">
-      { restaurants.map((restaurant: any) => (
+      { restaurants?.map((restaurant: any) => (
         <RestaurantItem key={restaurant.name} {...restaurant} />
       ))}
     </div>
@@ -75,8 +82,8 @@ const RestaurantItem = (restaurant: NearbySearchRestaurant) => {
           <div className="big-section self-start w-3/4 flex flex-col py-2 px-3">
             <div className="flex justify-between items-center gap-2">
               <h3 className="text-lg font-medium"> {restaurant.name} </h3>
-              <span className={`text-xs font-medium ${restaurant.opening_hours.open_now ? 'text-success-600' : 'text-danger-600'}`}>
-                { restaurant.opening_hours.open_now ? 'Open Now' : 'Closed now'} 
+              <span className={`text-xs font-medium ${restaurant.opening_hours?.open_now ? 'text-success-600' : 'text-danger-600'}`}>
+                { restaurant.opening_hours?.open_now ? 'Open Now' : 'Closed now'} 
               </span>
             </div>
             <p className="text-sm"> {restaurant.vicinity}. </p>

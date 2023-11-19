@@ -1,23 +1,30 @@
 "use client";
 import MagnifyingGlass from "@/app/_icons/magnifying-glass";
 import { Button, Input } from "@nextui-org/react";
-import React, { useRef } from "react";
+import { useRouter, useSearchParams } from "next/navigation";
+import React, { useEffect, useState } from "react";
 
-export default function SearchBar({
-  searchQuery,
-  setSearchQuery, 
-} : {
-  searchQuery: string;
-  setSearchQuery: React.Dispatch<React.SetStateAction<string>>; 
+export default function SearchBar({ 
+  setToFetch,  
+} : { 
+  setToFetch: React.Dispatch<React.SetStateAction<boolean>>;
 }) {
+  
+  const router = useRouter();
+  const searchParams = useSearchParams();
+  const [searchQuery, setSearchQuery] = useState("");
 
-  const inputRef = useRef<HTMLInputElement>(null);
-
+  useEffect(() => {
+    // make the search bar value & search query in url in sync
+    if (searchParams.has('q')) {
+      setSearchQuery(searchParams.get('q') as string);
+    }
+  }, [searchParams])
+  
   const handleSearch = (e: React.FormEvent) => {
     e.preventDefault();
-    if (inputRef.current) {
-      setSearchQuery(inputRef.current.value);
-    }
+    setToFetch(true);
+    router.push(`/explore?q=${searchQuery}`)
   };
   
   return (
@@ -30,7 +37,8 @@ export default function SearchBar({
           inputWrapper: "p-0 pl-4",
         }}
         startContent={<MagnifyingGlass size={15} />}
-        ref={inputRef}
+        onChange={(e) => setSearchQuery(e.target.value)}
+        value={searchQuery}
       />
 
       <Button type="submit" variant="solid" color="primary">
