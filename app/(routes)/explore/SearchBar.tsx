@@ -21,7 +21,7 @@ export default function SearchBar({
   };
   
   return (
-    <form className="flex mb-4" onSubmit={handleSearch}>
+    <form className="flex mb-4 mx-6" onSubmit={handleSearch}>
       <Input
         variant="flat"
         placeholder="Search restaurants by name or cuisines"

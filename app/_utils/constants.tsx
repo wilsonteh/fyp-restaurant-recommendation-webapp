@@ -55,4 +55,12 @@ export const starRatingStyles: ItemStyles = {
   activeStrokeColor: ['#c42727', '#e9680c', '#eabd0b', '#95db24', '#23a954'],
   inactiveFillColor: 'white',
   inactiveStrokeColor: '#c1c1c1',
-}
+};
+
+export const priceScales = [
+  { label: "budget friendly", bgColor: "#22c55e", color: "#fff", tooltip: "Wallet-friendly options for a tight budget" }, 
+  { label: "affordable", bgColor: "#a3e635", color: "#000", tooltip: "Reasonably priced for a satisfying experience"}, 
+  { label: "mid-range", bgColor: "#facc15", color: "#000", tooltip: "Moderate prices for a diverse dining experience"}, 
+  { label: "premium", bgColor: "#f97316", color: "#fff", tooltip: "Higher-end dining with superior quality"}, 
+  { label: "luxury", bgColor: "#dc2626", color: "#fff", tooltip: "Exquisite, upscale dining experience"}, 
+];
