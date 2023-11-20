@@ -19,12 +19,12 @@ export default function ExplorePage() {
   }, [searchParams])
 
   return (
-    <main className="max-w-screen-lg mx-auto h-screen my-4 flex gap-8 justify-between">
-      <section className="border-1 border-red-500 w-1/5">
+    <main className="max-w-screen-xl mx-auto h-screen my-4 flex gap-8 justify-between">
+      <section className="w-1/4">
         <Filters />
       </section>
 
-      <section className="border-1 border-orange-500 w-4/5">
+      <section className="border-1 border-teal-500 w-3/4">
         <SearchBar setToFetch={setToFetch} />
         {/* <SearchResults toFetch={toFetch} /> */}
       </section>

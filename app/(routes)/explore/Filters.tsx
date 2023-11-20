@@ -1,6 +1,6 @@
 "use client";
 import useQueryParams from "@/app/_hooks/useQueryParams";
-import { Select, SelectItem, Switch } from "@nextui-org/react";
+import { Checkbox, Select, SelectItem, Switch } from "@nextui-org/react";
 import { useSearchParams } from "next/navigation";
 import { useCallback, useEffect, useState } from "react";
 
@@ -13,6 +13,7 @@ export default function Filters() {
 
   return (
     <div className="flex flex-col gap-8">
+      <h1 className="text-lg font-medium text-center">Filters</h1>
       <DistanceSelect queryParams={queryParams} setQueryParams={setQueryParams} />
       <OpenNowSwitch queryParams={queryParams} setQueryParams={setQueryParams} />
     </div>
@@ -22,8 +23,8 @@ export default function Filters() {
 const DistanceSelect = ({ queryParams, setQueryParams }: { queryParams: URLSearchParams | undefined, setQueryParams: (params: any) => void }) => {
 
   const searchParams = useSearchParams();
+  const [distanceKey, setDistanceKey] = useState<string>("");
   const key = "distance";
-  const [distanceKey, setDistanceKey] = useState<string>("3km");
   const distances = [
     { key: "3km", value: 3000 },
     { key: "5km", value: 5000 },
@@ -61,13 +62,14 @@ const DistanceSelect = ({ queryParams, setQueryParams }: { queryParams: URLSearc
   return (
     <Select
       label="Distance filter"
-      className="max-w-[200px]"
-      selectedKeys={[distanceKey]}
+      labelPlacement="outside"
+      placeholder="Select distance"
+      className=""
       onChange={(e) => setDistanceKey(e.target.value)}
       onSelectionChange={(keys) => onDistanceKeyChange(Array.from(keys)[0] as string)}
     >
       {distances.map((distance) => (
-        <SelectItem key={distance.value} value={distance.value}>
+        <SelectItem key={distance.value}>
           { distance.key }
         </SelectItem>
       ))}
@@ -75,7 +77,7 @@ const DistanceSelect = ({ queryParams, setQueryParams }: { queryParams: URLSearc
   );
 };
 
-const OpenNowSwitch = ({ queryParams, setQueryParams } : { queryParams: URLSearchParams | undefined; setQueryParams: (params: any) => void }) => {
+const OpenNowSwitch = ({ queryParams, setQueryParams }: { queryParams: URLSearchParams | undefined; setQueryParams: (params: any) => void }) => {
 
   const searchParams = useSearchParams();
   const key = 'opennow'
@@ -105,12 +107,15 @@ const OpenNowSwitch = ({ queryParams, setQueryParams } : { queryParams: URLSearc
   }, [searchParams])
 
   return (
-    <Switch
-      aria-label="open now filter"
-      isSelected={openNow}
-      onValueChange={onSwitchChange}
-    >
-      Open Now
-    </Switch>
+    <div className="flex flex-col gap-1">
+      <label htmlFor="" className="text-sm font-medium">Open Now</label>
+      <Checkbox
+        aria-label="open now filter"
+        isSelected={openNow}
+        onValueChange={onSwitchChange}
+      >
+        Open Now
+      </Checkbox>
+    </div>
   );
 }
