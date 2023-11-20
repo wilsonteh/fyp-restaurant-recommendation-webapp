@@ -26,6 +26,7 @@ export default function SortingMenu({
   const collectionRef = collection(db, "reviews");
 
   const handleSortingKeyChange = (key: string) => {
+    console.log("🚀 key:", key)
     setSelectedSortKey(key);
     const basicQuery = where('restaurantId', '==', restaurantId);
 
@@ -70,7 +71,7 @@ export default function SortingMenu({
         </DropdownTrigger>
 
         <DropdownMenu
-          aria-label="Single selection example"
+          aria-label="Sort reviews"
           variant="flat"
           disallowEmptySelection
           selectionMode="single"

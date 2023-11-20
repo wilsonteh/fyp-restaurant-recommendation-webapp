@@ -18,10 +18,11 @@ export default function SearchResults({ toFetch } : { toFetch: boolean }) {
   console.log("🚀 searchQuery:", searchQuery)
 
   const { data, isLoading, error } = useSWRImmutable(
-    toFetch ? `/api/nearby-search?lat=3.067440966219083&lng=101.60387318211183&radius=100000&keyword=${searchQuery}` : null, 
+    toFetch ? `/api/nearby-search?lat=3.067440966219083&lng=101.60387318211183&radius=1000&keyword=${searchQuery}` : null, 
     fetcher
   );
   const restaurants = data?.results as NearbySearchRestaurant[];
+  console.log("🦐 restaurants", restaurants);
   // console.log(restaurants?.map(r => r?.opening_hours))
 
   if (error) return <div>Failed to load ...</div>
@@ -106,7 +107,6 @@ const RestaurantItem = (restaurant: NearbySearchRestaurant) => {
                   }}
                   variant="solid" 
                   size="sm" 
-                  // className={`text-xs px-3 ${priceChipStyles}`}  
                   className="text-xs px-3 shadow-sm"
                   startContent={<DollarSign size={12} />}>
                   { priceScales[priceIndex].label }

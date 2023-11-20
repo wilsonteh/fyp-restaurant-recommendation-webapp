@@ -11,7 +11,7 @@ export const navbarItems = [
     href: "/",
   },
   {
-    item: "search",
+    item: "search a restaurant",
     href: "/search",
   },
   {
