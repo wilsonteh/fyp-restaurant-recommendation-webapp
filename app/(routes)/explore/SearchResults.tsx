@@ -16,10 +16,10 @@ export default function SearchResults({ toFetch } : { toFetch: boolean }) {
 
   const searchParams = useSearchParams();
   const [queryString, setQueryString] = useState("");
-  // *NOTE: search query & filter options only 
   
+  // *NOTE: search query & filter options only 
   useEffect(() => {
-    const possibleSearchParams = ['q', 'distance', 'opennow' ]
+    const possibleSearchParams = ['q', 'distance', 'opennow', 'minprice', 'maxprice' ]
     
     function constructQueryString() {
       let queryString = "";
@@ -110,7 +110,7 @@ const RestaurantItem = (restaurant: NearbySearchRestaurant) => {
 
             <div className="flex justify-center items-center gap-1 text-sm font-light">
               <span> {restaurant.rating}/5.0 </span>
-              {/* <span> ({thousandSeparator(restaurant?.user_ratings_total)}) </span> */}
+              <span> ({thousandSeparator(restaurant?.user_ratings_total)}) </span>
             </div>
 
             {restaurant.price_level && (

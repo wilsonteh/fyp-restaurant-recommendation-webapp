@@ -21,8 +21,8 @@ export interface NearbySearchParams {
   location: string;
   radius: string;
   keyword?: string;
-  maxprice?: 1 | 2 | 3 | 4;
-  minprice?: 1 | 2 | 3 | 4;
+  maxprice?: string | undefined;
+  minprice?: string | undefined;
   opennow?: boolean; 
   pagetoken?: string;
   rankby?: "prominence" | "distance"; 

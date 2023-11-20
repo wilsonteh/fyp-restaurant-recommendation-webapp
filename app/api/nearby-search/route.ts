@@ -14,6 +14,8 @@ export async function GET(request: NextRequest) {
   const radius = searchParams.get("distance");     // distance/radius 
   const lat = searchParams.get("lat");   
   const lng = searchParams.get("lng");
+  const minprice = searchParams.get("minprice");
+  const maxprice = searchParams.get("maxprice");
 
   // *SECTION: construct nearby-search params 
   // required: location, radius 
@@ -23,6 +25,8 @@ export async function GET(request: NextRequest) {
     type: 'restaurant',
     keyword: keyword || undefined,
     opennow: opennow === 'true' ? true : undefined,
+    minprice: minprice || undefined,
+    maxprice: maxprice || undefined,
   };
 
   let requestUrl = 
@@ -33,6 +37,8 @@ export async function GET(request: NextRequest) {
 
   keyword && (requestUrl += `&keyword=${p.keyword}`);
   opennow && (requestUrl += `&opennow=${p.opennow}`);
+  minprice && (requestUrl += `&minprice=${p.minprice}`);
+  maxprice && (requestUrl += `&maxprice=${p.maxprice}`);
 
   console.log("🚀 GET ~ requestUrl:", requestUrl)
   
