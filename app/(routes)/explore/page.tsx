@@ -26,7 +26,7 @@ export default function ExplorePage() {
 
       <section className="border-1 border-teal-500 w-3/4">
         <SearchBar setToFetch={setToFetch} />
-        {/* <SearchResults toFetch={toFetch} /> */}
+        <SearchResults toFetch={toFetch} />
       </section>
     </main>
   );
