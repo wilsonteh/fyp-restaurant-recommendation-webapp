@@ -19,7 +19,7 @@ export interface Photo {
 // paramters for calling Nearby Search API 
 export interface NearbySearchParams {
   location: string;
-  radius: string;
+  radius?: string;
   keyword?: string;
   maxprice?: string | undefined;
   minprice?: string | undefined;

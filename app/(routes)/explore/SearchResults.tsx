@@ -17,9 +17,11 @@ export default function SearchResults({ toFetch } : { toFetch: boolean }) {
   const searchParams = useSearchParams();
   const [queryString, setQueryString] = useState("");
   
-  // *NOTE: search query & filter options only 
   useEffect(() => {
-    const possibleSearchParams = ['q', 'distance', 'opennow', 'minprice', 'maxprice' ]
+    // *NOTE: search query & filter options only 
+    const possibleSearchParams = [
+      'q', 'distance', 'opennow', 'minprice', 'maxprice', 'sortby', 
+    ]
     
     function constructQueryString() {
       let queryString = "";
@@ -29,8 +31,7 @@ export default function SearchResults({ toFetch } : { toFetch: boolean }) {
           queryString += `${key}=${searchParams.get(key)}&`
         }
       })
-      queryString.slice(0, -1); // remove the last '&' char
-      return queryString;
+      return queryString.slice(0, -1); // remove the last '&' char
     }
 
     const queryString = constructQueryString();
@@ -42,7 +43,7 @@ export default function SearchResults({ toFetch } : { toFetch: boolean }) {
   const { data, isLoading, error } = useSWRImmutable(
     // lat, lng, radius hardcode for now 
     toFetch ? `/api/nearby-search?lat=3.067440966219083&lng=101.60387318211183&radius=1000&${queryString}` : null, 
-    fetcher
+    fetcher 
   );
   const restaurants = data?.results as NearbySearchRestaurant[];
   console.log("🦐 restaurants", restaurants);
@@ -66,7 +67,7 @@ const RestaurantItem = (restaurant: NearbySearchRestaurant) => {
   let priceIndex = restaurant?.price_level;
 
   return (
-    <Card isPressable as={Link} href={`/restaurant/${restaurant.place_id}`}>
+    <Card>
       <CardBody className="flex flex-row justify-start gap-2 w-full">
         <div className="relative min-w-[180px] min-h-[180px] overflow-hidden">
           <Image
@@ -81,7 +82,9 @@ const RestaurantItem = (restaurant: NearbySearchRestaurant) => {
         <div className="flex justify-between items-center w-full">
           <div className="big-section self-start w-3/4 flex flex-col py-2 px-3">
             <div className="flex justify-between items-center gap-2">
-              <h3 className="text-lg font-medium"> {restaurant.name} </h3>
+              <h3 className="text-lg font-medium"> 
+                <Link href={`/restaurant/${restaurant.place_id}`}> {restaurant.name} </Link>
+              </h3>
               <span className={`text-xs font-medium ${restaurant.opening_hours?.open_now ? 'text-success-600' : 'text-danger-600'}`}>
                 { restaurant.opening_hours?.open_now ? 'Open Now' : 'Closed now'} 
               </span>

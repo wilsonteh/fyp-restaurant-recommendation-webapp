@@ -16,29 +16,34 @@ export async function GET(request: NextRequest) {
   const lng = searchParams.get("lng");
   const minprice = searchParams.get("minprice");
   const maxprice = searchParams.get("maxprice");
+  const rankby = searchParams.get("sortby");
 
   // *SECTION: construct nearby-search params 
   // required: location, radius 
   const p: NearbySearchParams = {
     location: lat && lng ? `${lat},${lng}` : '3.067440966219083,101.60387318211183',  // default to sunway uni
-    radius: radius || '5000',   // default to 5km
+    radius: rankby === 'nearest' ? undefined : radius || '5000',   // default to 5km
     type: 'restaurant',
     keyword: keyword || undefined,
     opennow: opennow === 'true' ? true : undefined,
     minprice: minprice || undefined,
     maxprice: maxprice || undefined,
+    rankby: rankby === 'nearest' ? 'distance' : undefined,  // only use this params if user sort by nearest
   };
+  console.log(p.radius, p.rankby)
 
   let requestUrl = 
-    `${BASE_URL}?key=${API_KEY}` + 
-    `&type=${p.type}&` + 
-    `location=${p.location}&` +
-    `radius=${p.radius}`;
+    `${BASE_URL}?key=${API_KEY}&` + 
+    `type=${p.type}&` + 
+    `location=${p.location}&`;
 
-  keyword && (requestUrl += `&keyword=${p.keyword}`);
-  opennow && (requestUrl += `&opennow=${p.opennow}`);
-  minprice && (requestUrl += `&minprice=${p.minprice}`);
-  maxprice && (requestUrl += `&maxprice=${p.maxprice}`);
+  // ! why no radius!!
+  p.radius && (requestUrl += `radius=${p.radius}&`);
+  keyword && (requestUrl += `keyword=${p.keyword}&`);
+  opennow && (requestUrl += `opennow=${p.opennow}&`);
+  minprice && (requestUrl += `minprice=${p.minprice}&`);
+  maxprice && (requestUrl += `maxprice=${p.maxprice}&`);
+  rankby && (requestUrl += `rankby=${p.rankby}`);
 
   console.log("🚀 GET ~ requestUrl:", requestUrl)
   
@@ -51,21 +56,3 @@ export async function GET(request: NextRequest) {
   const data = await res.json();
   return NextResponse.json(data);
 };
-
-
-// all possible search params keys that can exist in the request url 
-// const searchParamsKeys = [
-//   'lat', 'lng', 'q', 'distance', 'opennow' 
-// ];
-
-// // define the params that are fixed for every nearby-place call 
-// const params = [
-//   { key: 'type', value: 'restaurant' }
-// ];
-
-// // get all search params from the request url & add into params arr
-// for (let key of searchParamsKeys) {
-//   if (searchParams.has(key)) {
-//     params.push({ key, value: searchParams.get(key)! });
-//   }
-// }
