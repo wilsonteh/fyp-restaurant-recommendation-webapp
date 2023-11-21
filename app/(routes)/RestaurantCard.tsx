@@ -1,15 +1,16 @@
 "use client";
-import { Card, CardBody, CardFooter, CardHeader, image } from "@nextui-org/react";
-import Link from "next/link";
-import useSWRImmutable from "swr/immutable";
-import Image from "next/image";
+import DoorOpen from "@/app/_icons/door-open";
 import LocationDot from "@/app/_icons/location-dot";
+import Star from "@/app/_icons/star";
 import { NearbySearchRestaurant } from "@/app/_utils/interfaces/Interfaces";
 import { extractLocation } from "@/app/_utils/utils";
-import DoorOpen from "@/app/_icons/door-open";
-import Star from "@/app/_icons/star";
+import { Card, CardBody } from "@nextui-org/react";
+import Image from "next/image";
+import Link from "next/link";
+import useSWR from "swr";
+import useSWRImmutable from "swr/immutable";
 
-async function fetchRestaurantImg(requestUrl: string) {
+async function fetchRestaurantImg(requestUrl: string): Promise<string> {
   const res  = await fetch(requestUrl);
   const data = await res.json();
   return data.imageUrl;
@@ -17,13 +18,20 @@ async function fetchRestaurantImg(requestUrl: string) {
 
 const RestaurantCard = ({ restaurant }: { restaurant: NearbySearchRestaurant }) => {
 
-  // ! comment these to avoid exp place photo API calls 
-  // const { 
-  //   data: imgUrl, 
-  //   error, 
-  //   isLoading
-  // } = useSWRImmutable(`/api/place-photo?photoRef=${restaurant.photos[0]?.photo_reference}`, fetchRestaurantImg);
-  
+  // console.log("🚀 RestaurantCard ~ data:", data)
+
+  // *FIXME: below not working, try to fetch image in rsc  
+  const { 
+    data, 
+    error, 
+    isLoading
+  } = useSWR(`/api/place-photo?photoRef=${restaurant.photos[0]?.photo_reference}`, fetchRestaurantImg);
+
+  console.log(data);
+
+  if (error) return <div>Error!</div>
+  if (isLoading) return <div>Loading...</div>
+
   return (
     <Card
       isPressable
@@ -34,8 +42,7 @@ const RestaurantCard = ({ restaurant }: { restaurant: NearbySearchRestaurant }) 
     >
       <CardBody className="p-0 w-full min-h-[200px]">
         <Image
-          // src={imgUrl}
-          src=""
+          src={data || "https://via.placeholder.com/300x300"}
           fill={true}
           className="rounded-none object-cover"
           alt="image"
@@ -54,7 +61,7 @@ const RestaurantCard = ({ restaurant }: { restaurant: NearbySearchRestaurant }) 
           <span className="flex items-center gap-1">
             <Star size={15} fill="orange" />
             <span>
-              {restaurant.rating.toFixed(1)} ({restaurant.user_ratings_total})
+              {restaurant.rating?.toFixed(1)} ({restaurant.user_ratings_total})
             </span>
           </span>
 

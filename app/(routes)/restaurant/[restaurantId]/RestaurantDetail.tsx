@@ -1,28 +1,12 @@
-import { fetchDocsWithCondition } from "@/app/_firebase/firestore";
-import RestaurantStars from "@/app/_icons/RestaurantStars";
-import ReviewStars from "@/app/_icons/ReviewStars";
 import Globe from "@/app/_icons/globe";
 import PhoneAlt from "@/app/_icons/phone-alt";
 import { fetchImageUrls } from "@/app/_lib/data-fetching";
-import { ReviewSchema } from "@/app/_utils/interfaces/FirestoreSchema";
 import { RestaurantDetailInterface } from "@/app/_utils/interfaces/PlaceDetailInterface";
-import { getFractionalPart, thousandSeparator } from "@/app/_utils/utils";
-import { where } from "firebase/firestore";
+import { thousandSeparator } from "@/app/_utils/utils";
 import Link from "next/link";
 import RestaurantPhotoGrid from "./RestaurantPhotoGrid";
 import RestaurantTab from "./RestaurantTab";
-import { Rating } from "@smastrom/react-rating";
-import { starRatingStyles } from "@/app/_utils/constants";
 import StarRating from "./StarRating";
-
-// fetch all reviews for that particular restaurant 
-async function fetchReviews(restaurantId: string) {
-  const query = [
-    where('restaurantId', '==', restaurantId),
-  ]
-  const reviews = await fetchDocsWithCondition('reviews', query)
-  return reviews as ReviewSchema[];
-};
 
 export default async function RestaurantDetail ({ 
   restaurant,  

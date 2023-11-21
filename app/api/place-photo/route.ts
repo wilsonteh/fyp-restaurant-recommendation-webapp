@@ -8,6 +8,7 @@ export async function GET(request: Request) {
   const { searchParams } = new URL(request.url);
   const photoRef = searchParams.get("photoRef");
 
+  console.log(`${BASE_URL}?key=${API_KEY}&photo_reference=${photoRef}&maxwidth=400`)
   const res = await fetch (
     `${BASE_URL}?key=${API_KEY}&photo_reference=${photoRef}&maxwidth=400`, 
     { 
@@ -17,7 +18,7 @@ export async function GET(request: Request) {
       redirect: 'follow'
     }
   );
-  const imageUrl = res.url
+  const imageUrl = res.url;
 
-  return NextResponse.json(imageUrl);
+  return NextResponse.json({ imageUrl });
 };

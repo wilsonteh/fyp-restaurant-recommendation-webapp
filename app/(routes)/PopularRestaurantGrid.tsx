@@ -4,15 +4,9 @@ import { NearbySearchRestaurant } from "../_utils/interfaces/Interfaces";
 import RestaurantCard from "./RestaurantCard";
 import RestaurantsGrid from "./RestaurantsGrid";
 import ViewAllButton from "./ViewAllButton";
+import { fetcher } from "../_lib/swr/fetcher";
 
-async function fetchRestaurants(url: string) {
-  const res = await fetch(url);
-  const data = await res.json();
-  const { results } = data;
-  return results; 
-};
-
-export default function PopularRestaurantGrid({ showN }: { showN: number }) {
+export default function PopularRestaurantGrid({ showN = 8 }: { showN?: number }) {
 
   const params = {
     lat: '3.067440966219083', 
@@ -26,27 +20,30 @@ export default function PopularRestaurantGrid({ showN }: { showN: number }) {
     `radius=${radius}`;  
 
   const {
-    data: restaurants,
+    data,
     isLoading,
     error,
-  } = useSWRImmutable(requestUrl, fetchRestaurants);
+  } = useSWRImmutable(requestUrl, fetcher);
+
+  const restaurants = data as NearbySearchRestaurant[];
 
   if (isLoading) return <div>Loading...</div>
   if (error) return <div>Error...</div>
   
   return (
     <div className="p-4 flex flex-col gap-2 items-start">
-      <h1 className="font-bold text-lg mb-2">Popular Restaurants</h1>
+      <h1 className="font-semibold text-2xl mb-2">
+        Popular Restaurants in Bandar Sunway
+      </h1>
 
       <RestaurantsGrid>
-        {restaurants
-          ?.slice(0, showN)
+        {restaurants?.slice(0, showN)
           .map((restaurant: NearbySearchRestaurant) => (
             <RestaurantCard key={restaurant.place_id} restaurant={restaurant} />
           ))}
       </RestaurantsGrid>
       
-      <ViewAllButton {...params} />
+      {/* <ViewAllButton {...params} /> */}
 
     </div>
   );

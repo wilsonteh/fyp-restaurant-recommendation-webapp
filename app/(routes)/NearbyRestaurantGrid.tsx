@@ -1,34 +1,28 @@
 "use client";
 import { NearbySearchRestaurant } from "@/app/_utils/interfaces/Interfaces";
-import { Suspense, useEffect, useState } from "react";
-import RestaurantCard from "./RestaurantCard";
+import { Button } from "@nextui-org/react";
+import { useEffect, useState } from "react";
 import useSWRImmutable from "swr/immutable";
-import { useGeolocated } from "react-geolocated";
-import RestaurantsGrid from "./RestaurantsGrid";
-import { Button, Skeleton } from "@nextui-org/react";
-import ViewAllButton from "./ViewAllButton";
-import { storeInLocalStorage } from "../_utils/utils";
 import useGeolocation from "../_hooks/useGeolocation";
-
-async function fetchRestaurants(url: string) {
-  const res = await fetch(url);
-  const data = await res.json();
-  const { results } = data;
-  return results; 
-};
+import { fetcher } from "../_lib/swr/fetcher";
+import RestaurantCard from "./RestaurantCard";
+import RestaurantsGrid from "./RestaurantsGrid";
+import ViewAllButton from "./ViewAllButton";
 
 export default function NearbyRestaurantGrid({ showN }: { showN: number }) {
   const [requestUrl, setRequestUrl] = useState("");
-  const { coords, getPosition, isGeolocationAvailable, isGeolocationEnabled, positionError, timestamp } = useGeolocation();
+  const {
+    coords,
+    getPosition,
+    isGeolocationAvailable,
+    isGeolocationEnabled,
+    positionError,
+    timestamp,
+  } = useGeolocation();
   const { latitude = 0, longitude = 0 } = coords || {};
-  
-  const { data: restaurants, isLoading, error } = useSWRImmutable(requestUrl, fetchRestaurants)
 
-  useEffect(() => {
-    if (coords !== undefined) {
-      setRequestUrl(`/api/nearby-search?lat=${latitude}&lng=${longitude}`)
-    }
-  }, [coords, latitude, longitude])
+  const { data, isLoading, error } = useSWRImmutable(requestUrl, fetcher);
+  const restaurants = data as NearbySearchRestaurant[];
 
   const promptGeolocation = () => {
     if (!isGeolocationEnabled) {
@@ -36,48 +30,11 @@ export default function NearbyRestaurantGrid({ showN }: { showN: number }) {
     }
   };
 
-  const AccessLocation = () => {
-    return (
-      <div className="flex flex-col items-start">
-        <Button color="primary" size="sm" onClick={promptGeolocation}>
-          View nearby restaurants
-        </Button>
-        <small>Allow access of location to view nearby restaurants</small>
-      </div>
-    );
-  };
-
-  const NearbyRestaurants = () => {
-    return (
-      <div className="flex flex-col gap-2 items-start">
-        <h1 className="font-bold text-lg mb-2">Nearby Restaurants</h1>
-        <RestaurantsGrid>
-          {restaurants
-            ?.slice(0, showN)
-            .map((restaurant: NearbySearchRestaurant) => (
-              <RestaurantCard key={restaurant.place_id} restaurant={restaurant} />
-          ))}
-          {/* { restaurants?.map((restaurant: any) => (
-            <div key={restaurant.name}> { restaurant.name } </div>
-          ))} */}
-        </RestaurantsGrid>
-
-        <ViewAllButton />
-      </div>
-    )
-  };
-
-  const DeniedGeolocation = () => {
-    return (
-      <div className="flex flex-col items-start">
-        <h1>You have denied location access</h1>
-        <small>Please reset geolocation permission manually and click button below</small>
-        <Button color="primary" size="sm" onClick={promptGeolocation}>
-          Prompt location access
-        </Button>
-      </div>
-    )
-  };
+  useEffect(() => {
+    if (coords !== undefined) {
+      setRequestUrl(`/api/nearby-search?lat=${latitude}&lng=${longitude}&sortby=nearest`)
+    }
+  }, [coords, latitude, longitude])
 
   if (isLoading) return <div>Loading...</div>
   if (error) return <div>Error!</div>
@@ -86,13 +43,14 @@ export default function NearbyRestaurantGrid({ showN }: { showN: number }) {
     <div className="p-4">
       { coords ? ( 
         // detected location, display nearby restau 
-        <NearbyRestaurants />
-      ) : (!isGeolocationEnabled && coords === undefined && !positionError) ? (
+        <NearbyRestaurants restaurants={restaurants} />
+
+        ) : (!isGeolocationEnabled && (coords === undefined) && !positionError) ? (
         // initial render (no user location yet) 
-        <AccessLocation />
+        <AccessLocation  getGeolocation={promptGeolocation} />
       ) : (!isGeolocationEnabled && positionError) ? (
         // user denied geolocation 
-        <DeniedGeolocation />
+        <DeniedGeolocation getGeolocation={promptGeolocation} />
       ) : (
         // *NOTE - not sure how the condition would reach this block
         // use this as placeholder for now 
@@ -100,6 +58,63 @@ export default function NearbyRestaurantGrid({ showN }: { showN: number }) {
       )}
     </div>
   );
-
 }; 
+ 
+const AccessLocation = ({ getGeolocation }: { getGeolocation: () => void }) => {
 
+  return (
+    <div className="flex flex-col items-start">
+      <Button color="primary" size="sm" onClick={getGeolocation}>
+        View nearby restaurants
+      </Button>
+      <small>Allow access of location to view nearby restaurants</small>
+    </div>
+  );
+};
+
+const NearbyRestaurants = ({ 
+  restaurants,  
+  showN = 8, 
+} : { 
+  restaurants: NearbySearchRestaurant[], 
+  showN?: number, 
+}) => {
+
+  return (
+    <div className="flex flex-col gap-2 items-start">
+      <h1 className="font-semibold text-2xl mb-2 capitalize">
+        Restaurants near me 
+      </h1>
+
+      <RestaurantsGrid>
+        {restaurants
+          ?.slice(0, showN)
+          .map((restaurant: NearbySearchRestaurant) => (
+            <RestaurantCard key={restaurant.place_id} restaurant={restaurant} />
+        ))}
+        {/* { restaurants?.map((restaurant: any) => (
+          <div key={restaurant.name}> { restaurant.name } </div>
+        ))} */}
+      </RestaurantsGrid>
+
+      {/* <ViewAllButton /> */}
+    </div>
+  )
+};
+
+const DeniedGeolocation = ({
+  getGeolocation, 
+} : {
+  getGeolocation: () => void 
+}) => {
+
+  return (
+    <div className="flex flex-col items-start">
+      <h1>You have denied location access</h1>
+      <small>Please reset geolocation permission manually and click button below</small>
+      <Button color="primary" size="sm" onClick={getGeolocation}>
+        Prompt location access
+      </Button>
+    </div>
+  )
+};
