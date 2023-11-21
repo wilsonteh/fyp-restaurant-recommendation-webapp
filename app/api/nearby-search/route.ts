@@ -23,7 +23,7 @@ export async function GET(request: NextRequest) {
   const p: NearbySearchParams = {
     location: lat && lng ? `${lat},${lng}` : '3.067440966219083,101.60387318211183',  // default to sunway uni
     radius: rankby === 'nearest' ? undefined : radius || '50000',   // default to 50km
-    type: 'restaurant,food',
+    type: 'restaurant',
     keyword: keyword || undefined,
     opennow: opennow === 'true' ? true : undefined,
     minprice: minprice || undefined,

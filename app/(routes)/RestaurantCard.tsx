@@ -7,6 +7,7 @@ import { extractLocation } from "@/app/_utils/utils";
 import { Card, CardBody } from "@nextui-org/react";
 import Image from "next/image";
 import Link from "next/link";
+import { useEffect, useState } from "react";
 import useSWR from "swr";
 import useSWRImmutable from "swr/immutable";
 
@@ -18,16 +19,24 @@ async function fetchRestaurantImg(requestUrl: string): Promise<string> {
 
 const RestaurantCard = ({ restaurant }: { restaurant: NearbySearchRestaurant }) => {
 
-  // console.log("🚀 RestaurantCard ~ data:", data)
-
-  // *FIXME: below not working, try to fetch image in rsc  
+  const [toFetch, setToFetch] = useState(false);
   const { 
     data, 
     error, 
     isLoading
-  } = useSWR(`/api/place-photo?photoRef=${restaurant.photos[0]?.photo_reference}`, fetchRestaurantImg);
+  } = useSWR(
+    toFetch ? `/api/place-photo?photoRef=${restaurant?.photos[0]?.photo_reference}` : null, 
+    fetchRestaurantImg
+  );
 
-  console.log(data);
+  useEffect(() => {
+    // ensure it has a photo ref 
+    if (restaurant?.photos && restaurant?.photos[0]?.photo_reference) {
+      setToFetch(true);
+    }
+
+  }, [restaurant?.photos])
+  
 
   if (error) return <div>Error!</div>
   if (isLoading) return <div>Loading...</div>
