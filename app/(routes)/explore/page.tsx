@@ -5,7 +5,6 @@ import { useRouter, useSearchParams } from "next/navigation";
 import { useCallback, useEffect, useState } from "react";
 import SearchResults from "./SearchResults";
 import Filters from "./Filters";
-import { distance } from "framer-motion";
 import useQueryParams from "@/app/_hooks/useQueryParams";
 
 export default function ExplorePage() {
@@ -53,7 +52,17 @@ const SearchBar = ({ setToFetch } : { setToFetch: React.Dispatch<React.SetStateA
   const handleSearch = (e: React.FormEvent) => {
     e.preventDefault();
     setToFetch(true);
-    router.push(`/explore?q=${searchQuery}`)
+
+    // get all filter & sort search params from url
+    let otherQueryString = '';
+    const possibleSearchParams = ['distance', 'opennow', 'minprice', 'maxprice', 'sortby'];
+    for (let key of possibleSearchParams) {
+      if (searchParams.has(key)) {
+        otherQueryString += `${key}=${searchParams.get(key)}&`
+      }
+    }
+    otherQueryString = otherQueryString.slice(0, -1); // remove the last '&' char
+    router.push(`/explore?q=${searchQuery}&${otherQueryString}`)
   };
   
   return (
@@ -88,7 +97,7 @@ const SortMenu = () => {
     { label: "Highest rated", value: "highest_rated" },
     { label: "Most reviewed", value: "most_reviewed" },
   ];
-  const [selectedSortItem, setSelectedSortItem] = useState([sortItems[0].label])
+  const [selectedSortItem, setSelectedSortItem] = useState([sortItems[0].value])
 
   const onSortItemChange = useCallback(
     (sortItem: string) => {

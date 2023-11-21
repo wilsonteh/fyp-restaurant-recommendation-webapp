@@ -11,12 +11,12 @@ export const navbarItems = [
     href: "/",
   },
   {
-    item: "search a restaurant",
-    href: "/search",
-  },
-  {
     item: "explore",
     href: "/explore",
+  },
+  {
+    item: "search a restaurant",
+    href: "/search",
   },
 ];
 

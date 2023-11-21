@@ -2,20 +2,69 @@
 import useQueryParams from "@/app/_hooks/useQueryParams";
 import DollarSign from "@/app/_icons/dollar-sign";
 import { priceScales } from "@/app/_utils/constants";
-import { Checkbox, CheckboxGroup, Select, SelectItem, Switch } from "@nextui-org/react";
-import { useSearchParams } from "next/navigation";
-import { useCallback, useEffect, useState } from "react";
+import { Button, Checkbox, CheckboxGroup, Select, SelectItem, Switch } from "@nextui-org/react";
+import { useRouter, useSearchParams } from "next/navigation";
+import { useCallback, useEffect, useMemo, useState } from "react";
+import { setTimeout } from "timers";
 
 export default function Filters() {
 
+  const searchParams = useSearchParams();
   const { queryParams, setQueryParams } = useQueryParams<{
+    q?: string;
     distance?: string;
     openNow?: boolean;
+    minprice?: string;
+    maxprice?: string;
+    sortby?: string;
   }>();
+  const [hasFilter, setHasFilter] = useState(false);  // to check whether there's any filter applied
+  const filterKeys = useMemo(() => ['distance', 'opennow', 'minprice', 'maxprice'], []);
+
+  useEffect(() => {
+    function checkHasFilter() {
+      for (let key of filterKeys) {
+        if (searchParams.has(key)) {
+          setHasFilter(true);
+          return;
+        }
+      }
+      setHasFilter(false);
+    }
+    checkHasFilter();
+
+  }, [filterKeys, searchParams])
+  
+
+  const clearAllFilters = () => {
+    for (let key of filterKeys) {
+      if (searchParams.has(key)) {
+        setQueryParams({ [key]: undefined });
+      }
+    }
+    // *NOTE: not the best way, but works for now
+    // give some time for the url to update its search params, then perform client side refresh
+    setTimeout(() => {
+      window.location.reload();
+    }, 400);
+  }
 
   return (
-    <div className="flex flex-col gap-8">
-      <h1 className="text-lg font-medium text-center">Filters</h1>
+    <div className="flex flex-col gap-2">
+      <div className="flex flex-col items-center">
+        <h3 className="text-lg font-medium">Filters</h3>
+        { hasFilter && (
+          <Button
+            color="secondary"
+            variant="light"
+            className="!bg-transparent hover:bg-transparent hover:underline"
+            onClick={clearAllFilters}
+          >
+            Clear all filters
+          </Button>
+        )}
+      </div>
+
       <DistanceSelect queryParams={queryParams} setQueryParams={setQueryParams} />
       <OpenNowSwitch queryParams={queryParams} setQueryParams={setQueryParams} />
       <PricingCheckboxGroup queryParams={queryParams} setQueryParams={setQueryParams} />
@@ -26,7 +75,6 @@ export default function Filters() {
 const DistanceSelect = ({ queryParams, setQueryParams }: { queryParams: URLSearchParams | undefined, setQueryParams: (params: any) => void }) => {
 
   const searchParams = useSearchParams();
-  const [distanceKey, setDistanceKey] = useState<string>("");
   const key = "distance";
   const distances = [
     { key: "3km", value: 3000 },
@@ -34,6 +82,7 @@ const DistanceSelect = ({ queryParams, setQueryParams }: { queryParams: URLSearc
     { key: "10km", value: 10000 },
     { key: "15km", value: 15000 },
   ];
+  const [distanceKey, setDistanceKey] = useState<string|undefined>(undefined);
 
   const onDistanceKeyChange = useCallback(
     (distKey: string) => {
@@ -42,6 +91,7 @@ const DistanceSelect = ({ queryParams, setQueryParams }: { queryParams: URLSearc
       // when filter is selected, add on the 'distance' search params to url
       // but at the same time remain all other search params
       setDistanceKey(distKey);
+      console.log("🚀 distKey:", distKey)
       let distanceFilter = queryParams?.get(key);
       if (distKey === distanceFilter || !distKey) {
         // remove 'distance' search params key from url
@@ -67,7 +117,8 @@ const DistanceSelect = ({ queryParams, setQueryParams }: { queryParams: URLSearc
       label="Distance filter"
       labelPlacement="outside"
       placeholder="Select distance"
-      className=""
+      // *! FIXME: problem here!
+      selectedKeys={distanceKey ? [distanceKey] : undefined}
       onChange={(e) => setDistanceKey(e.target.value)}
       onSelectionChange={(keys) => onDistanceKeyChange(Array.from(keys)[0] as string)}
     >
@@ -80,7 +131,7 @@ const DistanceSelect = ({ queryParams, setQueryParams }: { queryParams: URLSearc
   );
 };
 
-const OpenNowSwitch = ({ queryParams, setQueryParams }: { queryParams: URLSearchParams | undefined; setQueryParams: (params: any) => void }) => {
+const OpenNowSwitch = ({ queryParams, setQueryParams }: { queryParams: URLSearchParams | undefined, setQueryParams: (params: any) => void }) => {
 
   const searchParams = useSearchParams();
   const key = 'opennow'
@@ -123,7 +174,7 @@ const OpenNowSwitch = ({ queryParams, setQueryParams }: { queryParams: URLSearch
   );
 }
 
-const PricingCheckboxGroup = ({ queryParams, setQueryParams }: { queryParams: URLSearchParams | undefined; setQueryParams: (params: any) => void }) => {
+const PricingCheckboxGroup = ({ queryParams, setQueryParams }: { queryParams: URLSearchParams | undefined, setQueryParams: (params: any) => void }) => {
   
   const searchParams = useSearchParams();
   const key1 = 'minprice';

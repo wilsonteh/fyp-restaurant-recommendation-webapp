@@ -22,7 +22,7 @@ export async function GET(request: NextRequest) {
   // required: location, radius 
   const p: NearbySearchParams = {
     location: lat && lng ? `${lat},${lng}` : '3.067440966219083,101.60387318211183',  // default to sunway uni
-    radius: rankby === 'nearest' ? undefined : radius || '5000',   // default to 5km
+    radius: rankby === 'nearest' ? undefined : radius || '50000',   // default to 50km
     type: 'restaurant',
     keyword: keyword || undefined,
     opennow: opennow === 'true' ? true : undefined,
@@ -30,7 +30,6 @@ export async function GET(request: NextRequest) {
     maxprice: maxprice || undefined,
     rankby: rankby === 'nearest' ? 'distance' : undefined,  // only use this params if user sort by nearest
   };
-  console.log(p.radius, p.rankby)
 
   let requestUrl = 
     `${BASE_URL}?key=${API_KEY}&` + 
@@ -56,13 +55,13 @@ export async function GET(request: NextRequest) {
 
   // *SECTION: do higheste rated & most reviewed sorting here 
   const restaurants = data.results as NearbySearchRestaurant[];
-  if (rankby === 'highest_rated') {
-    console.log("highest rated!")
-    restaurants.sort((a, b) => b.rating - a.rating);
-  } 
-  else if (rankby === 'most_reviewed') {
-    console.log("most reviewed!");
-    restaurants.sort((a, b) => b.user_ratings_total - a.user_ratings_total);
+  if (rankby) {
+    if (rankby === 'highest_rated') {
+      restaurants.sort((a, b) => b.rating - a.rating);
+    } 
+    else if (rankby === 'most_reviewed') {
+      restaurants.sort((a, b) => b.user_ratings_total - a.user_ratings_total);
+    }
   }
 
   return NextResponse.json(restaurants);
