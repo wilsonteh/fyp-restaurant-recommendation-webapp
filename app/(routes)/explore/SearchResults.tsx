@@ -45,10 +45,9 @@ export default function SearchResults({ toFetch } : { toFetch: boolean }) {
     toFetch ? `/api/nearby-search?lat=3.067440966219083&lng=101.60387318211183&radius=1000&${queryString}` : null, 
     fetcher 
   );
-  const restaurants = data?.results as NearbySearchRestaurant[];
+  const restaurants = data as NearbySearchRestaurant[];
   console.log("🦐 restaurants", restaurants);
-  // console.log(restaurants?.map(r => r?.opening_hours))
-
+  
   if (error) return <div>Failed to load ...</div>
   if (isLoading) return <div>Loading ...</div>
 

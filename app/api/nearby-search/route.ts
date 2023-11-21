@@ -1,4 +1,4 @@
-import { NearbySearchParams } from "@/app/_utils/interfaces/Interfaces";
+import { NearbySearchParams, NearbySearchRestaurant } from "@/app/_utils/interfaces/Interfaces";
 import { type NextRequest, NextResponse } from "next/server";
 
 const BASE_URL = "https://maps.googleapis.com/maps/api/place/nearbysearch/json";
@@ -37,13 +37,12 @@ export async function GET(request: NextRequest) {
     `type=${p.type}&` + 
     `location=${p.location}&`;
 
-  // ! why no radius!!
   p.radius && (requestUrl += `radius=${p.radius}&`);
   keyword && (requestUrl += `keyword=${p.keyword}&`);
   opennow && (requestUrl += `opennow=${p.opennow}&`);
   minprice && (requestUrl += `minprice=${p.minprice}&`);
   maxprice && (requestUrl += `maxprice=${p.maxprice}&`);
-  rankby && (requestUrl += `rankby=${p.rankby}`);
+  p.rankby && (requestUrl += `rankby=${p.rankby}`);
 
   console.log("🚀 GET ~ requestUrl:", requestUrl)
   
@@ -54,5 +53,17 @@ export async function GET(request: NextRequest) {
   });
 
   const data = await res.json();
-  return NextResponse.json(data);
+
+  // *SECTION: do higheste rated & most reviewed sorting here 
+  const restaurants = data.results as NearbySearchRestaurant[];
+  if (rankby === 'highest_rated') {
+    console.log("highest rated!")
+    restaurants.sort((a, b) => b.rating - a.rating);
+  } 
+  else if (rankby === 'most_reviewed') {
+    console.log("most reviewed!");
+    restaurants.sort((a, b) => b.user_ratings_total - a.user_ratings_total);
+  }
+
+  return NextResponse.json(restaurants);
 };
