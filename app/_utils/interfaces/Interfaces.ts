@@ -25,7 +25,7 @@ export interface NearbySearchParams {
   minprice?: string | undefined;
   opennow?: boolean; 
   pagetoken?: string;
-  rankby?: "prominence" | "distance"; 
+  rankby?: string | undefined; 
   type?: string;
 }
 

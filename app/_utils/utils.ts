@@ -11,7 +11,7 @@ export function extractLocation(str: string) {
 };
 
 export function thousandSeparator(number: number): string {
-  return number.toString().replace(/\B(?=(\d{3})+(?!\d))/g, ",");
+  return number?.toString().replace(/\B(?=(\d{3})+(?!\d))/g, ",");
 };
 
 export function getFractionalPart(number: number): number {
@@ -43,3 +43,11 @@ export function storeInLocalStorage<T>(key: string, data: T): void {
     console.error('Error storing data in LocalStorage:', e);
   }
 }
+
+export function getRandomFromArray(arr: any[]) {
+  if (arr.length === 0) {
+    return undefined; // or you can return null, throw an error, etc.
+  }
+  return arr[Math.floor(Math.random() * arr.length)];
+};
+
