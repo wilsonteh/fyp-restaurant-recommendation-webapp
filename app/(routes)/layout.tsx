@@ -31,7 +31,7 @@ export default function RootLayout({
         <Providers>
           <Header />
             <div className='h-[90vh]'> { children } </div>
-          <Footer />
+          {/* <Footer /> */}
         </Providers>
       </body>
     </html>

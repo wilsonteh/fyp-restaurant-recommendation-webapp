@@ -126,3 +126,15 @@ export interface Rating {
   value: number;
 }
 
+export interface DistanceInfo {
+  distance: {
+    text: string;
+    value: number;
+  };
+  duration: {
+    text: string;
+    value: number;
+  };
+  status: string;
+}
+

@@ -19,13 +19,18 @@ export default function PopularRestaurantGrid({ showN = 8 }: { showN?: number })
     `lng=${lng}&` + 
     `radius=${radius}`;  
 
-  const {
-    data,
-    isLoading,
-    error,
-  } = useSWRImmutable(requestUrl, fetcher);
-
+  // *SECTION: DATA FETCHING //
+  const { data, isLoading, error } = useSWRImmutable(requestUrl, fetcher);
   const restaurants = data as NearbySearchRestaurant[];
+  
+  // dependent data fetching (depends on `restaurants`) 
+  // get all place id from `restaurants`
+  const placeIdsStr = restaurants?.slice(0, showN).map(r => r.place_id).join(',');
+  const { data: distanceData } = useSWRImmutable(
+    () => `/api/distance-matrix?origin=${lat},${lng}&destinations=${placeIdsStr}`, 
+    fetcher
+  );
+  const distanceInfo = distanceData as google.maps.DistanceMatrixResponse;
 
   if (isLoading) return <div>Loading...</div>
   if (error) return <div>Error...</div>
@@ -37,14 +42,19 @@ export default function PopularRestaurantGrid({ showN = 8 }: { showN?: number })
       </h1>
 
       <RestaurantsGrid>
-        {restaurants?.slice(0, showN)
-          .map((restaurant: NearbySearchRestaurant) => (
-            <RestaurantCard key={restaurant.place_id} restaurant={restaurant} />
+        { distanceData && restaurants
+          ?.slice(0, showN)
+          .map((restaurant: NearbySearchRestaurant, i: number) => (
+            <RestaurantCard
+              key={restaurant.place_id}
+              restaurant={restaurant}
+              nth={i+1}
+              distanceInfo={distanceInfo.rows[0].elements[i]}
+            />
           ))}
       </RestaurantsGrid>
-      
-      {/* <ViewAllButton {...params} /> */}
 
+      {/* <ViewAllButton {...params} /> */}
     </div>
   );
 };
