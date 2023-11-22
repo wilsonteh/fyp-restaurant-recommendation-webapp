@@ -64,5 +64,8 @@ export async function GET(request: NextRequest) {
     }
   }
 
+  // some delay to simulate slow network
+  // await new Promise(resolve => setTimeout(resolve, 3000));
+
   return NextResponse.json(restaurants);
 };

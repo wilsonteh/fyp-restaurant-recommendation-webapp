@@ -19,5 +19,8 @@ export async function GET(request: Request) {
   );
   const imageUrl = res.url;
 
+  // some delay to simulate slow network
+  // await new Promise(resolve => setTimeout(resolve, 2000));
+
   return NextResponse.json({ imageUrl });
 };

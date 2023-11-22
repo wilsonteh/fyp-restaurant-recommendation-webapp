@@ -3,37 +3,35 @@ import useSWRImmutable from "swr/immutable";
 import { NearbySearchRestaurant } from "../_utils/interfaces/Interfaces";
 import RestaurantCard from "./RestaurantCard";
 import RestaurantsGrid from "./RestaurantsGrid";
-import ViewAllButton from "./ViewAllButton";
 import { fetcher } from "../_lib/swr/fetcher";
+import { Skeleton } from "@nextui-org/react";
 
 export default function PopularRestaurantGrid({ showN = 8 }: { showN?: number }) {
 
-  const params = {
-    lat: '3.067440966219083', 
-    lng: '101.60387318211183',
-    radius: '1000'
-  };
-  const { lat, lng, radius } = params
-  const requestUrl = '/api/nearby-search?' + 
-    `lat=${lat}&` + 
-    `lng=${lng}&` + 
-    `radius=${radius}`;  
-
-  // *SECTION: DATA FETCHING //
-  const { data, isLoading, error } = useSWRImmutable(requestUrl, fetcher);
+  const p = { lat: '3.067440966219083', lng: '101.60387318211183', radius: '1000' };
+  const requestUrl = `/api/nearby-search?lat=${p.lat}&lng=${p.lng}&radius=${p.radius}`;  
+  const {
+    data,
+    isLoading: isRestauLoading,
+    error: restauError,
+  } = useSWRImmutable(requestUrl, fetcher);
   const restaurants = data as NearbySearchRestaurant[];
   
   // dependent data fetching (depends on `restaurants`) 
   // get all place id from `restaurants`
-  const placeIdsStr = restaurants?.slice(0, showN).map(r => r.place_id).join(',');
-  const { data: distanceData } = useSWRImmutable(
-    () => `/api/distance-matrix?origin=${lat},${lng}&destinations=${placeIdsStr}`, 
+  const {
+    data: distanceData,
+    isLoading: isDistInfoLoading,
+    error: distError,
+  } = useSWRImmutable(
+    () => `/api/distance-matrix?origin=${p.lat},${p.lng}&destinations=${restaurants.slice(0, showN).map(r => r.place_id).join(',')}`,
     fetcher
   );
   const distanceInfo = distanceData as google.maps.DistanceMatrixResponse;
 
-  if (isLoading) return <div>Loading...</div>
-  if (error) return <div>Error...</div>
+  if (restauError || distError ) {
+    return <div> Error fetching restaurant OR distance info</div>
+  } 
   
   return (
     <div className="p-4 flex flex-col gap-2 items-start">
@@ -42,19 +40,17 @@ export default function PopularRestaurantGrid({ showN = 8 }: { showN?: number })
       </h1>
 
       <RestaurantsGrid>
-        { distanceData && restaurants
-          ?.slice(0, showN)
+        { restaurants?.slice(0, showN)
           .map((restaurant: NearbySearchRestaurant, i: number) => (
             <RestaurantCard
               key={restaurant.place_id}
+              isLoading={isRestauLoading && isDistInfoLoading}
               restaurant={restaurant}
               nth={i+1}
-              distanceInfo={distanceInfo.rows[0].elements[i]}
+              distanceInfo={distanceInfo?.rows[0].elements[i]}
             />
           ))}
       </RestaurantsGrid>
-
-      {/* <ViewAllButton {...params} /> */}
     </div>
   );
 };

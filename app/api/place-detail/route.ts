@@ -21,7 +21,5 @@ export async function GET(request: Request) {
     }
   );
   const data = await res.json();
-  
-
   return NextResponse.json(data.result);
 };
