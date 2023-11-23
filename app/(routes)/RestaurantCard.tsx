@@ -11,7 +11,6 @@ import useSWRImmutable from "swr/immutable";
 import StarRating from "../_components/StarRating";
 import Car from "../_icons/car";
 import { priceScales } from "../_utils/constants";
-import error from "next/error";
 
 async function fetchRestaurantImg(requestUrl: string): Promise<string> {
   const res  = await fetch(requestUrl);

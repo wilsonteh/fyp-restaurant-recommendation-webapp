@@ -39,7 +39,7 @@ export default function NearbyRestaurantGrid({ showN }: { showN: number }) {
   if (error) return <div>Error!</div>
 
   return (
-    <div className="p-4">
+    <div className="">
       { coords ? ( 
         // detected location, display nearby restau 
         <NearbyRestaurants restaurants={restaurants} />

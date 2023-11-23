@@ -24,7 +24,6 @@ export async function GET(request: NextRequest) {
   }
   return;
 };
-  
 
 async function processStaticCall(searchParams: URLSearchParams) {
   const lat = searchParams.get("lat");   
