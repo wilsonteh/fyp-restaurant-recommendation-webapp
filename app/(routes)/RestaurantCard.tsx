@@ -64,7 +64,7 @@ export default function RestaurantCard({
       <Skeleton isLoaded={!isImgLoading}>
         <CardBody className="p-0 w-full min-h-[200px]">
           <Image
-            src={imgUrl!}
+            src={imgUrl || "https://via.placeholder.com/300x200"}
             fill={true}
             className="rounded-t-lg object-cover"
             alt="image"
@@ -74,9 +74,9 @@ export default function RestaurantCard({
 
       <CardBody className="h-max flex flex-col justify-between px-3 py-4">
         <Skeleton isLoaded={!isLoading}>
-          <div className="card-1st-row">
+          <div className="card-1st-row capitalize">
             <h1 className="text-sm font-semibold line-clamp-1">
-              {restaurant.name}{" "}
+              {restaurant.name}
             </h1>
             <div className="text-xs line-clamp-2"> {restaurant.vicinity}. </div>
           </div>
@@ -107,27 +107,31 @@ export default function RestaurantCard({
               </span>
             </span>
 
-            <Tooltip
-              content={`${distanceInfo?.distance.text} away from your current location`}
-              delay={1500}
-              className="text-xs"
-            >
-              <span className="flex items-center gap-1 whitespace-nowrap">
-                <LocationDot size={15} className="text-slate-600" />
-                <span> {distanceInfo?.distance.text} </span>
-              </span>
-            </Tooltip>
+            { distanceInfo && (
+              <Tooltip
+                content={`${distanceInfo?.distance.text} away from your current location`}
+                delay={1500}
+                className="text-xs"
+              >
+                <span className="flex items-center gap-1 whitespace-nowrap">
+                  <LocationDot size={15} className="text-slate-600" />
+                  <span> {distanceInfo?.distance.text} </span>
+                </span>
+              </Tooltip>
+            )}
 
-            <Tooltip
-              content={`approx. ${distanceInfo?.duration.text} drive`}
-              delay={1500}
-              className="text-xs"
-            >
-              <span className="flex items-center gap-1 whitespace-nowrap">
-                <Car size={15} className="text-slate-600" />
-                <span> {distanceInfo?.duration.text} </span>
-              </span>
-            </Tooltip>
+            { distanceInfo && (
+              <Tooltip
+                content={`approx. ${distanceInfo?.duration.text} drive`}
+                delay={1500}
+                className="text-xs"
+              >
+                <span className="flex items-center gap-1 whitespace-nowrap">
+                  <Car size={15} className="text-slate-600" />
+                  <span> {distanceInfo?.duration.text} </span>
+                </span>
+              </Tooltip>
+            )}
           </div>
         </Skeleton>
 

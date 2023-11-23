@@ -7,7 +7,6 @@ import useGeolocation from "../_hooks/useGeolocation";
 import { fetcher } from "../_lib/swr/fetcher";
 import RestaurantCard from "./RestaurantCard";
 import RestaurantsGrid from "./RestaurantsGrid";
-import ViewAllButton from "./ViewAllButton";
 
 export default function NearbyRestaurantGrid({ showN }: { showN: number }) {
   const [requestUrl, setRequestUrl] = useState("");
@@ -32,7 +31,7 @@ export default function NearbyRestaurantGrid({ showN }: { showN: number }) {
 
   useEffect(() => {
     if (coords !== undefined) {
-      setRequestUrl(`/api/nearby-search?lat=${latitude}&lng=${longitude}&sortby=nearest`)
+      setRequestUrl(`/api/nearby-search?calltype=static&lat=${latitude}&lng=${longitude}&sortby=nearest`)
     }
   }, [coords, latitude, longitude])
 

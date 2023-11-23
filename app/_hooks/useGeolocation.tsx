@@ -14,7 +14,7 @@ export default function useGeolocation() {
       timeout: Infinity,
       enableHighAccuracy: true,
     },
-    suppressLocationOnMount: true,  // dont prompt location access on initial load
+    // suppressLocationOnMount: true,  // dont prompt location access on initial load
     isOptimisticGeolocationEnabled: false, 
     onSuccess(position: GeolocationPosition) {
       console.log("Geolocation success", position)

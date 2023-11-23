@@ -4,6 +4,8 @@ import { NearbySearchRestaurant } from "../_utils/interfaces/Interfaces";
 import RestaurantCard from "./RestaurantCard";
 import RestaurantsGrid from "./RestaurantsGrid";
 import { fetcher } from "../_lib/swr/fetcher";
+import { Skeleton } from "@nextui-org/react";
+import useGeolocation from "../_hooks/useGeolocation";
 
 export default function PopularRestaurantGrid({ 
   showN = 8, 
@@ -12,13 +14,18 @@ export default function PopularRestaurantGrid({
   showN: number, 
   place: { name: string, lat: number, lng: number } 
 }) {
+  
+  const { coords } = useGeolocation();
 
-  const requestUrl = `/api/nearby-search?calltype=static&lat=${place.lat}&lng=${place.lng}&radius=1000`;  
+  //* SECTION: data fetching // - 
   const {
     data,
     isLoading: isRestauLoading,
     error: restauError,
-  } = useSWRImmutable(requestUrl, fetcher);
+  } = useSWRImmutable(
+    `/api/nearby-search?calltype=static&lat=${place.lat}&lng=${place.lng}&radius=1000`, 
+    fetcher
+  );
   const restaurants = data as NearbySearchRestaurant[];
   
   // dependent data fetching (depends on `restaurants`) 
@@ -28,20 +35,27 @@ export default function PopularRestaurantGrid({
     isLoading: isDistInfoLoading,
     error: distError,
   } = useSWRImmutable(
-    () => `/api/distance-matrix?origin=${place.lat},${place.lng}&destinations=${restaurants.slice(0, showN).map(r => r.place_id).join(',')}`,
+    () => {
+      if (restaurants && coords) {
+        const destStr = restaurants.slice(0, showN).map(r => r.place_id).join(',');
+        return `/api/distance-matrix?origin=${coords?.latitude},${coords?.longitude}&destinations=${destStr}`;
+      }
+    },  
     fetcher
   );
-  const distanceInfo = distanceData as google.maps.DistanceMatrixResponse;
+  const distanceInfo = distanceData as google.maps.DistanceMatrixResponse || undefined;
 
-  if (restauError || distError ) {
+  if (restauError || distError) {
     return <div> Error fetching restaurant OR distance info</div>
   } 
   
   return (
     <div className="p-4 flex flex-col gap-2 items-start">
-      <h1 className="font-semibold text-2xl mb-4">
-        Popular Restaurants in { place.name }
-      </h1>
+      <Skeleton isLoaded={!isRestauLoading && !isDistInfoLoading}>
+        <h1 className="font-semibold text-2xl mb-4">
+          Popular Restaurants in { place.name }
+        </h1>
+      </Skeleton>
 
       <RestaurantsGrid>
         { restaurants?.slice(0, showN)

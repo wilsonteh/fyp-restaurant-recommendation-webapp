@@ -97,9 +97,9 @@ export const priceScales = [
 
 // define a few location for recommending popular restaurants
 export const popularLocations = [
-  { name: "Bandar Sunway", lat: 3.0672561680398505, lng: 101.60384999729581 },  // Sunway Uni
-  { name: "Bukit Bintang", lat: 3.144781093885325, lng: 101.705633961261 }, // Swiss Garden Hotel
-  // { name: "Cheras", lat: 3.1067660417757166, lng: 101.72523236103643 }, // SM Sains Alam Shah
-  { name: "Kota Kemuning", lat: 2.993812149490665, lng: 101.54444771530302 }, // Oncidium Hall
+  { name: "Bandar Sunway, PJ", lat: 3.0672561680398505, lng: 101.60384999729581 },  // Sunway Uni
+  { name: "Bukit Bintang, KL", lat: 3.144781093885325, lng: 101.705633961261 }, // Swiss Garden Hotel
+  // { name: "Cheras, KL", lat: 3.1067660417757166, lng: 101.72523236103643 }, // SM Sains Alam Shah
+  // { name: "Kota Kemuning, Shah Alam", lat: 2.993812149490665, lng: 101.54444771530302 }, // Oncidium Hall
   // { name: "Puchong", lat: 3.0176120679234812, lng: 101.62484673270285 }, // Bandar Puteri Puchong
 ];

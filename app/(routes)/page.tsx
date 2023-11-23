@@ -6,10 +6,12 @@ export default async function HomePage() {
 
   return (
     <main className="max-w-[1300px] mx-auto">
-      { popularLocations.map((p, i) => (
-        <PopularRestaurantGrid key={i} showN={1} place={p} />
+      { popularLocations.slice().map((p, i) => (
+        <PopularRestaurantGrid key={i} showN={4} place={p} />
       ))}
+
       {/* <NearbyRestaurantGrid showN={8} /> */}
+      
     </main>
   );
 };
