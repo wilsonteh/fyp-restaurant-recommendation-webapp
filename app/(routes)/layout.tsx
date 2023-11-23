@@ -30,8 +30,8 @@ export default function RootLayout({
       <body className='font-poppins'>
         <Providers>
           <Header />
-            <div className='h-[90vh]'> { children } </div>
-          {/* <Footer /> */}
+            { children }
+          <Footer />
         </Providers>
       </body>
     </html>

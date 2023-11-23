@@ -36,7 +36,7 @@ export default function SearchResults({ toFetch } : { toFetch: boolean }) {
   
   const { data, isLoading, error } = useSWRImmutable(
     // lat, lng, radius hardcode for now 
-    toFetch ? `/api/nearby-search?lat=3.067440966219083&lng=101.60387318211183&radius=1000&${queryString}` : null, 
+    toFetch ? `/api/nearby-search?calltype=search&lat=3.067440966219083&lng=101.60387318211183&radius=1000&${queryString}` : null, 
     fetcher 
   );
   const restaurants = data as NearbySearchRestaurant[];

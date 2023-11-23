@@ -51,7 +51,6 @@ async function processStaticCall(searchParams: URLSearchParams) {
 
   p.radius && (requestUrl += `radius=${p.radius}&`);
   p.keyword && (requestUrl += `keyword=${p.keyword}&`);
-  p.rankby && (requestUrl += `rankby=${p.rankby}`);
   p.opennow && (requestUrl += `opennow=${p.opennow}&`);
 
   console.log("🚀 GET ~ requestUrl:", requestUrl)
@@ -63,8 +62,10 @@ async function processStaticCall(searchParams: URLSearchParams) {
 
   const data = await res.json();
   const restaurants = data.results as NearbySearchRestaurant[]
+  if (rankby === 'popular') {
+    restaurants.sort((a, b) => b.user_ratings_total - a.user_ratings_total);
+  } 
   return restaurants;
-
 };
 
 
@@ -83,7 +84,7 @@ async function processSearchCall(searchParams: URLSearchParams) {
     location: lat && lng ? `${lat},${lng}` : '3.067440966219083,101.60387318211183',  // default to sunway uni
     radius: rankby === 'nearest' ? undefined : radius || '10000',   // default to 10km
     type: 'restaurant',
-    keyword: keyword || 'food',
+    keyword: `${keyword},food` || 'food',
     opennow: opennow === 'true' ? true : undefined,
     minprice: minprice || undefined,
     maxprice: maxprice || undefined,

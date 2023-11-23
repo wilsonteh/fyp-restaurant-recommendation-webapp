@@ -6,6 +6,7 @@ import RestaurantsGrid from "./RestaurantsGrid";
 import { fetcher } from "../_lib/swr/fetcher";
 import { Skeleton } from "@nextui-org/react";
 import useGeolocation from "../_hooks/useGeolocation";
+import error from "next/error";
 
 export default function PopularRestaurantGrid({ 
   showN = 8, 
@@ -23,13 +24,11 @@ export default function PopularRestaurantGrid({
     isLoading: isRestauLoading,
     error: restauError,
   } = useSWRImmutable(
-    `/api/nearby-search?calltype=static&lat=${place.lat}&lng=${place.lng}&radius=1000`, 
+    `/api/nearby-search?calltype=static&lat=${place.lat}&lng=${place.lng}&radius=5000&rankby=popular`, 
     fetcher
   );
   const restaurants = data as NearbySearchRestaurant[];
   
-  // dependent data fetching (depends on `restaurants`) 
-  // get all place id from `restaurants`
   const {
     data: distanceData,
     isLoading: isDistInfoLoading,
@@ -37,6 +36,7 @@ export default function PopularRestaurantGrid({
   } = useSWRImmutable(
     () => {
       if (restaurants && coords) {
+        // get all place id from `restaurants`
         const destStr = restaurants.slice(0, showN).map(r => r.place_id).join(',');
         return `/api/distance-matrix?origin=${coords?.latitude},${coords?.longitude}&destinations=${destStr}`;
       }

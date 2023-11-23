@@ -41,12 +41,14 @@ export default async function RestaurantDetail ({
         </div>
         
         <div className="flex justify-center items-center gap-4">
-          <div className="flex items-center gap-2">
-            <PhoneAlt size={15} className="w-4 h-4" />
-            <Link href={`tel:+60162034216`} className="underline"> 
-              { restaurant.formatted_phone_number } 
-            </Link>
-          </div>
+          { restaurant.formatted_phone_number && (
+            <div className="flex items-center gap-2">
+              <PhoneAlt size={15} className="w-4 h-4" />
+              <Link href={`tel:+60162034216`} className="underline"> 
+                { restaurant.formatted_phone_number } 
+              </Link>
+            </div>
+          )}
 
           { restaurant.website && (
             <div className="flex items-center gap-2">

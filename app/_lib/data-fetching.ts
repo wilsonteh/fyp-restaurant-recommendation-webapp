@@ -37,5 +37,5 @@ export async function fetchImageUrls(photoRefs: String[]): Promise<string[]> {
     return res.json();
   })) as string[];
 
-  return imageUrls;
+  return imageUrls.map(url => url.imageUrl);
 };
