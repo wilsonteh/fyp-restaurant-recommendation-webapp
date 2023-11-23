@@ -17,13 +17,13 @@ import { auth } from "../_firebase/auth";
 import { navbarItems } from "../_utils/constants";
 import ProfileDropDown from "./ProfileDropDown";
 
-const Header = () => {
+export default function Header() {
   const pathname = usePathname();
   const router = useRouter();
   const [isMenuOpen, setIsMenuOpen] = useState(false);
   const [user, loading, error] = useAuthState(auth);
 
-  const isNavItemActive = (href: string) => {
+  const isNavActive = (href: string) => {
     return pathname === href;
   };
 
@@ -36,6 +36,7 @@ const Header = () => {
       disableAnimation={false}
       isMenuDefaultOpen={true}
       onMenuOpenChange={setIsMenuOpen}
+      className=""
     >
       <NavbarMenuToggle
         aria-label={isMenuOpen ? "Close menu" : "Open menu"}
@@ -48,20 +49,23 @@ const Header = () => {
         </h1>
       </NavbarBrand>
 
+      {/* *SECTION nav links  */}
       <NavbarContent className="hidden md:flex" justify="center">
-        {navbarItems.map((navItem, i) => (
-          <NavbarItem key={i}>
-            <Link
-              href={navItem.href}
-              className={`capitalize px-2 py-2 rounded-xl
+        {navbarItems.map((item, i) => (
+          <NavbarItem
+            key={item.label}
+            as={Link}
+            href={item.href}
+            className={`capitalize px-3 py-2 bg-transparent
               ${
-                isNavItemActive(navItem.href)
-                  ? "text-primary-700"
-                  : "hover:text-foreground/90 hover:font-medium"
+                isNavActive(item.href)
+                  ? "font-semibold border-b-2 border-primary-700"
+                  : "hover:bg-slate-200 rounded-xl"
               }`}
-            >
-              {navItem.item}
-            </Link>
+            // isActive={isNavItemActive(navItem.href)}
+          >
+            {/* : "hover:text-foreground/90 hover:font-medium" */}
+            {item.label}
           </NavbarItem>
         ))}
       </NavbarContent>
@@ -69,18 +73,18 @@ const Header = () => {
       {/* *SECTION -  MOBILE NAVBAR */}
       {isMenuOpen && (
         <NavbarMenu className="flex flex-col items-center gap-y-6 bg-gray-50 p-6">
-          {navbarItems.map((navItem, i) => (
-            <NavbarMenuItem key={i} className="">
+          {navbarItems.map((item, i) => (
+            <NavbarMenuItem key={item.label} className="">
               <Link
-                href={navItem.href}
-                className={`capitalize w-full px-4 py-2 rounded-xl 
+                href={item.href}
+                className={`capitalize w-full px-4 py-2 bg-transparent
                 ${
-                  isNavItemActive(navItem.href)
-                    ? "text-primary-700"
-                    : "hover:text-foreground/90 hover:font-medium"
+                  isNavActive(item.href)
+                    ? "font-semibold border-b-2 border-primary-700"
+                    : "hover:bg-slate-200 rounded-xl"
                 }`}
               >
-                {navItem.item}
+                {item.label}
               </Link>
             </NavbarMenuItem>
           ))}
@@ -92,11 +96,24 @@ const Header = () => {
         {!user ? (
           <>
             <NavbarItem className="">
-              <Link href="/login">Login</Link>
+              <Button
+                as={Link}
+                href="/login"
+                color="primary"
+                variant="solid"
+              >
+                Login
+              </Button>
             </NavbarItem>
 
             <NavbarItem>
-              <Button as={Link} color="primary" href="/signup">
+              <Button
+                as={Link}
+                href="/signup"
+                color="primary"
+                variant="bordered"
+                className="text-primary-700 border-primary-700"
+              >
                 Sign Up
               </Button>
             </NavbarItem>
@@ -108,5 +125,3 @@ const Header = () => {
     </Navbar>
   );
 };
-
-export default Header;

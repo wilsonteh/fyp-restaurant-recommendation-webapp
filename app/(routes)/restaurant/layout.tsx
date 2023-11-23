@@ -4,7 +4,7 @@ export default function RestaurantPageLayout({
   children: React.ReactNode
 }) {
   return (
-    <main className="max-w-screen-xl mx-auto h-screen my-4">
+    <main className="max-w-screen-xl mx-auto my-4">
       { children }
     </main>
   )

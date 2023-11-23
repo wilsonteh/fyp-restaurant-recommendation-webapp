@@ -50,12 +50,7 @@ const LoginForm = () => {
     const signIn = signInWithPassword(email, password);
     const { errorCode, errorMsg } = await signIn;
 
-    // *TODO: fix logic here
-    // alert behaves weird  
-    // 1. cant dismiss alert the 1st time 
-    // 2. alert doesnt show up once dismissed 
-    // signinToast(signIn, 'success', errorMsg)
-    
+
     // no error - login success
     if (!errorCode) {
       router.push("/")
@@ -107,7 +102,7 @@ const LoginForm = () => {
               className="p-1 rounded-full hover:bg-slate-100"
               onClick={() => setShowPassword(!showPassword)}
             >
-              { showPassword ? <Eye fill="black" /> : <EyeSlash fill="black" /> }
+              { showPassword ? <Eye size={15} className="text-slate-800" /> : <EyeSlash size={15} className="text-slate-800" /> }
             </button>
           }
           errorMessage={errors.password?.message}
@@ -125,7 +120,7 @@ const LoginForm = () => {
 
         <div className="grid grid-cols-2 gap-4">
           <Button
-            startContent={<Google className="w-4 h-4" />}
+            startContent={<Google size={15} />}
             className="bg-light text-dark border-2 border-dark/90"
             onClick={signInWithGoogle}
             >
@@ -133,7 +128,7 @@ const LoginForm = () => {
           </Button>
 
           <Button
-            startContent={<Facebook fill="#EEF2F4" className="w-4 h-4" />}
+            startContent={<Facebook size={15} />}
             className="bg-[#4267B2] text-light"
             onClick={signInWithFacebook}
             >

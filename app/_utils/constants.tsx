@@ -7,15 +7,15 @@ import { ItemStyles, Star } from "@smastrom/react-rating";
 
 export const navbarItems = [
   {
-    item: "home",
+    label: "home",
     href: "/",
   },
   {
-    item: "explore",
+    label: "explore",
     href: "/explore",
   },
   {
-    item: "search a restaurant",
+    label: "search a restaurant",
     href: "/search",
   },
 ];

@@ -1,9 +1,12 @@
 export default function Footer() {
   return (
-    <footer className="h-[100px] bg-gray-800 text-white py-4 flex justify-center items-center">
-      <div className="">
+    <footer className="h-[100px] bg-gray-800 text-white py-4 flex flex-col justify-center items-center">
+      <p className="">
         &copy; MakanNow. All Rights Reserved
-      </div>
+      </p>
+      <p>
+        {/* Made by Wilson with ❤️ */}
+      </p>
     </footer>
   );
 };
