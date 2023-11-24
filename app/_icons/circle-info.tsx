@@ -1,6 +1,6 @@
 import { IconProps } from "../_utils/interfaces/Interfaces";
 
-const CircleInfo: React.FC<IconProps> = (props) => {
+const CircleInfoIcon: React.FC<IconProps> = (props) => {
   const { size, className, ...restProps } = props;
 
   return (
@@ -19,4 +19,4 @@ const CircleInfo: React.FC<IconProps> = (props) => {
   );
 };
 
-export default CircleInfo;
+export default CircleInfoIcon;

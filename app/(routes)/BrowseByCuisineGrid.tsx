@@ -17,7 +17,7 @@ export default function BrowseByCuisineGrid() {
   ];
 
   return (
-    <div className="">
+    <section className="mb-12">
       <h1 className="font-semibold text-2xl mb-4">Browse by cuisines</h1>
 
       <RestaurantsGrid>
@@ -43,6 +43,6 @@ export default function BrowseByCuisineGrid() {
           </Card>
         ))}
       </RestaurantsGrid>
-    </div>
+    </section>
   );
 }

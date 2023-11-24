@@ -1,8 +1,8 @@
-import User from "../_icons/user";
-import Gear from "../_icons/gear";
-import Heart from "../_icons/heart";
-import Pen from "../_icons/pen";
-import Utensils from "../_icons/utensils";
+import UserIcon from "../_icons/user";
+import GearIcon from "../_icons/gear";
+import HeartIcon from "../_icons/heart";
+import PenIcon from "../_icons/pen";
+import UtensilsIcon from "../_icons/utensils";
 import { ItemStyles, Star } from "@smastrom/react-rating";
 
 export const navbarItems = [
@@ -24,27 +24,27 @@ export const profileDropdownItems = [
   {
     name: 'profile', 
     href: '/user/profile',
-    icon: <User size={15} /> 
+    icon: <UserIcon size={15} /> 
   }, 
   {
     name: 'settings',
     href: '/user/settings',
-    icon: <Gear size={15} /> 
+    icon: <GearIcon size={15} /> 
   }, 
   {
     name: 'customize preferences', 
     href: '/user/preferences', 
-    icon: <Utensils size={15} />
+    icon: <UtensilsIcon size={15} />
   },
   {
     name: 'favourited restaurants', 
     href: '/user/favourites', 
-    icon: <Heart size={15} />
+    icon: <HeartIcon size={15} />
   },
   {
     name: 'my reviews', 
     href: '/user/reviews',
-    icon: <Pen size={15} />
+    icon: <PenIcon size={15} />
   },
 ];
 

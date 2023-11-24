@@ -1,9 +1,6 @@
 "use client";
 import { auth, signInWithFacebook, signInWithGoogle, signInWithPassword } from "@/app/_firebase/auth";
-import Eye from "@/app/_icons/eye";
-import EyeSlash from "@/app/_icons/eye-slash";
-import Facebook from "@/app/_icons/facebook";
-import Google from "@/app/_icons/google";
+import { Eye, EyeSlash, Facebook, Google } from "@/app/_icons/Index";
 import { LoginFormData } from "@/app/_utils/interfaces/FormData";
 import { Button } from "@nextui-org/button";
 import { Input } from "@nextui-org/input";

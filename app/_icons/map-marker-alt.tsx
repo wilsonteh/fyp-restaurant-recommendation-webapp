@@ -1,6 +1,6 @@
 import { IconProps } from "../_utils/interfaces/Interfaces";
 
-const MapMarkerAlt: React.FC<IconProps>  = (props) => {
+const MapMarkerAltIcon: React.FC<IconProps>  = (props) => {
   const { size, className, ...restProps } = props;
   
   return (
@@ -19,4 +19,4 @@ const MapMarkerAlt: React.FC<IconProps>  = (props) => {
   );
 };
 
-export default MapMarkerAlt;
+export default MapMarkerAltIcon;

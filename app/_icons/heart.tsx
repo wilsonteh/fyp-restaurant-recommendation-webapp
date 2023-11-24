@@ -1,6 +1,6 @@
 import { IconProps } from "../_utils/interfaces/Interfaces";
 
-const Heart: React.FC<IconProps> = (props) => {
+const HeartIcon: React.FC<IconProps> = (props) => {
   const { size, className, ...restProps } = props;
 
   return (
@@ -19,4 +19,4 @@ const Heart: React.FC<IconProps> = (props) => {
   );
 };
 
-export default Heart;
+export default HeartIcon;

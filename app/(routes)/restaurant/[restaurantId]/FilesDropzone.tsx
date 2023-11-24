@@ -1,5 +1,5 @@
-import TrashAlt from "@/app/_icons/trash-alt";
 import { ImagePreview } from "@/app/_utils/interfaces/Interfaces";
+import { TrashAlt } from "@/app/_icons/Index";
 import { Button } from "@nextui-org/react";
 import Image from "next/image";
 import { useEffect, useState } from "react";

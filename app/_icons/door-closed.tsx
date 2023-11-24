@@ -1,6 +1,6 @@
 import { IconProps } from "../_utils/interfaces/Interfaces";
 
-const DoorClosed: React.FC<IconProps> = (props) => {
+const DoorClosedIcon: React.FC<IconProps> = (props) => {
   const { size, className, ...restProps } = props;
 
   return (
@@ -19,4 +19,4 @@ const DoorClosed: React.FC<IconProps> = (props) => {
   );
 };
 
-export default DoorClosed;
+export default DoorClosedIcon;

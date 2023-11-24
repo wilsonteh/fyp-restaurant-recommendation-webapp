@@ -1,5 +1,3 @@
-import DollarSign from "@/app/_icons/dollar-sign";
-import LocationArrow from "@/app/_icons/location-arrow";
 import { fetcher } from "@/app/_lib/swr/fetcher";
 import { priceScales } from "@/app/_utils/constants";
 import { NearbySearchRestaurant } from "@/app/_utils/interfaces/Interfaces";
@@ -11,6 +9,7 @@ import { useSearchParams } from "next/navigation";
 import useSWRImmutable from "swr/immutable";
 import StarRating from "@/app/_components/StarRating";
 import { useEffect, useMemo, useState } from "react";
+import { DollarSign, LocationArrow } from "@/app/_icons/Index";
 
 export default function SearchResults({ toFetch } : { toFetch: boolean }) {
 

@@ -1,6 +1,6 @@
 import { IconProps } from "../_utils/interfaces/Interfaces";
 
-const PhoneAlt: React.FC<IconProps> = (props) => {
+const PhoneAltIcon: React.FC<IconProps> = (props) => {
   const { size, className, ...restProps } = props;
 
   return (
@@ -19,4 +19,4 @@ const PhoneAlt: React.FC<IconProps> = (props) => {
   );
 };
 
-export default PhoneAlt;
+export default PhoneAltIcon;

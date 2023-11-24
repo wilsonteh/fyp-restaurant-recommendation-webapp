@@ -1,4 +1,3 @@
-import EllipsisV from "@/app/_icons/ellipsis-v";
 import { fetcher } from "@/app/_lib/swr/fetcher";
 import { starRatingStyles } from "@/app/_utils/constants";
 import { ReviewSchema } from "@/app/_utils/interfaces/FirestoreSchema";
@@ -13,6 +12,7 @@ import { Dimensions } from "react-image-size";
 import useSWRImmutable from "swr/immutable";
 import MultiRatingsPopover from "../../restaurant/[restaurantId]/MultiRatingsPopover";
 import PhotoModal from "../../restaurant/[restaurantId]/PhotoModal";
+import { EllipsisV } from "@/app/_icons/Index";
 
 interface Restaurant {
   name: string; 

@@ -1,6 +1,6 @@
 import { IconProps } from "../_utils/interfaces/Interfaces";
 
-const EllipsisV: React.FC<IconProps> = (props) => {
+const EllipsisVIcon: React.FC<IconProps> = (props) => {
   const { size, className, ...restProps } = props;
 
   return (
@@ -19,4 +19,4 @@ const EllipsisV: React.FC<IconProps> = (props) => {
   );
 };
 
-export default EllipsisV;
+export default EllipsisVIcon;

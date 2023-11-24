@@ -1,6 +1,6 @@
 import { IconProps } from "../_utils/interfaces/Interfaces";
 
-const AngleDown: React.FC<IconProps> = (props) => {
+const AngleDownIcon: React.FC<IconProps> = (props) => {
   const { size, className, ...restProps } = props;
 
   return (
@@ -19,4 +19,4 @@ const AngleDown: React.FC<IconProps> = (props) => {
   );
 };
 
-export default AngleDown;
+export default AngleDownIcon;

@@ -1,6 +1,6 @@
 import { IconProps } from "../_utils/interfaces/Interfaces";
 
-const Globe: React.FC<IconProps> = (props) => {
+const GlobeIcon: React.FC<IconProps> = (props) => {
   const { size, className, ...restProps } = props;
 
   return (
@@ -19,4 +19,4 @@ const Globe: React.FC<IconProps> = (props) => {
   );
 };
 
-export default Globe;
+export default GlobeIcon;

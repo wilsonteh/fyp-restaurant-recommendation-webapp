@@ -1,6 +1,6 @@
 import { IconProps } from "../_utils/interfaces/Interfaces";
 
-const Xmark: React.FC<IconProps> = (props) => {
+const XmarkIcon: React.FC<IconProps> = (props) => {
   const { size, className, ...restProps } = props;
 
   return (
@@ -19,4 +19,4 @@ const Xmark: React.FC<IconProps> = (props) => {
   );
 };
 
-export default Xmark;
+export default XmarkIcon;

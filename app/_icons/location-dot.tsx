@@ -1,6 +1,6 @@
 import { IconProps } from "../_utils/interfaces/Interfaces";
 
-const LocationDot: React.FC<IconProps> = (props) => {
+const LocationDotIcon: React.FC<IconProps> = (props) => {
   const { size, className, ...restProps } = props;
 
   return (
@@ -19,4 +19,4 @@ const LocationDot: React.FC<IconProps> = (props) => {
   );
 };
 
-export default LocationDot;
+export default LocationDotIcon;

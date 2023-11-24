@@ -1,6 +1,6 @@
 import { IconProps } from "../_utils/interfaces/Interfaces";
 
-const Pen: React.FC<IconProps> = (props) => {
+const PenIcon: React.FC<IconProps> = (props) => {
   const { size, className, ...restProps } = props;
 
   return (
@@ -19,4 +19,4 @@ const Pen: React.FC<IconProps> = (props) => {
   );
 };
 
-export default Pen;
+export default PenIcon;

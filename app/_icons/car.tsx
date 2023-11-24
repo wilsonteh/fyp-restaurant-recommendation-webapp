@@ -1,6 +1,6 @@
 import { IconProps } from "../_utils/interfaces/Interfaces";
 
-const Car: React.FC<IconProps>  = (props) => {
+const CarIcon: React.FC<IconProps>  = (props) => {
   const { size, className, ...restProps } = props;
   
   return (
@@ -19,4 +19,4 @@ const Car: React.FC<IconProps>  = (props) => {
   );
 };
 
-export default Car;
+export default CarIcon;

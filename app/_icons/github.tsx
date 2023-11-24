@@ -1,6 +1,6 @@
 import { IconProps } from "../_utils/interfaces/Interfaces";
 
-const Github: React.FC<IconProps> = (props) => {
+const GithubIcon: React.FC<IconProps> = (props) => {
   const { size, className, ...restProps } = props;
 
   return (
@@ -21,4 +21,4 @@ const Github: React.FC<IconProps> = (props) => {
   );
 };
 
-export default Github;
+export default GithubIcon;

@@ -1,7 +1,6 @@
-import Check from "@/app/_icons/check";
-import Times from "@/app/_icons/times";
 import { ImagePreview } from "@/app/_utils/interfaces/Interfaces";
 import { Button } from "@nextui-org/react";
+import { Check, Times } from "@/app/_icons/Index";
 
 export default function ConfirmDeleteBox({
   file,

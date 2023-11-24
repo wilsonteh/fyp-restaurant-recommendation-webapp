@@ -1,6 +1,6 @@
 import { IconProps } from "../_utils/interfaces/Interfaces";
 
-const EyeSlash: React.FC<IconProps> = (props) => {
+const EyeSlashIcon: React.FC<IconProps> = (props) => {
   const { size, className, ...restProps } = props;
 
   return (
@@ -19,4 +19,4 @@ const EyeSlash: React.FC<IconProps> = (props) => {
   );
 };
 
-export default EyeSlash;
+export default EyeSlashIcon;

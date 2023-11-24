@@ -1,9 +1,9 @@
 "use client";
-import Pen from "@/app/_icons/pen";
 import { Button, useDisclosure } from "@nextui-org/react";
 import Link from "next/link";
 import { useParams } from "next/navigation";
 import ReviewList from "./ReviewList";
+import { Pen } from "@/app/_icons/Index";
 
 export default function ReviewTab() {
 

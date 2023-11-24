@@ -9,9 +9,9 @@ import {
   NavbarItem,
   User,
 } from "@nextui-org/react";
+import { RightFromBracket } from "../_icons/Index";
 import Link from "next/link";
 import { signOutUser } from "../_firebase/auth";
-import RightFromBracket from "../_icons/right-from-bracket";
 import { profileDropdownItems } from "../_utils/constants";
 
 interface ProfileDropDownProps {

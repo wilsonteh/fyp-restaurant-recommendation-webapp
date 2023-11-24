@@ -1,6 +1,6 @@
 import { IconProps } from "../_utils/interfaces/Interfaces";
 
-const Star: React.FC<IconProps> = (props) => {
+const StarIcon: React.FC<IconProps> = (props) => {
   const { size, className, ...restProps } = props;
 
   return (
@@ -19,4 +19,4 @@ const Star: React.FC<IconProps> = (props) => {
   );
 };
 
-export default Star;
+export default StarIcon;

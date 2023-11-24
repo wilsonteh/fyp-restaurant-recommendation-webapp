@@ -1,11 +1,11 @@
 "use client";
-import MagnifyingGlass from "@/app/_icons/magnifying-glass";
 import { Button, Input, Select, SelectItem } from "@nextui-org/react";
 import { useRouter, useSearchParams } from "next/navigation";
 import { useCallback, useEffect, useState } from "react";
 import SearchResults from "./SearchResults";
 import Filters from "./Filters";
 import useQueryParams from "@/app/_hooks/useQueryParams";
+import { MagnifyingGlass } from "@/app/_icons/Index";
 
 export default function ExplorePage() {
 

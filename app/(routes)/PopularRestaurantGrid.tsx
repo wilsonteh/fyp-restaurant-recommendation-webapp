@@ -50,7 +50,7 @@ export default function PopularRestaurantGrid({
   } 
   
   return (
-    <div className="flex flex-col gap-2 items-start">
+    <section className="flex flex-col gap-2 items-start mb-12">
       <Skeleton isLoaded={!isRestauLoading && !isDistInfoLoading}>
         <h1 className="font-semibold text-2xl mb-4">
           Popular Restaurants in { place.name }
@@ -69,6 +69,6 @@ export default function PopularRestaurantGrid({
             />
           ))}
       </RestaurantsGrid>
-    </div>
+    </section>
   );
 };

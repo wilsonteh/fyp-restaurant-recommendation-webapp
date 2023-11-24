@@ -1,6 +1,6 @@
 import { IconProps } from "../_utils/interfaces/Interfaces";
 
-const Google: React.FC<IconProps> = (props) => {
+const GoogleIcon: React.FC<IconProps> = (props) => {
   const { size, className, ...restProps } = props;
 
   return (
@@ -34,4 +34,4 @@ const Google: React.FC<IconProps> = (props) => {
   );
 };
 
-export default Google;
+export default GoogleIcon;

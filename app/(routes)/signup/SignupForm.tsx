@@ -1,9 +1,6 @@
 "use client";
 import { auth, signInWithFacebook, signInWithGoogle, signUpWithPassword } from "@/app/_firebase/auth";
-import Eye from "@/app/_icons/eye";
-import EyeSlash from "@/app/_icons/eye-slash";
-import Facebook from "@/app/_icons/facebook";
-import Google from "@/app/_icons/google";
+import { Eye, EyeSlash, Facebook, Google } from "@/app/_icons/Index";
 import { SignupFormData } from "@/app/_utils/interfaces/FormData";
 import { Button } from "@nextui-org/button";
 import { Input } from "@nextui-org/input";
@@ -99,7 +96,7 @@ const SignupForm = () => {
               className="p-1 rounded-full hover:bg-slate-100"
               onClick={() => setShowPassword(!showPassword)}
             >
-              { showPassword ? <Eye fill="black" /> : <EyeSlash fill="black" /> }
+              { showPassword ? <Eye size={15} fill="black" /> : <EyeSlash size={15} fill="black" /> }
             </button>
           }
           errorMessage={errors.password?.message}

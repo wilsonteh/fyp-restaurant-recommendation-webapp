@@ -1,6 +1,6 @@
 import { IconProps } from "../_utils/interfaces/Interfaces";
 
-const Utensils: React.FC<IconProps> = (props) => {
+const UtensilsIcon: React.FC<IconProps> = (props) => {
   const { size, className, ...restProps } = props;
 
   return (
@@ -19,4 +19,4 @@ const Utensils: React.FC<IconProps> = (props) => {
   );
 };
 
-export default Utensils;
+export default UtensilsIcon;

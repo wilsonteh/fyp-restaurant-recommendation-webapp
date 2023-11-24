@@ -1,7 +1,6 @@
 import { RestaurantDetailInterface } from "@/app/_utils/interfaces/PlaceDetailInterface";
 import { fetchDistanceInfo, fetchImageUrls, fetchRestaurantById } from "@/app/_lib/data-fetching";
-import Globe from "@/app/_icons/globe";
-import PhoneAlt from "@/app/_icons/phone-alt";
+import { Globe, PhoneAlt } from "@/app/_icons/Index";
 import { thousandSeparator } from "@/app/_utils/utils";
 import Link from "next/link";
 import RestaurantPhotoGrid from "./RestaurantPhotoGrid";

@@ -1,6 +1,6 @@
 import { IconProps } from "../_utils/interfaces/Interfaces";
 
-const User: React.FC<IconProps> = (props) => {
+const UserIcon: React.FC<IconProps> = (props) => {
   const { size, className, ...restProps } = props;
 
   return (
@@ -19,4 +19,4 @@ const User: React.FC<IconProps> = (props) => {
   );
 };
 
-export default User;
+export default UserIcon;

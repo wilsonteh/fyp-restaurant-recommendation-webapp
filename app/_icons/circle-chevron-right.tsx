@@ -1,6 +1,6 @@
 import { IconProps } from "../_utils/interfaces/Interfaces";
 
-const CircleChevronRight: React.FC<IconProps> = (props) => {
+const CircleChevronRightIcon: React.FC<IconProps> = (props) => {
   const { size, className, ...restProps } = props;
 
   return (
@@ -19,4 +19,4 @@ const CircleChevronRight: React.FC<IconProps> = (props) => {
   );
 };
 
-export default CircleChevronRight;
+export default CircleChevronRightIcon;

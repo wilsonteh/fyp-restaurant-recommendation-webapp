@@ -1,6 +1,6 @@
 import { IconProps } from "../_utils/interfaces/Interfaces";
 
-const Times: React.FC<IconProps> = (props) => {
+const TimesIcon: React.FC<IconProps> = (props) => {
   const { size, className, ...restProps } = props;
 
   return (
@@ -19,4 +19,4 @@ const Times: React.FC<IconProps> = (props) => {
   );
 };
 
-export default Times;
+export default TimesIcon;

@@ -1,6 +1,6 @@
 import { IconProps } from "../_utils/interfaces/Interfaces";
 
-const StarHalfStroke: React.FC<IconProps> = (props) => {
+const StarHalfStrokeIcon: React.FC<IconProps> = (props) => {
   const { size, className, ...restProps } = props;
 
   return (
@@ -19,4 +19,4 @@ const StarHalfStroke: React.FC<IconProps> = (props) => {
   );
 };
 
-export default StarHalfStroke;
+export default StarHalfStrokeIcon;

@@ -1,6 +1,6 @@
 import { IconProps } from "../_utils/interfaces/Interfaces";
 
-const RightFromBracket: React.FC<IconProps> = (props) => {
+const RightFromBracketIcon: React.FC<IconProps> = (props) => {
   const { size, className, ...restProps } = props;
 
   return (
@@ -19,4 +19,4 @@ const RightFromBracket: React.FC<IconProps> = (props) => {
   );
 };
 
-export default RightFromBracket;
+export default RightFromBracketIcon;

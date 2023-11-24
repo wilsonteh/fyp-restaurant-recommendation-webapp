@@ -1,11 +1,11 @@
 "use client";
 import useQueryParams from "@/app/_hooks/useQueryParams";
-import DollarSign from "@/app/_icons/dollar-sign";
 import { priceScales } from "@/app/_utils/constants";
 import { Button, Checkbox, CheckboxGroup, Select, SelectItem, Switch } from "@nextui-org/react";
 import { useRouter, useSearchParams } from "next/navigation";
 import { useCallback, useEffect, useMemo, useState } from "react";
 import { setTimeout } from "timers";
+import { DollarSign } from "@/app/_icons/Index";
 
 export default function Filters() {
 

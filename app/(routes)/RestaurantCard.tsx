@@ -1,17 +1,15 @@
 "use client";
-import DoorOpen from "@/app/_icons/door-open";
-import LocationDot from "@/app/_icons/location-dot";
 import { DistanceInfo, NearbySearchRestaurant } from "@/app/_utils/interfaces/Interfaces";
 import { thousandSeparator } from "@/app/_utils/utils";
-import { Card, CardBody, Chip, Skeleton, Spacer, Tooltip } from "@nextui-org/react";
+import { Card, CardBody, Chip, Skeleton, Tooltip } from "@nextui-org/react";
 import Image from "next/image";
 import Link from "next/link";
 import { useEffect, useState } from "react";
 import useSWRImmutable from "swr/immutable";
 import StarRating from "../_components/StarRating";
-import Car from "../_icons/car";
-import { priceScales } from "../_utils/constants";
+import { Car, DoorOpen, LocationDot } from "../_icons/Index";
 import { fetcher } from "../_lib/swr/fetcher";
+import { priceScales } from "../_utils/constants";
 
 async function fetchRestaurantImg(requestUrl: string): Promise<string> {
   const res  = await fetch(requestUrl);

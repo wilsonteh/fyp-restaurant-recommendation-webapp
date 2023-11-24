@@ -1,5 +1,5 @@
 "use client";
-import LocationArrow from "@/app/_icons/location-arrow";
+import { LocationArrow } from "@/app/_icons/Index";
 import { RestaurantDetailInterface } from "@/app/_utils/interfaces/PlaceDetailInterface";
 import { Button, Skeleton } from "@nextui-org/react";
 import {

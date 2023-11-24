@@ -1,21 +1,12 @@
 "use client";
-import BellConcierge from "@/app/_icons/bell-concierge";
-import CircleChevronRight from "@/app/_icons/circle-chevron-right";
-import CircleInfo from "@/app/_icons/circle-info";
-import DollarSign from "@/app/_icons/dollar-sign";
-import Heart from "@/app/_icons/heart";
-import LocationDot from "@/app/_icons/location-dot";
-import Pen from "@/app/_icons/pen";
-import Utensils from "@/app/_icons/utensils";
+import { BellConcierge, CircleInfo, DollarSign, Heart, LocationDot, Pen, Utensils } from "@/app/_icons/Index";
+import CircleChevronRightIcon from "@/app/_icons/circle-chevron-right";
 import { RestaurantDetailInterface } from "@/app/_utils/interfaces/PlaceDetailInterface";
 import { Button, Tab, Tabs } from "@nextui-org/react";
 import { useParams } from "next/navigation";
 import { useState } from "react";
 import LocationTab from "./LocationTab";
 import ReviewTab from "./ReviewTab";
-import useGeolocation from "@/app/_hooks/useGeolocation";
-import { fetcher } from "@/app/_lib/swr/fetcher";
-import useSWRImmutable from "swr/immutable";
 
 export default function RestaurantTab ({
   restaurant,
@@ -26,7 +17,6 @@ export default function RestaurantTab ({
   const { restaurantId } = useParams();
   const [selectedTab, setSelectedTab] = useState("details");
  
-
   return (
     <Tabs
       aria-label="Tab options"
@@ -146,7 +136,7 @@ const DetailsTab = ({
 
           <Button
             size="sm"
-            endContent={<CircleChevronRight size={12} />}
+            endContent={<CircleChevronRightIcon size={12} />}
             className="bg-gray-800 text-primary-400"
             onClick={() => setSelectedTab("reviews")}
           >

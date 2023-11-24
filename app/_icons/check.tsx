@@ -1,6 +1,6 @@
 import { IconProps } from "../_utils/interfaces/Interfaces";
 
-const Check: React.FC<IconProps>  = (props) => {
+const CheckIcon: React.FC<IconProps>  = (props) => {
   const { size, className, ...restProps } = props;
   
   return (
@@ -19,4 +19,4 @@ const Check: React.FC<IconProps>  = (props) => {
   );
 };
 
-export default Check;
+export default CheckIcon;

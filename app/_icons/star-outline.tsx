@@ -1,6 +1,6 @@
 import { IconProps } from "../_utils/interfaces/Interfaces";
 
-const StarOutline: React.FC<IconProps> = (props) => {
+const StarOutlineIcon: React.FC<IconProps> = (props) => {
   const { size, className, ...restProps } = props;
 
   return (
@@ -19,4 +19,4 @@ const StarOutline: React.FC<IconProps> = (props) => {
   );
 };
 
-export default StarOutline;
+export default StarOutlineIcon;

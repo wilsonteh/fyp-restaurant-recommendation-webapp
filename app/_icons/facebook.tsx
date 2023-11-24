@@ -1,6 +1,6 @@
 import { IconProps } from "../_utils/interfaces/Interfaces";
 
-const Facebook: React.FC<IconProps> = (props) => {
+const FacebookIcon: React.FC<IconProps> = (props) => {
   const { size, className, ...restProps } = props;
 
   return (
@@ -20,4 +20,4 @@ const Facebook: React.FC<IconProps> = (props) => {
   );
 };
 
-export default Facebook;
+export default FacebookIcon;

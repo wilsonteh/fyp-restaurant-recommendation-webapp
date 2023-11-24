@@ -1,6 +1,6 @@
 import { IconProps } from "../_utils/interfaces/Interfaces";
 
-const BellConcierge: React.FC<IconProps> = (props) => {
+const BellConciergeIcon: React.FC<IconProps> = (props) => {
   const { size, className, ...restProps } = props;
 
   return (
@@ -19,4 +19,4 @@ const BellConcierge: React.FC<IconProps> = (props) => {
   );
 };
 
-export default BellConcierge;
+export default BellConciergeIcon;

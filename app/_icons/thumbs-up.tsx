@@ -1,6 +1,6 @@
 import { IconProps } from "../_utils/interfaces/Interfaces";
 
-const ThumbsUp: React.FC<IconProps> = (props) => {
+const ThumbsUpIcon: React.FC<IconProps> = (props) => {
   const { size, className, ...restProps } = props;
 
   return (
@@ -19,4 +19,4 @@ const ThumbsUp: React.FC<IconProps> = (props) => {
   );
 };
 
-export default ThumbsUp;
+export default ThumbsUpIcon;

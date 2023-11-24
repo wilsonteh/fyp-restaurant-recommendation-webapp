@@ -3,7 +3,7 @@ import { Button, Input } from "@nextui-org/react";
 import { usePlacesWidget } from "react-google-autocomplete";
 import { useState } from "react";
 import SelectedRestaurant from "./SelectedRestaurant";
-import MagnifyingGlass from "@/app/_icons/magnifying-glass";
+import { MagnifyingGlass } from "@/app/_icons/Index";
 
 const SearchBar = () => {
 

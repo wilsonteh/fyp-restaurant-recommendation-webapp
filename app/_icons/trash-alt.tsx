@@ -1,6 +1,6 @@
 import { IconProps } from "../_utils/interfaces/Interfaces";
 
-const TrashAlt: React.FC<IconProps> = (props) => {
+const TrashAltIcon: React.FC<IconProps> = (props) => {
   const { size, className, ...restProps } = props;
 
   return (
@@ -19,4 +19,4 @@ const TrashAlt: React.FC<IconProps> = (props) => {
   );
 };
 
-export default TrashAlt;
+export default TrashAltIcon;

@@ -1,8 +1,7 @@
 "use client";
 import { auth } from "@/app/_firebase/auth";
 import { db } from "@/app/_firebase/firestore";
-import EllipsisV from "@/app/_icons/ellipsis-v";
-import ThumbsUp from "@/app/_icons/thumbs-up";
+import { EllipsisV, ThumbsUp } from "@/app/_icons/Index";
 import { starRatingStyles } from "@/app/_utils/constants";
 import { ReviewSchema } from "@/app/_utils/interfaces/FirestoreSchema";
 import { Photo } from "@/app/_utils/interfaces/Interfaces";

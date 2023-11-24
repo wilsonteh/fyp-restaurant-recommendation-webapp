@@ -1,6 +1,6 @@
 import { IconProps } from "../_utils/interfaces/Interfaces";
 
-const DollarSign: React.FC<IconProps> = (props) => {
+const DollarSignIcon: React.FC<IconProps> = (props) => {
   const { size, className, ...restProps } = props;
 
   return (
@@ -19,4 +19,4 @@ const DollarSign: React.FC<IconProps> = (props) => {
   );
 };
 
-export default DollarSign;
+export default DollarSignIcon;

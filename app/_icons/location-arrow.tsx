@@ -1,6 +1,6 @@
 import { IconProps } from "../_utils/interfaces/Interfaces";
 
-const LocationArrow: React.FC<IconProps> = (props) => {
+const LocationArrowIcon: React.FC<IconProps> = (props) => {
   const { size, className, ...restProps } = props;
 
   return (
@@ -19,4 +19,4 @@ const LocationArrow: React.FC<IconProps> = (props) => {
   );
 };
 
-export default LocationArrow;
+export default LocationArrowIcon;
