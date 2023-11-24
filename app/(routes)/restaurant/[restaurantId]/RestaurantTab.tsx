@@ -110,9 +110,7 @@ const RestaurantTab = ({
           </div>
         }
       >
-        <LocationTab
-          restaurant={restaurant}
-        />
+        <LocationTab restaurant={restaurant} />
       </Tab>
 
       <Tab

@@ -17,10 +17,10 @@ export async function GET(request: Request) {
       redirect: 'follow'
     }
   );
-  const imgUrl = res.url;
+  const url = res.url;
 
   // some delay to simulate slow network
   // await new Promise(resolve => setTimeout(resolve, 2000));
 
-  return NextResponse.json(imgUrl);
+  return NextResponse.json(url);
 };

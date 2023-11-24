@@ -1,8 +1,5 @@
 "use client";
-import useGeolocation from "@/app/_hooks/useGeolocation";
 import LocationArrow from "@/app/_icons/location-arrow";
-import { fetcher } from "@/app/_lib/swr/fetcher";
-import { DistanceInfo } from "@/app/_utils/interfaces/Interfaces";
 import { RestaurantDetailInterface } from "@/app/_utils/interfaces/PlaceDetailInterface";
 import { Button, Skeleton } from "@nextui-org/react";
 import {
@@ -13,7 +10,6 @@ import {
 } from "@react-google-maps/api";
 import Link from "next/link";
 import { useState } from "react";
-import useSWRImmutable from "swr/immutable";
 
 export default function LocationTab({ 
   restaurant,  
@@ -31,37 +27,39 @@ export default function LocationTab({
 
   return (
     <div className="flex flex-col items-center gap-4">
-      {isLoaded && (
-        <GoogleMap
-          mapContainerClassName="h-[400px] w-full border-1 border-slate-400 rounded-md"
-          zoom={18}
-          center={{ lat, lng }}
-        >
-          <MarkerF
-            position={{ lat, lng }}
-            onClick={() => setMarkerInfo(!showMarkerInfo)}
-          />
-
-          {showMarkerInfo && (
-            <InfoWindowF
+      {/* {isLoaded && ( */}
+        <Skeleton isLoaded={isLoaded}>
+          <GoogleMap
+            mapContainerClassName="h-[400px] w-full border-1 border-slate-400 rounded-md"
+            zoom={18}
+            center={{ lat, lng }}
+          >
+            <MarkerF
               position={{ lat, lng }}
-              options={{
-                pixelOffset: {
-                  width: 0,
-                  height: -40,
-                },
-                maxWidth: 250,
-              }}
-              onCloseClick={() => setMarkerInfo(false)}
-            >
-              <div className="">
-                <h1 className="font-semibold text-sm"> {restaurant.name} </h1>
-                <p> {restaurant.formatted_address} </p>
-              </div>
-            </InfoWindowF>
-          )}
-        </GoogleMap>
-      )}
+              onClick={() => setMarkerInfo(!showMarkerInfo)}
+            />
+
+            {showMarkerInfo && (
+              <InfoWindowF
+                position={{ lat, lng }}
+                options={{
+                  pixelOffset: {
+                    width: 0,
+                    height: -40,
+                  },
+                  maxWidth: 250,
+                }}
+                onCloseClick={() => setMarkerInfo(false)}
+              >
+                <div className="">
+                  <h1 className="font-semibold text-sm"> {restaurant.name} </h1>
+                  <p> {restaurant.formatted_address} </p>
+                </div>
+              </InfoWindowF>
+            )}
+          </GoogleMap>
+        </Skeleton>
+      {/* )} */}
 
       <div className="flex items-center gap-4">
         <p>{restaurant.formatted_address}</p>

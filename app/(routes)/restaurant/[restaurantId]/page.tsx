@@ -16,7 +16,8 @@ export default async function RestaurantDetailPage({
 
   const restaurant = await fetchRestaurantById(params.restaurantId) as RestaurantDetailInterface;
   const photoRefs = restaurant.photos.map(photo => photo.photo_reference);
-  const imageUrls = await fetchImageUrls(photoRefs);
+  const urls = await fetchImageUrls(photoRefs);
+  const imageUrls = urls.map(url => url.imageUrl || url);
   
   const imageDimensions = restaurant.photos.map((photo, i) => ({
     width: photo.width,
@@ -26,6 +27,7 @@ export default async function RestaurantDetailPage({
   const restaurantPhotos = imageDimensions.map((dimension, i) =>({
     ...dimension, url: imageUrls[i]
   }))
+  
   return (
     <div className="w-full flex flex-col gap-5">
       <section className="flex flex-col gap-2 py-2">

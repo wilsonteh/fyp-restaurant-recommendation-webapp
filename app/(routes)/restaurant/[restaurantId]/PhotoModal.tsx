@@ -1,12 +1,8 @@
 import { Photo } from "@/app/_utils/interfaces/Interfaces";
 import {
-  Button,
   Modal,
   ModalBody,
-  ModalContent,
-  ModalFooter,
-  ModalHeader,
-  useDisclosure,
+  ModalContent
 } from "@nextui-org/react";
 import Image from "next/image";
 

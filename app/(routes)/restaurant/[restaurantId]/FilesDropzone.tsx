@@ -1,9 +1,6 @@
-import Check from "@/app/_icons/check";
-import Times from "@/app/_icons/times";
 import TrashAlt from "@/app/_icons/trash-alt";
 import { ImagePreview } from "@/app/_utils/interfaces/Interfaces";
 import { Button } from "@nextui-org/react";
-import { isDragActive } from "framer-motion";
 import Image from "next/image";
 import { useEffect, useState } from "react";
 import { useDropzone } from "react-dropzone";
