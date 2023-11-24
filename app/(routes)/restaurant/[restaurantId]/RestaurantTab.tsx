@@ -13,6 +13,9 @@ import { useParams } from "next/navigation";
 import { useState } from "react";
 import LocationTab from "./LocationTab";
 import ReviewTab from "./ReviewTab";
+import useGeolocation from "@/app/_hooks/useGeolocation";
+import { fetcher } from "@/app/_lib/swr/fetcher";
+import useSWRImmutable from "swr/immutable";
 
 const RestaurantTab = ({
   restaurant,
@@ -37,7 +40,7 @@ const RestaurantTab = ({
   return (
     <Tabs
       aria-label="Tab options"
-      color="secondary"
+      color="primary"
       variant="solid"
       fullWidth={true}
       selectedKey={selectedTab}
@@ -107,7 +110,9 @@ const RestaurantTab = ({
           </div>
         }
       >
-        <LocationTab restaurant={restaurant} />
+        <LocationTab
+          restaurant={restaurant}
+        />
       </Tab>
 
       <Tab

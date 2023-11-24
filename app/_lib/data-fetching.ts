@@ -37,5 +37,17 @@ export async function fetchImageUrls(photoRefs: String[]): Promise<string[]> {
     return res.json();
   })) as string[];
 
-  return imageUrls.map(url => url.imageUrl);
+  return imageUrls;
 };
+
+export async function fetchDistanceInfo(originLatLng: string, destinationPlaceId: string) {
+  const requestUrl = `${process.env.HOST_URL}/api/distance-matrix?` + 
+    `origins=${origin}` +
+    `&destinations=place_id:${destinationPlaceId}`
+
+  const res = await fetch(requestUrl);
+  if (!res.ok) {
+    throw new Error(`Failed to fetch distance info`);
+  }
+  return res.json();
+}

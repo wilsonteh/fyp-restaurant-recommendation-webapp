@@ -20,8 +20,6 @@ export default function PhotoModal({
   onOpenChange?: () => void; 
 }) {
 
-  console.log('🚀 photo: ', photo);
-
   return (
     <Modal
       isOpen={isOpen}

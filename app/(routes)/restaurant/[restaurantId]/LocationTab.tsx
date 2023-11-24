@@ -1,5 +1,8 @@
 "use client";
+import useGeolocation from "@/app/_hooks/useGeolocation";
 import LocationArrow from "@/app/_icons/location-arrow";
+import { fetcher } from "@/app/_lib/swr/fetcher";
+import { DistanceInfo } from "@/app/_utils/interfaces/Interfaces";
 import { RestaurantDetailInterface } from "@/app/_utils/interfaces/PlaceDetailInterface";
 import { Button, Skeleton } from "@nextui-org/react";
 import {
@@ -10,8 +13,13 @@ import {
 } from "@react-google-maps/api";
 import Link from "next/link";
 import { useState } from "react";
+import useSWRImmutable from "swr/immutable";
 
-export default function LocationTab({ restaurant }: { restaurant: RestaurantDetailInterface }) {
+export default function LocationTab({ 
+  restaurant,  
+} : { 
+  restaurant: RestaurantDetailInterface 
+}) {
 
   const { lat, lng } = restaurant.geometry.location
   const [showMarkerInfo, setMarkerInfo] = useState(false);
@@ -69,7 +77,7 @@ export default function LocationTab({ restaurant }: { restaurant: RestaurantDeta
           }
           target="_blank"
         >
-          Get directions
+          View on Google Map
         </Button>
       </div>
     </div>
