@@ -28,15 +28,16 @@ export async function fetchRestaurantById(placeId: string): Promise<RestaurantDe
 };
 
 // fetch image urls by passing an array of photo reference
-export async function fetchImageUrls(photoRefs: String[]): Promise<string[]> {
-  const imageUrls = await Promise.all(photoRefs.map(async (photoRef) => {
+export async function fetchImageUrls(photoRefs: String[]): Promise<any[]> {
+  const imageUrls = [];
+  for (let photoRef of photoRefs) {
     const res = await fetch(`${process.env.HOST_URL}/api/place-photo?photoRef=${photoRef}`);
     if (!res.ok) {
       throw new Error(`Failed to fetch photo of ref: ${photoRef}`);
     }
-    return res.json();
-  })) as string[];
-
+    const data = await res.json();
+    imageUrls.push(data.imageUrl);
+  }
   return imageUrls;
 };
 

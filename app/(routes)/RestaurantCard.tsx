@@ -11,11 +11,12 @@ import useSWRImmutable from "swr/immutable";
 import StarRating from "../_components/StarRating";
 import Car from "../_icons/car";
 import { priceScales } from "../_utils/constants";
+import { fetcher } from "../_lib/swr/fetcher";
 
 async function fetchRestaurantImg(requestUrl: string): Promise<string> {
   const res  = await fetch(requestUrl);
   const data = await res.json();
-  return data.imageUrl;
+  return data;
 };
 
 export default function RestaurantCard({ 
@@ -37,9 +38,10 @@ export default function RestaurantCard({
     error: photoError, 
   } = useSWRImmutable(
     toFetch ? `/api/place-photo?photoRef=${restaurant?.photos[0]?.photo_reference}` : null, 
-    fetchRestaurantImg
+    fetcher
   );
-
+  console.log(imgUrl);
+  
   useEffect(() => {
     // ensure it has a photo ref 
     if (restaurant?.photos && restaurant?.photos[0]?.photo_reference) {
