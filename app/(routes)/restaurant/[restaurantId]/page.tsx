@@ -29,7 +29,7 @@ export default async function RestaurantDetailPage({
   
   return (
     <div className="w-full flex flex-col gap-5">
-      <section className="flex flex-col gap-2 py-2">
+      <section className="basic-info flex flex-col gap-2 py-2">
         <h1 className="text-2xl font-semibold text-center">
           { restaurant.name }
         </h1>
@@ -54,9 +54,7 @@ export default async function RestaurantDetailPage({
             <div className="flex items-center gap-2">
               <>
                 <Globe size={15} className="w-4 h-4" />
-                <Link href={restaurant.website} className="underline">
-                  website
-                </Link>
+                <Link href={restaurant.website} className="underline">website</Link>
               </> 
             </div> )} 
         </div>
