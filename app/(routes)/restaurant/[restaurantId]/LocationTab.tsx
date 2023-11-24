@@ -27,39 +27,37 @@ export default function LocationTab({
 
   return (
     <div className="flex flex-col items-center gap-4">
-      {/* {isLoaded && ( */}
-        <Skeleton isLoaded={isLoaded}>
-          <GoogleMap
-            mapContainerClassName="h-[400px] w-full border-1 border-slate-400 rounded-md"
-            zoom={18}
-            center={{ lat, lng }}
-          >
-            <MarkerF
-              position={{ lat, lng }}
-              onClick={() => setMarkerInfo(!showMarkerInfo)}
-            />
+      {isLoaded && (
+        <GoogleMap
+          mapContainerClassName="h-[400px] w-full border-1 border-slate-400 rounded-md"
+          zoom={18}
+          center={{ lat, lng }}
+        >
+          <MarkerF
+            position={{ lat, lng }}
+            onClick={() => setMarkerInfo(!showMarkerInfo)}
+          />
 
-            {showMarkerInfo && (
-              <InfoWindowF
-                position={{ lat, lng }}
-                options={{
-                  pixelOffset: {
-                    width: 0,
-                    height: -40,
-                  },
-                  maxWidth: 250,
-                }}
-                onCloseClick={() => setMarkerInfo(false)}
-              >
-                <div className="">
-                  <h1 className="font-semibold text-sm"> {restaurant.name} </h1>
-                  <p> {restaurant.formatted_address} </p>
-                </div>
-              </InfoWindowF>
-            )}
-          </GoogleMap>
-        </Skeleton>
-      {/* )} */}
+          {showMarkerInfo && (
+            <InfoWindowF
+              position={{ lat, lng }}
+              options={{
+                pixelOffset: {
+                  width: 0,
+                  height: -40,
+                },
+                maxWidth: 250,
+              }}
+              onCloseClick={() => setMarkerInfo(false)}
+            >
+              <div className="">
+                <h1 className="font-semibold text-sm"> {restaurant.name} </h1>
+                <p> {restaurant.formatted_address} </p>
+              </div>
+            </InfoWindowF>
+          )}
+        </GoogleMap>
+      )}
 
       <div className="flex items-center gap-4">
         <p>{restaurant.formatted_address}</p>

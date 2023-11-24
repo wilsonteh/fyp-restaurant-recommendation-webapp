@@ -31,7 +31,7 @@ export default async function RestaurantDetailPage({
   return (
     <div className="w-full flex flex-col gap-5">
       <section className="flex flex-col gap-2 py-2">
-        <h1 className="text-lg font-semibold text-center">
+        <h1 className="text-2xl font-semibold text-center">
           { restaurant.name }
         </h1>
 

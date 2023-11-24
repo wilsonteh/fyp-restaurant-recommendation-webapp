@@ -14,10 +14,12 @@ export default function SortingMenu({
   selectedSortKey, 
   setSelectedSortKey,
   setDbQuery, 
+  reviewN,
 } : {
   selectedSortKey: string; 
   setSelectedSortKey: (key: string) => void;
   setDbQuery: (query: Query) => void;
+  reviewN: number;
 }) {
 
   const sortKeys = ['default', 'newest', 'oldest', 'highest rated', 'lowest rated'];
@@ -26,46 +28,51 @@ export default function SortingMenu({
   const collectionRef = collection(db, "reviews");
 
   const handleSortingKeyChange = (key: string) => {
-    console.log("🚀 key:", key)
     setSelectedSortKey(key);
-    const basicQuery = where('restaurantId', '==', restaurantId);
 
-    let sortField: string | undefined;
-    let sortDirection: 'asc' | 'desc' | undefined;
-    switch (key) {
-      case 'newest':
-        sortField = 'createdAt';
-        sortDirection = 'desc';
-        break;
-      case 'oldest':
-        sortField = 'createdAt';
-        sortDirection = 'asc';
-        break;
-      case 'highest rated':
-        sortField = 'rating.main';
-        sortDirection = 'desc';
-        break;
-      case 'lowest rated':
-        sortField = 'rating.main';
-        sortDirection = 'asc';
-        break;
-      default:
-        break;
+    if (reviewN > 1) {
+      const basicQuery = where('restaurantId', '==', restaurantId);
+      let sortField: string | undefined;
+      let sortDirection: 'asc' | 'desc' | undefined;
+      switch (key) {
+        case 'newest':
+          sortField = 'createdAt';
+          sortDirection = 'desc';
+          break;
+        case 'oldest':
+          sortField = 'createdAt';
+          sortDirection = 'asc';
+          break;
+        case 'highest rated':
+          sortField = 'rating.main';
+          sortDirection = 'desc';
+          break;
+        case 'lowest rated':
+          sortField = 'rating.main';
+          sortDirection = 'asc';
+          break;
+        default:
+          break;
+      }
+      const sortedQuery = sortField 
+        ? query(collectionRef, basicQuery, orderBy(sortField, sortDirection)) 
+        : query(collectionRef, basicQuery);
+
+      setDbQuery(sortedQuery);
     }
-    const sortedQuery = sortField ? 
-      query(collectionRef, basicQuery, orderBy(sortField, sortDirection)) : 
-      query(collectionRef, basicQuery);
-
-    setDbQuery(sortedQuery);
   }
 
   return (
     <div className="flex items-center gap-2">
       <div>Sort by:</div>
 
-      <Dropdown>
+      <Dropdown className="border-1 border-primary-800">
         <DropdownTrigger>
-          <Button variant="bordered" className="capitalize">
+          <Button
+            color="primary"
+            variant="bordered"
+            className="capitalize text-primary-800 border-primary-800"
+          >
             {selectedSortKey}
           </Button>
         </DropdownTrigger>
@@ -75,10 +82,16 @@ export default function SortingMenu({
           variant="flat"
           disallowEmptySelection
           selectionMode="single"
-          onSelectionChange={(keys) => handleSortingKeyChange(Array.from(keys)[0] as string)}
+          onSelectionChange={(keys) =>
+            handleSortingKeyChange(Array.from(keys)[0] as string)
+          }
+          classNames={{}}
         >
           {sortKeys.map((sortKey) => (
-            <DropdownItem key={sortKey} className="capitalize">
+            <DropdownItem 
+              key={sortKey} 
+              className="capitalize" 
+            >
               {sortKey}
             </DropdownItem>
           ))}

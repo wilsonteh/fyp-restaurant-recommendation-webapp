@@ -9,9 +9,9 @@ import {
 } from "react-firebase-hooks/firestore";
 import ReviewItem from "./ReviewItem";
 import SortingMenu from "./SortingMenu";
+import Link from "next/link";
 
 export default function ReviewList() {
-  
   const { restaurantId } = useParams();
   const collectionRef = collection(db, "reviews");
   const [selectedSortKey, setSelectedSortKey] = useState('default');
@@ -33,15 +33,12 @@ export default function ReviewList() {
           selectedSortKey={selectedSortKey}
           setSelectedSortKey={setSelectedSortKey}
           setDbQuery={setDbQuery}
+          reviewN={reviewN}
         />
       </div>
 
-      { reviewN === 0 && (
-        <div className="flex justify-center items-center">
-          <p>No reviews yet</p>
-        </div>
-      )}
-
+      { reviewN === 0 && <NoReview /> }
+        
       <section className="flex flex-col gap-2 w-full">
         {error ? (
           <div className="">
@@ -63,4 +60,19 @@ export default function ReviewList() {
       </section>
     </div>
   );
+};
+
+const NoReview = () => {
+  const { restaurantId } = useParams();
+  
+  return (
+    <div className="flex flex-col items-center gap-2">
+      <p> No reviews yet </p>
+      <p> 
+        Be the first to {" "}  
+        <Link href={`/restaurant/${restaurantId}/reviews/new`} className="underline">review</Link>
+        {" "} this restaurant! 
+      </p>
+    </div>
+  )
 }
