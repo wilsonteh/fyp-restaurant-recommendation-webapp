@@ -19,8 +19,10 @@ import { navbarItems } from "../_utils/constants";
 import ProfileDropDown from "./ProfileDropDown";
 import { LightMode, Moon } from "../_icons/Index";
 import { useTheme } from "next-themes";
+import { twMerge } from "tailwind-merge";
 
 export default function Header() {
+  const { theme } = useTheme();
   const pathname = usePathname();
   const router = useRouter();
   const [isMenuOpen, setIsMenuOpen] = useState(false);
@@ -54,40 +56,40 @@ export default function Header() {
 
       {/* *SECTION nav links  */}
       <NavbarContent className="hidden md:flex" justify="center">
-        {navbarItems.map((item, i) => (
+        {navbarItems.map(({ label, href }) => (
           <NavbarItem
-            key={item.label}
+            key={label}
             as={Link}
-            href={item.href}
-            className={`capitalize px-3 py-2 bg-transparent
-              ${
-                isNavActive(item.href)
-                  ? "font-semibold border-b-2 border-primary-700"
-                  : "hover:bg-slate-200 rounded-xl"
-              }`}
-            // isActive={isNavItemActive(navItem.href)}
+            href={href}
+            className={twMerge(
+              "capitalize px-3 py-2 bg-transparent", 
+              isNavActive(href) && theme === "light" ? 'font-semibold border-b-2 border-primary-700' : '', 
+              isNavActive(href) && theme === "dark" ? 'font-semibold border-b-2 border-primary-500' : '', 
+              !isNavActive(href) && theme === "light" ? 'hover:bg-slate-200 rounded-xl' : '', 
+              !isNavActive(href) && theme === "dark" ? 'hover:bg-slate-800 rounded-xl' : '', 
+            )}
           >
-            {/* : "hover:text-foreground/90 hover:font-medium" */}
-            {item.label}
+            {label}
           </NavbarItem>
         ))}
       </NavbarContent>
 
       {/* *SECTION -  MOBILE NAVBAR */}
       {isMenuOpen && (
-        <NavbarMenu className="flex flex-col items-center gap-y-6 bg-gray-50 p-6">
-          {navbarItems.map((item, i) => (
-            <NavbarMenuItem key={item.label} className="">
+        <NavbarMenu className="flex flex-col items-center gap-y-6 p-6">
+          {navbarItems.map(({ label, href }) => (
+            <NavbarMenuItem key={label} className="">
               <Link
-                href={item.href}
-                className={`capitalize w-full px-4 py-2 bg-transparent
-                ${
-                  isNavActive(item.href)
-                    ? "font-semibold border-b-2 border-primary-700"
-                    : "hover:bg-slate-200 rounded-xl"
-                }`}
+                href={href}
+                className={twMerge(
+                  "capitalize w-full px-4 py-2 bg-transparent", 
+                  isNavActive(href) && theme === "light" ? 'font-semibold border-b-2 border-primary-700' : '', 
+                  isNavActive(href) && theme === "dark" ? 'font-semibold border-b-2 border-primary-500' : '', 
+                  !isNavActive(href) && theme === "light" ? 'hover:bg-slate-200 rounded-xl' : '', 
+                  !isNavActive(href) && theme === "dark" ? 'hover:bg-slate-800 rounded-xl' : '', 
+                )}  
               >
-                {item.label}
+                {label}
               </Link>
             </NavbarMenuItem>
           ))}

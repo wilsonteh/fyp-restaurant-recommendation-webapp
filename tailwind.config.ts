@@ -11,8 +11,8 @@ const config: Config = {
   theme: {
     extend: {
       colors: {
-        light: "#EEF2F4",
-        dark: "#202228",
+        light: "#f1f5f9",
+        dark: "#0f172a",
       },
       fontFamily: {
         poppins: ['var(--font-poppins)']
@@ -31,9 +31,12 @@ const config: Config = {
     nextui({
       themes: {
         light: {
+          layout: {
+            hoverOpacity: 0.8
+          },
           colors: {
-            background: "#f1f5f9",
-            foreground: "#1f2937",
+            background: "#f1f5f9",    // slate-100
+            foreground: "#0f172a",    // slate-900
             primary: {
               100: "#FBFFCF",
               200: "#F6FF9F",
@@ -102,8 +105,11 @@ const config: Config = {
           }, 
         },
         dark: {
+          layout: {
+            hoverOpacity: 0.8
+          },
           colors: {
-            background: "#1f2937",
+            background: "#0f172a",
             foreground: "#f1f5f9",
             primary: {
               100: "#FBFFCF",
@@ -172,7 +178,7 @@ const config: Config = {
             }
           }, 
         }
-      }
+      }, 
     }),
   ]
 }

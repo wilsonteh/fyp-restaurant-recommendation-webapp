@@ -1,3 +1,4 @@
+"use client";
 import {
   Avatar,
   Button,
@@ -13,14 +14,22 @@ import { RightFromBracket } from "../_icons/Index";
 import Link from "next/link";
 import { signOutUser } from "../_firebase/auth";
 import { profileDropdownItems } from "../_utils/constants";
+import { useTheme } from "next-themes";
+import { twMerge } from "tailwind-merge";
 
 interface ProfileDropDownProps {
   user: any;
 }
 
 const ProfileDropDown = ({ user }: ProfileDropDownProps) => {
+  const { theme } = useTheme();
+
   return (
-    <Dropdown>
+    <Dropdown 
+      classNames={{
+        content: theme === "dark" ? "bg-slate-800" : "",
+      }}
+    >
       <NavbarItem className="flex">
         <DropdownTrigger>
           <User
@@ -43,21 +52,16 @@ const ProfileDropDown = ({ user }: ProfileDropDownProps) => {
 
       {/* *SECTION - DROPDOWN MENU */}
       <DropdownMenu
-        aria-label=""
-        itemClasses={{
-          base: [
-            "data-[hover=true]:bg-light/80",
-            "data-[hover=true]:border-red-500"
-          ],
-        }}
-      >
+        aria-label="profile dropdown menu"
+      > 
+        {/* *SECTION - name & email shown only on mobile */}
         <DropdownSection showDivider className="xs:hidden">
           <DropdownItem 
             isReadOnly
             title={user.displayName}
             description={user.email}
             classNames={{
-              base: [ "data-[hover=true]:bg-transparent" ],
+              base: "data-[hover=true]:bg-transparent",
               title: "font-bold"
             }}
             >
@@ -70,6 +74,11 @@ const ProfileDropDown = ({ user }: ProfileDropDownProps) => {
               key={i}
               startContent={item.icon}
               className="capitalize"
+              classNames={{
+                base: twMerge(
+                  theme === 'dark' ? 'data-[hover=true]:bg-slate-700' : 'data-[hover=true]:bg-slate-200' 
+                ),
+              }}
             >
               <Link href={item.href} className="block pl-2">
                 {item.name}
@@ -80,16 +89,15 @@ const ProfileDropDown = ({ user }: ProfileDropDownProps) => {
 
         <DropdownSection className="px-2">
           <DropdownItem
-            startContent={<RightFromBracket className="w-4 h-4"  />}
+            startContent={<RightFromBracket size={15} />}
             onPress={signOutUser}
             classNames={{
-              base: [
-                "data-[hover=true]:bg-danger-100/50",
-                "data-[hover=true]:text-danger-500",
-                "hover:fill-danger-500",
-              ], 
-              title: "pl-2"
-            }}
+              base: twMerge(
+                'data-[hover=true]:text-danger-500', 
+                theme === 'dark' ? 'data-[hover=true]:bg-danger-300/30' : 'data-[hover=true]:bg-danger-200/50 '
+              ),
+              title: "pl-2", 
+            }}  
           >
             Sign out
           </DropdownItem>

@@ -2,6 +2,7 @@
 import { DistanceInfo, NearbySearchRestaurant } from "@/app/_utils/interfaces/Interfaces";
 import { thousandSeparator } from "@/app/_utils/utils";
 import { Card, CardBody, Chip, Skeleton, Tooltip } from "@nextui-org/react";
+import { useTheme } from "next-themes";
 import Image from "next/image";
 import Link from "next/link";
 import { useEffect, useState } from "react";
@@ -10,6 +11,8 @@ import StarRating from "../_components/StarRating";
 import { Car, DoorOpen, LocationDot } from "../_icons/Index";
 import { fetcher } from "../_lib/swr/fetcher";
 import { priceScales } from "../_utils/constants";
+import { twMerge } from 'tailwind-merge'
+
 
 async function fetchRestaurantImg(requestUrl: string): Promise<string> {
   const res  = await fetch(requestUrl);
@@ -29,6 +32,7 @@ export default function RestaurantCard({
   distanceInfo: DistanceInfo;
 }) {
 
+  const { theme } = useTheme();
   const [toFetch, setToFetch] = useState(false);
   const { 
     data: imgUrl, 
@@ -53,10 +57,12 @@ export default function RestaurantCard({
   return (
     <Card
       isPressable
-      isHoverable
       as={Link}
       href={`/restaurant/${restaurant.place_id}`}
-      className="w-full flex flex-col relative overflow-visible"
+      className={twMerge(
+        "w-full flex flex-col relative overflow-visible", 
+        theme === "dark" ? "bg-slate-800 hover:bg-slate-700/70" : "bg-slate-100"
+      )}
     >
       <NumberLabel N={nth} />
 
@@ -100,7 +106,7 @@ export default function RestaurantCard({
         <Skeleton isLoaded={!isLoading}>
           <div className="card-3rd-row text-xs flex justify-center items-center gap-2 my-2">
             <span className="flex items-center gap-1 whitespace-nowrap">
-              <DoorOpen size={15} className="text-slate-800" />
+              <DoorOpen size={15} className={`${theme === 'dark' ? 'text-slate-200' : 'text-slate-800' }`} />
               <span>
                 {restaurant.opening_hours?.open_now ? "Open Now" : "Closed"}
               </span>
@@ -113,7 +119,7 @@ export default function RestaurantCard({
                 className="text-xs"
               >
                 <span className="flex items-center gap-1 whitespace-nowrap">
-                  <LocationDot size={15} className="text-slate-600" />
+                  <LocationDot size={15} className={`${theme === 'dark' ? 'text-slate-200' : 'text-slate-800' }`} />
                   <span> {distanceInfo?.distance.text} </span>
                 </span>
               </Tooltip>
@@ -126,7 +132,7 @@ export default function RestaurantCard({
                 className="text-xs"
               >
                 <span className="flex items-center gap-1 whitespace-nowrap">
-                  <Car size={15} className="text-slate-600" />
+                  <Car size={15} className={`${theme === 'dark' ? 'text-slate-200' : 'text-slate-800' }`} />
                   <span> {distanceInfo?.duration.text} </span>
                 </span>
               </Tooltip>
@@ -162,7 +168,11 @@ export default function RestaurantCard({
 };
 
 const NumberLabel = ({ N }: { N: number }) => {
+
+  const { theme } = useTheme();
   const size = 40;   // in px  
+
+
   return (
     <div 
       style={{
@@ -171,7 +181,10 @@ const NumberLabel = ({ N }: { N: number }) => {
         top: `-${size/2}px`,
         left: `-${size/2}px`,
       }}
-      className={`numbering font-medium bg-primary-500 border-2 border-slate-700 flex justify-center items-center rounded-full absolute z-10`}
+      className={twMerge(
+        "numbering font-medium bg-primary-500 text-slate-800 border-2 flex justify-center items-center rounded-full absolute z-10", 
+        theme === "dark" ? "border-white" : "border-slate-700"
+      )}
     >
       {N}
     </div>
