@@ -1,5 +1,6 @@
 "use client";
 import { Select, SelectItem } from "@nextui-org/react";
+import { render } from "react-dom";
 import { Controller } from "react-hook-form";
 
 export default function DropDownInputs({ control }: any ) {
@@ -16,15 +17,15 @@ export default function DropDownInputs({ control }: any ) {
   const options = ['Yes', 'No', 'Unsure']
 
   return (
-    <div className="flex flex-col gap-4">
+    <div className="flex flex-col gap-8 xs:gap-4">
       <Controller
         name="priceLevel"
         control={control}
         defaultValue=""
         render={({ field: { onChange, onBlur, value, ref } }) => (
           <Select
+            label="How much did you spend per person?"
             variant="bordered"
-            label="How much did you spend (on average) per person?"
             labelPlacement="outside"
             placeholder="Select price level"
             value={value}
@@ -39,51 +40,49 @@ export default function DropDownInputs({ control }: any ) {
         )}
       />
 
-      <div className="flex gap-8">
-        <Controller
-          name="hasHalalOption"
-          control={control}
-          defaultValue=""
-          render={({ field: { onChange, onBlur, value, ref } }) => (
-            <Select
+      <Controller
+        name="hasHalalOption"
+        control={control}
+        defaultValue=""
+        render={({ field: { onChange, onBlur, value, ref } }) => (
+          <Select
+          variant="bordered"
+          label="Does this restaurant offers halal food?"
+          labelPlacement="outside"
+          placeholder="Select option"
+          value={value}
+          onChange={onChange} onBlur={onBlur}
+          >
+          {options.map((option) => (
+            <SelectItem key={option} value={option}>
+              {option}
+            </SelectItem>
+          ))}
+        </Select>
+        )}
+      />
+      
+      <Controller
+        name="hasVegetarianOption"
+        control={control}
+        defaultValue=""
+        render={({ field: { onChange, onBlur, value, ref } }) => (
+          <Select
             variant="bordered"
-            label="Does this restaurant offers halal food?"
+            label="Does this restaurant offers vegetarian food?"
             labelPlacement="outside"
             placeholder="Select option"
             value={value}
             onChange={onChange} onBlur={onBlur}
-            >
+          >
             {options.map((option) => (
               <SelectItem key={option} value={option}>
                 {option}
               </SelectItem>
             ))}
           </Select>
-          )}
-        />
-        
-        <Controller
-          name="hasVegetarianOption"
-          control={control}
-          defaultValue=""
-          render={({ field: { onChange, onBlur, value, ref } }) => (
-            <Select
-              variant="bordered"
-              label="Does this restaurant offers vegetarian food?"
-              labelPlacement="outside"
-              placeholder="Select option"
-              value={value}
-              onChange={onChange} onBlur={onBlur}
-            >
-              {options.map((option) => (
-                <SelectItem key={option} value={option}>
-                  {option}
-                </SelectItem>
-              ))}
-            </Select>
-          )}
-        />
-      </div>
+        )}
+      />
     </div>
   );
 }

@@ -4,7 +4,7 @@ import { Globe, PhoneAlt } from "@/app/_icons/Index";
 import { thousandSeparator } from "@/app/_utils/utils";
 import Link from "next/link";
 import RestaurantPhotoGrid from "./RestaurantPhotoGrid";
-import RestaurantTab from "./RestaurantTab";
+import RestaurantTabs from "./RestaurantTabs";
 import StarRating from "./StarRating";
 
 export default async function RestaurantDetailPage({
@@ -62,8 +62,8 @@ export default async function RestaurantDetailPage({
 
       <RestaurantPhotoGrid photos={restaurantPhotos} />
 
-      <section className="w-[800px] mx-auto">
-        <RestaurantTab restaurant={restaurant} />
+      <section className="flex flex-col mx-auto gap-2 w-[800px]">
+        <RestaurantTabs restaurant={restaurant} />
       </section>
 
     </div>

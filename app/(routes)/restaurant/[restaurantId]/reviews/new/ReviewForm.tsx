@@ -99,7 +99,7 @@ export default function ReviewForm(restaurant: RestaurantDetailInterface) {
   return (
     <form
       onSubmit={handleSubmit(submitReview)}
-      className="border-2 px-6 py-4 flex flex-col gap-4"
+      className="xs:px-6 py-4 flex flex-col gap-4"
     >
       <h1 className="font-medium text-lg text-center">
         <span>Submit review for </span>
@@ -111,8 +111,8 @@ export default function ReviewForm(restaurant: RestaurantDetailInterface) {
         </Link>
       </h1>
 
-      <div className="flex flex-col gap-4">
-        <div>
+      <div className="all-inputs flex flex-col gap-4">
+        <div className="main-rating flex">
           <RatingInput
             name="rating.main"
             label="Rate the restaurant"
@@ -123,7 +123,7 @@ export default function ReviewForm(restaurant: RestaurantDetailInterface) {
           />
         </div>
 
-        <div className="flex flex-col gap-4">
+        <div className="sub-ratings flex flex-col gap-4">
           <div className="flex gap-12">
             <RatingInput
               name="rating.food"
@@ -153,7 +153,7 @@ export default function ReviewForm(restaurant: RestaurantDetailInterface) {
 
             <RatingInput
               name="rating.atmosphere"
-              label="Restaurant atmosphere"
+              label="Atmosphere"
               maxWidth={170}
               control={control}
               errors={errors}
@@ -162,9 +162,9 @@ export default function ReviewForm(restaurant: RestaurantDetailInterface) {
         </div>
 
         <Input
+          label="Review title"
           fullWidth={false}
           variant="bordered"
-          label="Review title"
           labelPlacement="outside"
           placeholder="Give your review a title"
           isRequired={true}
@@ -176,9 +176,9 @@ export default function ReviewForm(restaurant: RestaurantDetailInterface) {
         />
 
         <Textarea
+          label="Comment"
           fullWidth={false}
           variant="bordered"
-          label="Comment"
           labelPlacement="outside"
           placeholder="Share your experience with the restaurant, from its food, service, pricing, atmosphere"
           isRequired={true}
@@ -197,7 +197,7 @@ export default function ReviewForm(restaurant: RestaurantDetailInterface) {
         />
       </div>
 
-      <Button type="submit" color="primary" isLoading={isSubmitting}>
+      <Button type="submit" color="primary" size="lg" isLoading={isSubmitting}>
         {isSubmitting ? "Submitting..." : "Submit"}
       </Button>
     </form>

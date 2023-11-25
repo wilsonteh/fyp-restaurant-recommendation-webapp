@@ -8,13 +8,12 @@ import { useState } from "react";
 import LocationTab from "./LocationTab";
 import ReviewTab from "./ReviewTab";
 
-export default function RestaurantTab ({
+export default function RestaurantTabs ({
   restaurant,
 }: {
   restaurant: RestaurantDetailInterface;
 }) {
 
-  const { restaurantId } = useParams();
   const [selectedTab, setSelectedTab] = useState("details");
  
   return (
@@ -25,8 +24,10 @@ export default function RestaurantTab ({
       selectedKey={selectedTab}
       onSelectionChange={(key) => setSelectedTab(key as string)}
       classNames={{
+        base: "mx-auto w-[500px] md:w-[700px] lg:w-[800px]",
         tabList: "bg-slate-200 rounded-full",
-        tab: "py-2 h-full rounded-full",
+        tab: "px-0 py-2 h-full rounded-full",
+        panel: "border-red-500",
       }}
     >
       <Tab
@@ -112,14 +113,14 @@ const DetailsTab = ({
   });
 
   return (
-    <div className="grid grid-cols-2 gap-4">
+    <div className="grid grid-cols-2 gap-4 w-fit mx-auto">
       <div className="opening-hour px-8 py-4 bg-slate-200/40 rounded-lg flex flex-col gap-3">
         <h4 className="text-lg font-medium capitalize text-center">Opening hours</h4>
         <ul className="flex flex-col gap-1 text-sm"> {OpeningHours} </ul>
       </div>
 
       <div className="multi-rating px-8 py-4 bg-zinc-200/30 rounded-lg flex flex-col gap-3">
-        <h4 className="text-lg font-medium  capitalize text-center">Rating by component</h4>
+        <h4 className="text-lg font-medium capitalize text-center">Rating by component</h4>
         <div className="flex flex-col items-stretch gap-3 text-sm">
           {ratings.map(({ label, value, icon }) => (
             <div key={label} className="flex justify-between items-center capitalize">

@@ -31,7 +31,7 @@ export default function RatingInput({
   }
   
   return (
-    <div className="flex flex-col items-start">
+    <div className="flex flex-col">
       <label htmlFor="" className="text-sm font-medium">
         {label}
         {required && <span className="text-red-500"> *</span>}

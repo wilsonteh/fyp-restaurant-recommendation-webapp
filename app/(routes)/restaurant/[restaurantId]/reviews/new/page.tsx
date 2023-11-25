@@ -1,6 +1,7 @@
-import { fetchImageUrls, fetchRestaurantById, fetchRestaurants } from "@/app/_lib/data-fetching";
-import RestaurantCard from "./RestaurantCard";
+
+import { fetchImageUrls, fetchRestaurantById } from "@/app/_lib/data-fetching";
 import ReviewForm from "./ReviewForm";
+import RestaurantCard from "./RestaurantCard";
 
 export default async function ReviewFormPage({
   params,
@@ -12,13 +13,13 @@ export default async function ReviewFormPage({
   const imageUrl = await fetchImageUrls([restaurant.photos[0].photo_reference]);
 
   return (
-    <div className="flex gap-12">
-      <section className="w-1/3">
+    <div className="flex flex-col items-center md:flex-row md:items-start gap-4 xl:gap-12 px-4">
+      <section className="w-full xs:w-2/3 sm:w-1/2 md:w-1/3">
         <RestaurantCard restaurant={restaurant} imageUrl={imageUrl[0]} />
       </section>
-      <section className="w-2/3">
+      <section className="w-full md:w-2/3">
         <ReviewForm {...restaurant} />
       </section>
     </div>  
   );
-}
+};

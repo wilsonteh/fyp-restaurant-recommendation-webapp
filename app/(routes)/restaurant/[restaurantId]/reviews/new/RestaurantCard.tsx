@@ -1,5 +1,4 @@
 "use client";
-import { NearbySearchRestaurant } from "@/app/_utils/interfaces/Interfaces";
 import { RestaurantDetailInterface } from "@/app/_utils/interfaces/PlaceDetailInterface";
 import { Card, CardBody } from "@nextui-org/react";
 import Image from "next/image";
@@ -32,7 +31,7 @@ export default function RestaurantCard({
           height={250}
         />
 
-        <div className="pt-4 px-2">
+        <div className="pt-3 pb-2 px-2">
           <h3 className="font-semibold text-lg">
             { restaurant.name }
           </h3>
