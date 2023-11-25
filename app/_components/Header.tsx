@@ -8,6 +8,7 @@ import {
   NavbarMenu,
   NavbarMenuItem,
   Button,
+  Switch,
 } from "@nextui-org/react";
 import Link from "next/link";
 import { usePathname, useRouter } from "next/navigation";
@@ -16,6 +17,8 @@ import { useAuthState } from "react-firebase-hooks/auth";
 import { auth } from "../_firebase/auth";
 import { navbarItems } from "../_utils/constants";
 import ProfileDropDown from "./ProfileDropDown";
+import { LightMode, Moon } from "../_icons/Index";
+import { useTheme } from "next-themes";
 
 export default function Header() {
   const pathname = usePathname();
@@ -122,6 +125,28 @@ export default function Header() {
           <ProfileDropDown user={user} />
         )}
       </NavbarContent>
+      
+      <ThemeSwitcher />
+      
     </Navbar>
   );
 };
+
+const ThemeSwitcher = () => {
+
+  const { theme, setTheme } = useTheme();
+  
+  return (
+    <Switch
+      defaultSelected
+      thumbIcon={({ isSelected, className }) =>
+        isSelected ? (
+          <Moon size={15} className={className} />
+        ) : (
+          <LightMode size={15} className={className} />
+        )
+      }
+      onValueChange={(isSelected) => setTheme(isSelected ? "dark" : "light")}
+      />
+  )
+}
