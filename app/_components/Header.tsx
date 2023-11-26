@@ -12,7 +12,7 @@ import {
 } from "@nextui-org/react";
 import Link from "next/link";
 import { usePathname, useRouter } from "next/navigation";
-import { useState } from "react";
+import { useEffect, useState } from "react";
 import { useAuthState } from "react-firebase-hooks/auth";
 import { auth } from "../_firebase/auth";
 import { navbarItems } from "../_utils/constants";
@@ -22,7 +22,7 @@ import { useTheme } from "next-themes";
 import { twMerge } from "tailwind-merge";
 
 export default function Header() {
-  const { theme } = useTheme();
+  const { theme, setTheme } = useTheme();
   const pathname = usePathname();
   const router = useRouter();
   const [isMenuOpen, setIsMenuOpen] = useState(false);

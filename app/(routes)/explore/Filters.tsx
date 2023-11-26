@@ -6,9 +6,13 @@ import { useRouter, useSearchParams } from "next/navigation";
 import { useCallback, useEffect, useMemo, useState } from "react";
 import { setTimeout } from "timers";
 import { DollarSign } from "@/app/_icons/Index";
+import { useTheme } from "next-themes";
+import { distance } from "framer-motion";
+import { twMerge } from "tailwind-merge";
 
 export default function Filters() {
 
+  const { theme } = useTheme();
   const searchParams = useSearchParams();
   const { queryParams, setQueryParams } = useQueryParams<{
     q?: string;
@@ -50,12 +54,12 @@ export default function Filters() {
   }
 
   return (
-    <div className="flex flex-col gap-2">
+    <div className="flex flex-col gap-6">
       <div className="flex flex-col items-center">
         <h3 className="text-lg font-medium">Filters</h3>
         { hasFilter && (
           <Button
-            color="secondary"
+            color={theme === 'dark' ? 'primary' : 'secondary'}
             variant="light"
             className="!bg-transparent hover:bg-transparent hover:underline"
             onClick={clearAllFilters}
@@ -74,6 +78,7 @@ export default function Filters() {
 
 const DistanceSelect = ({ queryParams, setQueryParams }: { queryParams: URLSearchParams | undefined, setQueryParams: (params: any) => void }) => {
 
+  const { theme } = useTheme();
   const searchParams = useSearchParams();
   const key = "distance";
   const distances = [
@@ -117,13 +122,34 @@ const DistanceSelect = ({ queryParams, setQueryParams }: { queryParams: URLSearc
       label="Distance filter"
       labelPlacement="outside"
       placeholder="Select distance"
-      // *! FIXME: problem here!
       selectedKeys={distanceKey ? [distanceKey] : undefined}
       onChange={(e) => setDistanceKey(e.target.value)}
       onSelectionChange={(keys) => onDistanceKeyChange(Array.from(keys)[0] as string)}
+      classNames={{
+        // the select input
+        trigger: twMerge(
+          theme === 'dark' 
+            ? 'bg-slate-800 data-[hover]:bg-slate-700' 
+            : 'bg-white data-[hover]:bg-slate-50',
+        ),
+        // dropdown contents
+        popoverContent: twMerge(
+          theme === 'dark' ? 'bg-slate-800' : 'bg-white' 
+        ),
+        
+      }}
     >
       {distances.map((distance) => (
-        <SelectItem key={distance.value}>
+        <SelectItem 
+          key={distance.value}
+          classNames={{
+            base: twMerge(
+              theme === 'dark' 
+              ? 'data-[hover]:!bg-slate-700 data-[focus]:!bg-slate-700' 
+              : 'data-[hover]:!bg-slate-200 data-[focus]:!bg-slate-200' 
+            ),
+          }}
+        >
           { distance.key }
         </SelectItem>
       ))}

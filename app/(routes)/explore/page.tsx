@@ -6,6 +6,8 @@ import SearchResults from "./SearchResults";
 import Filters from "./Filters";
 import useQueryParams from "@/app/_hooks/useQueryParams";
 import { MagnifyingGlass } from "@/app/_icons/Index";
+import { useTheme } from "next-themes";
+import { twMerge } from "tailwind-merge";
 
 export default function ExplorePage() {
 
@@ -20,7 +22,7 @@ export default function ExplorePage() {
   }, [searchParams])
 
   return (
-    <main className="max-w-screen-xl mx-auto h-screen my-4 flex gap-8 justify-between">
+    <main className="max-w-screen-xl mx-auto my-4 flex gap-8 justify-between">
       <section className="w-1/4">
         <Filters />
       </section>
@@ -38,6 +40,7 @@ export default function ExplorePage() {
 
 const SearchBar = ({ setToFetch } : { setToFetch: React.Dispatch<React.SetStateAction<boolean>> }) => {
 
+  const { theme } = useTheme();
   const router = useRouter();
   const searchParams = useSearchParams();
   const [searchQuery, setSearchQuery] = useState("");
@@ -66,13 +69,18 @@ const SearchBar = ({ setToFetch } : { setToFetch: React.Dispatch<React.SetStateA
   };
   
   return (
-    <form className="flex mb-4 mx-6" onSubmit={handleSearch}>
+    <form className="flex items-center gap-4 mb-4 mx-6" onSubmit={handleSearch}>
       <Input
         variant="flat"
         placeholder="Search words separated by commas, e.g. 'mamak,nasi lemak'"
         classNames={{
-          input: "text-foreground pl-2",
-          inputWrapper: "p-0 pl-4",
+          input: "text-foreground ml-2",
+          inputWrapper: twMerge(
+            'p-0 pl-4',
+            theme === 'dark' 
+            ? 'bg-slate-800 data-[hover]:!bg-slate-700 data-[focus]:!bg-slate-700/80' 
+            : 'bg-white data-[hover]:!bg-white data-[focus]:!bg-white',
+          ),
         }}
         startContent={<MagnifyingGlass size={15} />}
         onChange={(e) => setSearchQuery(e.target.value)}
@@ -88,6 +96,7 @@ const SearchBar = ({ setToFetch } : { setToFetch: React.Dispatch<React.SetStateA
 
 const SortMenu = () => {
 
+  const { theme } = useTheme();
   const { queryParams, setQueryParams } = useQueryParams();
   const searchParams = useSearchParams();
   const key = "sortby";
@@ -129,8 +138,18 @@ const SortMenu = () => {
 
   return (
     <Select
-      className="mb-4 max-w-[300px]"
+      className="mb-4 max-w-[300px] items-center"
       classNames={{
+        // the select input
+        trigger: twMerge(
+          theme === 'dark' 
+            ? 'bg-slate-800 data-[hover]:bg-slate-700' 
+            : 'bg-white data-[hover]:bg-slate-50',
+        ),
+        // dropdown contents
+        popoverContent: twMerge(
+          theme === 'dark' ? 'bg-slate-800' : 'bg-white' 
+        ),
         label: "w-[90px]",
       }}
       label="Sort by:"
@@ -142,7 +161,16 @@ const SortMenu = () => {
       onSelectionChange={(keys) => onSortItemChange(Array.from(keys)[0] as string)}
     >
       {sortItems.map((sortItem) => (
-        <SelectItem key={sortItem.value} className="">
+        <SelectItem 
+          key={sortItem.value} 
+          classNames={{
+            base: twMerge(
+              theme === 'dark' 
+              ? 'data-[hover]:!bg-slate-700 data-[focus]:!bg-slate-700' 
+              : 'data-[hover]:!bg-slate-200 data-[focus]:!bg-slate-200' 
+            ),
+          }}
+        >
           { sortItem.label }
         </SelectItem>
       ))} 

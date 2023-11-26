@@ -10,6 +10,8 @@ import useSWRImmutable from "swr/immutable";
 import StarRating from "@/app/_components/StarRating";
 import { useEffect, useMemo, useState } from "react";
 import { DollarSign, LocationArrow } from "@/app/_icons/Index";
+import { twMerge } from "tailwind-merge";
+import { useTheme } from "next-themes";
 
 export default function SearchResults({ toFetch } : { toFetch: boolean }) {
 
@@ -64,15 +66,20 @@ export default function SearchResults({ toFetch } : { toFetch: boolean }) {
   )
 }
 
-
 const RestaurantItem = (restaurant: NearbySearchRestaurant) => {
 
+  const { theme } = useTheme();
   let priceIndex = restaurant?.price_level;
 
   return (
-    <Card>
+    <Card
+      className={twMerge(
+        theme === "dark" ? "bg-slate-800 hover:bg-slate-700/70" : "bg-slate-100"
+
+      )}
+    >
       <CardBody className="flex flex-row justify-start gap-2 w-full">
-        <div className="relative min-w-[180px] min-h-[180px] overflow-hidden">
+        <div className="img-wrapper relative min-w-[180px] min-h-[180px] overflow-hidden">
           <Image
             src={"https://via.placeholder.com/180x180"}
             alt="image"
