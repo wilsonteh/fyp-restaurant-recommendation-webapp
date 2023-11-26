@@ -7,6 +7,8 @@ import { useParams } from "next/navigation";
 import { useState } from "react";
 import LocationTab from "./LocationTab";
 import ReviewTab from "./ReviewTab";
+import { useTheme } from "next-themes";
+import { twMerge } from "tailwind-merge";
 
 export default function RestaurantTabs ({
   restaurant,
@@ -14,6 +16,7 @@ export default function RestaurantTabs ({
   restaurant: RestaurantDetailInterface;
 }) {
 
+  const { theme } = useTheme();
   const [selectedTab, setSelectedTab] = useState("details");
  
   return (
@@ -24,20 +27,35 @@ export default function RestaurantTabs ({
       selectedKey={selectedTab}
       onSelectionChange={(key) => setSelectedTab(key as string)}
       classNames={{
-        base: "mx-auto w-[500px] md:w-[700px] lg:w-[800px]",
-        tabList: "bg-slate-200 rounded-full",
+        base: twMerge(
+          'mx-auto w-[500px] md:w-[700px] lg:w-[800px]',
+        ),
+        tabList: twMerge(
+          'rounded-full', 
+          theme === 'dark' ? '!bg-slate-800' : 'bg-white border-2 border-slate-200',
+        ),
         tab: "px-0 py-2 h-full rounded-full",
+        tabContent: twMerge(
+          'group-data-[hover]:opacity-90',
+          theme === 'dark' 
+          ? 'text-slate-200 group-data-[selected]:text-primary-400 group-data-[hover]:opacity-90' 
+          : 'text-slate-800 group-data-[selected]:text-secondary-700'
+        ),
+        cursor: twMerge(
+          'rounded-full w-[70%]',
+          theme === 'dark' ? 'bg-primary-400' : 'bg-secondary-700',
+        ),
         panel: "border-red-500",
       }}
     >
       <Tab
         key="details"
         title={
-          <div className="flex items-center gap-2 text-slate-700 text-base">
+          <div className="flex items-center gap-2">
             <CircleInfo size={15} />
             <span>Details</span>
           </div>
-        }
+        } 
       >
         <DetailsTab 
           restaurant={restaurant} 
@@ -48,7 +66,7 @@ export default function RestaurantTabs ({
       <Tab
         key="location"
         title={
-          <div className="flex items-center gap-2 text-slate-700 text-base">
+          <div className="flex items-center gap-2">
             <LocationDot size={15} />
             <span>Location</span>
           </div>
@@ -60,7 +78,7 @@ export default function RestaurantTabs ({
       <Tab
         key="reviews"
         title={
-          <div className="flex items-center gap-2 text-slate-700 text-base">
+          <div className="flex items-center gap-2">
             <Pen size={15} />
             <span>Reviews</span>
           </div>
@@ -79,6 +97,8 @@ const DetailsTab = ({
   restaurant: RestaurantDetailInterface, 
   setSelectedTab: (key: string) => void
 }) => {
+
+  const { theme } = useTheme();
   const { weekday_text } = restaurant.current_opening_hours;
   const ratings = [
     { label: "food", value: 4.2, icon: <Utensils size={15} /> },
@@ -114,12 +134,18 @@ const DetailsTab = ({
 
   return (
     <div className="grid grid-cols-2 gap-4 w-fit mx-auto">
-      <div className="opening-hour px-8 py-4 bg-slate-200/40 rounded-lg flex flex-col gap-3">
+      <div className={twMerge(
+        'opening-hour px-8 py-4 rounded-lg flex flex-col gap-3', 
+        theme === 'dark' ? 'bg-slate-800' : 'bg-slate-200'
+      )}>
         <h4 className="text-lg font-medium capitalize text-center">Opening hours</h4>
         <ul className="flex flex-col gap-1 text-sm"> {OpeningHours} </ul>
       </div>
 
-      <div className="multi-rating px-8 py-4 bg-zinc-200/30 rounded-lg flex flex-col gap-3">
+      <div className={twMerge(
+        'multi-rating px-8 py-4  rounded-lg flex flex-col gap-3', 
+        theme === 'dark' ? 'bg-gray-800' : 'bg-gray-200'
+      )}>
         <h4 className="text-lg font-medium capitalize text-center">Rating by component</h4>
         <div className="flex flex-col items-stretch gap-3 text-sm">
           {ratings.map(({ label, value, icon }) => (
@@ -133,9 +159,10 @@ const DetailsTab = ({
           ))}
 
           <Button
+            color="primary"
             size="sm"
             endContent={<CircleChevronRightIcon size={12} />}
-            className="bg-gray-800 text-primary-400 self-end px-6 py-2"
+            className="self-end px-6 py-2 items-center"
             onClick={() => setSelectedTab("reviews")}
           >
             View Reviews
@@ -143,11 +170,14 @@ const DetailsTab = ({
         </div>
       </div>
 
-      <div className="features px-8 py-4 bg-zinc-200/30 rounded-lg flex flex-col gap-3">
+      <div className={twMerge(
+        'features px-8 py-4 rounded-lg flex flex-col gap-3', 
+        theme === 'dark' ? 'bg-gray-800' : 'bg-gray-200'
+      )}>
         <h3 className="text-lg font-medium capitalize text-center">Features</h3>
         {features.map(({ key, icon }) => (
           <div key={key} className="flex justify-between items-center capitalize text-sm">
-            <div className="flex justify-center items-center gap-4">
+            <div className="flex justify-center items-center gap-4 mr-4">
               <span> {icon} </span>
               <span> {key.replaceAll("_", " ")} </span>
             </div>
@@ -160,7 +190,10 @@ const DetailsTab = ({
         ))}
       </div>
 
-      <div className="serve px-8 py-4 bg-slate-200/40 rounded-lg flex flex-col gap-3">
+      <div className={twMerge(
+        'serve px-8 py-4 bg-slate-200/40 rounded-lg flex flex-col gap-3', 
+        theme === 'dark' ? 'bg-slate-800' : 'bg-slate-200'
+      )}>
         <h3 className="text-lg font-medium capitalize text-center">Serves</h3>
         {serves.map(({ key, icon }) => (
           <div key={key} className="flex justify-between items-center capitalize text-sm">

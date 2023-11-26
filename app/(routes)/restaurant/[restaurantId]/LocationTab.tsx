@@ -62,9 +62,10 @@ export default function LocationTab({
       <div className="flex items-center gap-4">
         <p>{restaurant.formatted_address}</p>
         <Button
+          color="primary"
           size="sm"
           endContent={<LocationArrow size={13} />}
-          className="bg-gray-800 text-primary-400"
+          className=""
           as={Link}
           href={
             `https://www.google.com/maps/search/?api=1&` + 

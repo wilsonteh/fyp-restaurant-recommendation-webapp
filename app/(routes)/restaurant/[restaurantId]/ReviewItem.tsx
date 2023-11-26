@@ -5,6 +5,7 @@ import { EllipsisV, ThumbsUp } from "@/app/_icons/Index";
 import { starRatingStyles } from "@/app/_utils/constants";
 import { ReviewSchema } from "@/app/_utils/interfaces/FirestoreSchema";
 import { Photo } from "@/app/_utils/interfaces/Interfaces";
+import { getImageDimension } from "@/app/_utils/utils";
 import { User, useDisclosure } from "@nextui-org/react";
 import { Rating } from "@smastrom/react-rating";
 import {
@@ -16,14 +17,14 @@ import {
   onSnapshot,
   updateDoc
 } from "firebase/firestore";
-import moment from "moment";
 import Image from "next/image";
 import { useEffect, useState } from "react";
 import { useAuthState } from "react-firebase-hooks/auth";
-import { Dimensions, getImageSize } from 'react-image-size';
+import { Dimensions } from 'react-image-size';
 import MultiRatingsPopover from "./MultiRatingsPopover";
 import PhotoModal from "./PhotoModal";
-import { getImageDimension } from "@/app/_utils/utils";
+import { twMerge } from "tailwind-merge";
+import { useTheme } from "next-themes";
 
 export default function ReviewItem({
   reviewRef,
@@ -33,6 +34,7 @@ export default function ReviewItem({
   review: ReviewSchema;
 }) {
 
+  const { theme } = useTheme();
   const [user] = useAuthState(auth);
   const [likeCount, setLikeCount] = useState<number|null>(null);
   const [hasLiked, setHasLiked] = useState<boolean|null>(null);
@@ -92,7 +94,7 @@ export default function ReviewItem({
 
   return (
     <div className="flex flex-col gap-2 px-2 py-3">
-      <div className="flex justify-between items-center">
+      <div className="user-panel flex justify-between items-center">
         <User
           as="button"
           isFocusable
@@ -101,6 +103,10 @@ export default function ReviewItem({
           avatarProps={{
             src: review.user.avatarUrl,
             size: "md",
+            className: twMerge(
+              'border-2',
+              theme === 'dark' ? 'border-primary-400' : 'border-slate-300'
+            )
           }}
           classNames={{
             base: "px-2 py-1",
@@ -161,11 +167,17 @@ export default function ReviewItem({
         <div className="text-sm flex items-center gap-2">
           <button
             onClick={handleLikeIncrement}
-            className="rounded-full hover:bg-slate-200"
+            className={twMerge(
+              "rounded-full p-2", 
+              theme === 'dark' ? 'hover:bg-slate-700' : 'text-slate-700 hover:bg-slate-200'
+            )}
           >
             <ThumbsUp
               size={20}
-              className={`${hasLiked ? "text-primary-600" : ""}`}
+              className={twMerge(
+                theme === 'dark' && hasLiked ? 'text-primary-500'
+              : theme === 'light' && hasLiked ? 'text-primary-700' : '', 
+              )}
             />
           </button>
           <span> {likeCount} </span>
@@ -176,7 +188,10 @@ export default function ReviewItem({
         </div>
       </div>
 
-      <hr className="border-slate-300" />
+      <hr className={twMerge(
+        'w-2/3 mx-auto',
+        theme === 'dark' ? 'border-slate-700/70' : 'border-slate-300'
+      )} />
 
     </div>
   );

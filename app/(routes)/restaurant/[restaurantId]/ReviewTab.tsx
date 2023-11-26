@@ -14,12 +14,13 @@ export default function ReviewTab() {
   return (
     <div className="flex flex-col items-start gap-4 px-4">
       <Button
+        color="primary"
         as={Link}
         href={`/restaurant/${restaurantId}/reviews/new`}
         size="sm"
         radius="full"
         endContent={<Pen size={12} />}
-        className="self-end bg-gray-800 text-primary-400"
+        className="self-end"
         onClick={onOpen}
       >
         Write a review

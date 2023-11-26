@@ -103,4 +103,5 @@ export interface RestaurantDetailInterface {
   vicinity: string;
   website: string;
   wheelchair_accessible_entrance: boolean;
+  [key: string]: any;
 }

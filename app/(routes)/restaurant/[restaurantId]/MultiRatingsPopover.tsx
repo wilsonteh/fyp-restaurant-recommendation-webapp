@@ -2,6 +2,8 @@
 import { Rating } from "@/app/_utils/interfaces/Interfaces";
 import { Button, Popover, PopoverContent, PopoverTrigger } from "@nextui-org/react";
 import { ItemStyles, Rating as StarRating } from "@smastrom/react-rating";
+import { useTheme } from "next-themes";
+import { twMerge } from "tailwind-merge";
 
 export default function MultiRatingsPopover({
   rating, 
@@ -11,6 +13,7 @@ export default function MultiRatingsPopover({
   ratingStyles: ItemStyles;
 }) {
 
+  const { theme } = useTheme();
   const ratings = [
     { name: 'food', value: rating.food }, 
     { name: 'service', value: rating.service }, 
@@ -24,7 +27,7 @@ export default function MultiRatingsPopover({
         <Button
           color="secondary"
           variant="light"
-          size="sm"
+          size="md"
           disableRipple
           className="w-fit font-medium p-2 min-w-0"
         >
@@ -32,7 +35,10 @@ export default function MultiRatingsPopover({
         </Button>
       </PopoverTrigger>
 
-      <PopoverContent className="flex flex-col items-start justify-center gap-2">
+      <PopoverContent className={twMerge(
+        'flex flex-col items-start justify-center gap-2 px-4 py-3',
+        theme === 'dark' ? 'bg-slate-800' : 'bg-white'
+      )}>
         {ratings.map((rating) => (
           <div
             key={rating.name}

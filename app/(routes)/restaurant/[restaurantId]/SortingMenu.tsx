@@ -8,7 +8,9 @@ import {
   DropdownTrigger,
 } from "@nextui-org/react";
 import { where, query, orderBy, Query, collection } from "firebase/firestore";
+import { useTheme } from "next-themes";
 import { useParams } from "next/navigation";
+import { twMerge } from "tailwind-merge";
 
 export default function SortingMenu({
   selectedSortKey, 
@@ -22,8 +24,8 @@ export default function SortingMenu({
   reviewN: number;
 }) {
 
+  const { theme } = useTheme();
   const sortKeys = ['default', 'newest', 'oldest', 'highest rated', 'lowest rated'];
-  const params = useParams();
   const { restaurantId } = useParams();
   const collectionRef = collection(db, "reviews");
 
@@ -66,12 +68,20 @@ export default function SortingMenu({
     <div className="flex items-center gap-2">
       <div>Sort by:</div>
 
-      <Dropdown className="border-1 border-primary-800">
+      <Dropdown className={twMerge(
+        'border-1',
+        theme === 'dark' 
+        ? 'bg-slate-800 border-slate-700' 
+        : 'bg-white border-slate-300'
+      )}>
         <DropdownTrigger>
           <Button
             color="primary"
             variant="bordered"
-            className="capitalize text-primary-800 border-primary-800"
+            className={twMerge(
+              'capitalize',
+              theme === 'dark' ? 'text-slate-400 border-slate-400' : 'text-slate-800 border-slate-500'
+            )}
           >
             {selectedSortKey}
           </Button>
@@ -85,12 +95,21 @@ export default function SortingMenu({
           onSelectionChange={(keys) =>
             handleSortingKeyChange(Array.from(keys)[0] as string)
           }
-          classNames={{}}
+          classNames={{
+
+          }}
         >
           {sortKeys.map((sortKey) => (
             <DropdownItem 
               key={sortKey} 
               className="capitalize" 
+              classNames={{
+                base: twMerge(
+                  theme === 'dark' 
+                  ? 'data-[selected]:!bg-slate-700 data-[focus]:!bg-slate-700' 
+                  : 'data-[hover]:!bg-slate-200 data-[focus]:!bg-slate-200' 
+                ),
+              }}
             >
               {sortKey}
             </DropdownItem>
