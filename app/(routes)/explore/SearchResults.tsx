@@ -1,17 +1,17 @@
+import StarRating from "@/app/_components/StarRating";
+import { DollarSign, LocationArrow } from "@/app/_icons/Index";
 import { fetcher } from "@/app/_lib/swr/fetcher";
 import { priceScales } from "@/app/_utils/constants";
 import { NearbySearchRestaurant } from "@/app/_utils/interfaces/Interfaces";
 import { thousandSeparator } from "@/app/_utils/utils";
-import { Card, CardBody, Button, Tooltip, Chip } from "@nextui-org/react";
-import Link from "next/link";
-import Image from "next/image";
-import { useSearchParams } from "next/navigation";
-import useSWRImmutable from "swr/immutable";
-import StarRating from "@/app/_components/StarRating";
-import { useEffect, useMemo, useState } from "react";
-import { DollarSign, LocationArrow } from "@/app/_icons/Index";
-import { twMerge } from "tailwind-merge";
+import { Button, Card, CardBody, Chip, Tooltip } from "@nextui-org/react";
 import { useTheme } from "next-themes";
+import Image from "next/image";
+import Link from "next/link";
+import { useSearchParams } from "next/navigation";
+import { useEffect, useMemo, useState } from "react";
+import useSWRImmutable from "swr/immutable";
+import { twMerge } from "tailwind-merge";
 
 export default function SearchResults({ toFetch } : { toFetch: boolean }) {
 

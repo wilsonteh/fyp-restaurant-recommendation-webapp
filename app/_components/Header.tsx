@@ -24,7 +24,6 @@ import { twMerge } from "tailwind-merge";
 export default function Header() {
   const { theme, setTheme } = useTheme();
   const pathname = usePathname();
-  const router = useRouter();
   const [isMenuOpen, setIsMenuOpen] = useState(false);
   const [user, loading, error] = useAuthState(auth);
 
