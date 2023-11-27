@@ -45,6 +45,7 @@ export default function LocationTab({
                 pixelOffset: {
                   width: 0,
                   height: -40,
+                  equals: () => false,
                 },
                 maxWidth: 250,
               }}
