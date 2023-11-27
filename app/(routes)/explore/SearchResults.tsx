@@ -19,7 +19,7 @@ export default function SearchResults({ toFetch } : { toFetch: boolean }) {
   const searchParams = useSearchParams();
   const [queryString, setQueryString] = useState("");
   const possibleSearchParams = useMemo(() => ['q', 'distance', 'opennow', 'minprice', 'maxprice', 'sortby'], [])
-  const { coords } = useGeolocation();
+  const { coords, isGeolocationEnabled } = useGeolocation();
   
   useEffect(() => {
     function constructQueryString() {
@@ -46,8 +46,8 @@ export default function SearchResults({ toFetch } : { toFetch: boolean }) {
     fetcher 
   );
   const restaurants = data as NearbySearchRestaurant[];
-  console.log("🦐 restaurants", restaurants);
-  
+  console.log("🚀 ~ file: SearchResults.tsx:49 ~ SearchResults ~ restaurants:", restaurants)
+
   if (error) return <div>Failed to load ...</div>
   if (isLoading) return <div>Loading ...</div>
   if (restaurants?.length === 0) {
@@ -75,18 +75,30 @@ const RestaurantItem = (restaurant: NearbySearchRestaurant) => {
 
   const { theme } = useTheme();
   let priceIndex = restaurant?.price_level;
-
+  // const { 
+  //   data: imgUrl, 
+  //   isLoading: isImgLoading,
+  //   error: photoError, 
+  // } = useSWRImmutable(
+  //   () => {
+  //     if (restaurant?.photos && restaurant?.photos[0]?.photo_reference) {
+  //       return `/api/place-photo?photoRef=${restaurant?.photos[0]?.photo_reference}`
+  //     }
+  //   }, 
+  //   fetcher
+  // );
+  
   return (
     <Card
       className={twMerge(
         theme === "dark" ? "bg-slate-800 hover:bg-slate-700/70" : "bg-slate-100"
-
       )}
     >
       <CardBody className="flex flex-row justify-start gap-2 w-full">
         <div className="img-wrapper relative min-w-[180px] min-h-[180px] overflow-hidden">
           <Image
             src={"https://via.placeholder.com/180x180"}
+            // src={imgUrl || "https://via.placeholder.com/180x180"}
             alt="image"
             className="rounded-md"
             fill={true}

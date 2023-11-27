@@ -7,7 +7,7 @@ import { fetcher } from "../_lib/swr/fetcher";
 import { Skeleton } from "@nextui-org/react";
 import useGeolocation from "../_hooks/useGeolocation";
 
-export default function RestaurantByCuisineGrid({ 
+export default function CuisineCardGrid({ 
   showN = 8, 
   cuisine,
 } : { 

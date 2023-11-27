@@ -42,7 +42,6 @@ export default function RestaurantCard({
     toFetch ? `/api/place-photo?photoRef=${restaurant?.photos[0]?.photo_reference}` : null, 
     fetcher
   );
-  console.log(imgUrl);
   
   useEffect(() => {
     // ensure it has a photo ref 

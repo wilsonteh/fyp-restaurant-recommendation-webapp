@@ -109,6 +109,9 @@ const SignupForm = () => {
           radius="sm"
           size="sm"
           className=""
+          classNames={{
+            innerWrapper: "",
+          }}
           isRequired
           onChange={confirmPassword.onChange} onBlur={confirmPassword.onBlur} name={confirmPassword.name} ref={confirmPassword.ref}
           endContent={
@@ -117,7 +120,7 @@ const SignupForm = () => {
               className="p-1 rounded-full hover:bg-slate-100"
               onClick={() => setShowConfirmPassword(!showConfirmPassword)}
             >
-              { showConfirmPassword ? <Eye fill="black" /> : <EyeSlash fill="black" /> }
+              { showConfirmPassword ? <Eye size={15} /> : <EyeSlash size={15} /> }
             </button>
           }
           errorMessage={errors.confirmPassword?.message}
@@ -135,7 +138,7 @@ const SignupForm = () => {
 
         <div className="grid grid-cols-2 gap-4">
           <Button
-            startContent={<Google className="w-4 h-4" />}
+            startContent={<Google size={17} />}
             className="bg-light text-dark border-2 border-dark/90"
             onClick={signInWithGoogle}
             >
@@ -143,7 +146,7 @@ const SignupForm = () => {
           </Button>
 
           <Button
-            startContent={<Facebook fill="#EEF2F4" className="w-4 h-4" />}
+            startContent={<Facebook size={17} className="text-slate-100" />}
             className="bg-[#4267B2] text-light"
             onClick={signInWithFacebook}
             >

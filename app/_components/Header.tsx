@@ -26,7 +26,7 @@ export default function Header() {
   const pathname = usePathname();
   const [isMenuOpen, setIsMenuOpen] = useState(false);
   const [user, loading, error] = useAuthState(auth);
-
+  
   const isNavActive = (href: string) => {
     return pathname === href;
   };

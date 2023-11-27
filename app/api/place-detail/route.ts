@@ -5,7 +5,6 @@ const API_KEY = process.env.GOOGLE_CLOUD_API_KEY!;
 
 export async function GET(request: Request) {
   console.log("--- 😓😓😓 Calling place detail API --- ");
-
   const { searchParams } = new URL(request.url);
   const placeId = searchParams.get("placeId");
   const fields = searchParams.get("fields");
@@ -20,6 +19,7 @@ export async function GET(request: Request) {
       },
     }
   );
+  
   const data = await res.json();
   return NextResponse.json(data.result);
 };

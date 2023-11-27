@@ -1,14 +1,13 @@
 "use client";
 import useQueryParams from "@/app/_hooks/useQueryParams";
-import { priceScales } from "@/app/_utils/constants";
-import { Button, Checkbox, CheckboxGroup, Select, SelectItem, Switch } from "@nextui-org/react";
-import { useRouter, useSearchParams } from "next/navigation";
-import { useCallback, useEffect, useMemo, useState } from "react";
-import { setTimeout } from "timers";
 import { DollarSign } from "@/app/_icons/Index";
+import { priceScales } from "@/app/_utils/constants";
+import { Button, Checkbox, CheckboxGroup, Select, SelectItem } from "@nextui-org/react";
 import { useTheme } from "next-themes";
-import { distance } from "framer-motion";
+import { useSearchParams } from "next/navigation";
+import { useCallback, useEffect, useMemo, useState } from "react";
 import { twMerge } from "tailwind-merge";
+import { setTimeout } from "timers";
 
 export default function Filters() {
 

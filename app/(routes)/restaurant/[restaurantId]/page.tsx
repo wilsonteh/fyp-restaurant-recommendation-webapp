@@ -1,11 +1,12 @@
-import { RestaurantDetailInterface } from "@/app/_utils/interfaces/PlaceDetailInterface";
-import { fetchDistanceInfo, fetchImageUrls, fetchRestaurantById } from "@/app/_lib/data-fetching";
 import { Globe, PhoneAlt } from "@/app/_icons/Index";
+import { fetchImageUrls, fetchRestaurantById } from "@/app/_lib/data-fetching";
 import { thousandSeparator } from "@/app/_utils/utils";
 import Link from "next/link";
 import RestaurantPhotoGrid from "./RestaurantPhotoGrid";
 import RestaurantTabs from "./RestaurantTabs";
 import StarRating from "./StarRating";
+
+export const revalidate = 3600 // revalidate at most every hour
 
 export default async function RestaurantDetailPage({
   params,
@@ -13,7 +14,7 @@ export default async function RestaurantDetailPage({
   params: { restaurantId: string }
 }) {
 
-  const restaurant = await fetchRestaurantById(params.restaurantId) as RestaurantDetailInterface;
+  const restaurant = await fetchRestaurantById(params.restaurantId);
   const photoRefs = restaurant.photos.map(photo => photo.photo_reference);
   const urls = await fetchImageUrls(photoRefs);
   const imageUrls = urls.map(url => url.imageUrl || url);

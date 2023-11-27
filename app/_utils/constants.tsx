@@ -21,21 +21,21 @@ export const navbarItems = [
 ];
 
 export const profileDropdownItems = [
-  {
-    name: 'profile', 
-    href: '/user/profile',
-    icon: <UserIcon size={15} /> 
-  }, 
-  {
-    name: 'settings',
-    href: '/user/settings',
-    icon: <GearIcon size={15} /> 
-  }, 
-  {
-    name: 'customize preferences', 
-    href: '/user/preferences', 
-    icon: <UtensilsIcon size={15} />
-  },
+  // {
+  //   name: 'profile', 
+  //   href: '/user/profile',
+  //   icon: <UserIcon size={15} /> 
+  // }, 
+  // {
+  //   name: 'settings',
+  //   href: '/user/settings',
+  //   icon: <GearIcon size={15} /> 
+  // }, 
+  // {
+  //   name: 'customize preferences', 
+  //   href: '/user/preferences', 
+  //   icon: <UtensilsIcon size={15} />
+  // },
   {
     name: 'favourited restaurants', 
     href: '/user/favourites', 
