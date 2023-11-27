@@ -28,7 +28,7 @@ export async function fetchRestaurantById(
 };
 
 // fetch image urls by passing an array of photo reference
-export async function fetchImageUrls(photoRefs: String[]): Promise<string[]> {
+export async function fetchImageUrls(photoRefs: String[]): Promise<any[]> {
   console.log("--- 🍳🍳🍳 Calling place photo API on server --- ");
 
   const API_KEY = process.env.GOOGLE_CLOUD_API_KEY!;
