@@ -6,8 +6,6 @@ import RestaurantPhotoGrid from "./RestaurantPhotoGrid";
 import RestaurantTabs from "./RestaurantTabs";
 import StarRating from "./StarRating";
 
-export const revalidate = 3600 // revalidate at most every hour
-
 export default async function RestaurantDetailPage({
   params,
 }: {

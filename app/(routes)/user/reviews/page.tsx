@@ -2,7 +2,7 @@
 import { auth } from "@/app/_firebase/auth";
 import { db } from "@/app/_firebase/firestore";
 import { ReviewSchema } from "@/app/_utils/interfaces/FirestoreSchema";
-import { collection, query, where } from "firebase/firestore";
+import { collection, orderBy, query, where } from "firebase/firestore";
 import { useAuthState } from "react-firebase-hooks/auth";
 import { useCollectionOnce } from "react-firebase-hooks/firestore";
 import Masonry, { ResponsiveMasonry } from "react-responsive-masonry";
@@ -14,17 +14,19 @@ export default function ReviewsPage() {
   const collectionRef = collection(db, "reviews");
   const fetchReviewsQuery = query(
     collectionRef, 
-    where("user.id", "==", user ? user.uid : "")
+    where("user.id", "==", user ? user.uid : ""), 
+    orderBy("createdAt", "desc"),
   );
   const [reviews, isLoading, error, reload] = useCollectionOnce(fetchReviewsQuery, {
     getOptions: { source: "server" },
   });
-
-  if (isLoading) return <div>Loading data...</div>
+  
+  if (isLoading) return <div>Loading review...</div>
+  if (error) return <div>Error...</div>
 
   return (
-    <main className="px-4">
-      <h1 className="font-semibold text-xl">My Reviews</h1>
+    <div className="px-4">
+      <h1 className="font-semibold text-xl mb-4">My Reviews</h1>
       <ResponsiveMasonry columnsCountBreakPoints={{ 300: 1, 500: 2, 750: 3, 1000: 4}}>
         <Masonry gutter="1.2rem">
           {reviews?.docs.map((review, i) => (
@@ -35,7 +37,6 @@ export default function ReviewsPage() {
           ))}
         </Masonry>
       </ResponsiveMasonry>
-
-    </main>
+    </div>
   );
 }
