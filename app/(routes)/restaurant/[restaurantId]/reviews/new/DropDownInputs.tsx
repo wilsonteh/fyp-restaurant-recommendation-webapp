@@ -1,6 +1,5 @@
 "use client";
 import { Select, SelectItem } from "@nextui-org/react";
-import { render } from "react-dom";
 import { Controller } from "react-hook-form";
 
 export default function DropDownInputs({ control }: any ) {
