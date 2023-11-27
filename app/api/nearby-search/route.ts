@@ -1,5 +1,5 @@
 import { NearbySearchParams, NearbySearchRestaurant } from "@/app/_utils/interfaces/Interfaces";
-import { NextRequest, NextResponse } from "next/server";
+import { type NextRequest, NextResponse } from "next/server";
 
 const BASE_URL = "https://maps.googleapis.com/maps/api/place/nearbysearch/json";
 const API_KEY = process.env.GOOGLE_CLOUD_API_KEY!;
@@ -18,10 +18,8 @@ export async function GET(request: NextRequest) {
     const restaurants = await processStaticCall(searchParams);
     return NextResponse.json(restaurants);
   }
-
   else if (calltype === 'search') {
     const restaurants = await processSearchCall(searchParams);
-
     return NextResponse.json(restaurants);
   }
   return;
@@ -72,7 +70,6 @@ async function processStaticCall(searchParams: URLSearchParams) {
 
 
 async function processSearchCall(searchParams: URLSearchParams) {
-  
   const lat = searchParams.get("lat");   
   const lng = searchParams.get("lng");
   const keyword = searchParams.get("q");   // search query 
@@ -107,35 +104,23 @@ async function processSearchCall(searchParams: URLSearchParams) {
   p.rankby && (requestUrl += `rankby=${p.rankby}`);
 
   console.log("🚀 GET ~ requestUrl:", requestUrl)
-  const res = await fetch(requestUrl, { headers: { "Content-Type": "application/json" }});
-  const data = await res.json();
-
-  let nextPageToken = data.next_page_token as string|undefined;
-  const currentRestaurants = data.results as NearbySearchRestaurant[];
-  const restaurants = [...currentRestaurants];
-  
-  while (nextPageToken) {
-    const { restaurantResults, next_page_token } = await getMoreResults(nextPageToken);
-    restaurants.push(...restaurantResults);
-    nextPageToken = next_page_token;
-  }
-  console.log("🚀 Total restaurants:", restaurants.length)
-  return restaurants
-};
-
-async function getMoreResults(next_page_token: string) {
-  // *!SECTION THIS DUMMY DELAY IS IMPORTANT 
-  await new Promise(resolve => setTimeout(resolve, 2000));
-  const requestUrl = `${BASE_URL}?key=${API_KEY}&pagetoken=${next_page_token}`;
-  // console.log("🚀 ~ file: route.ts:145 ~ getMoreResults ~ requestUrl:", requestUrl)
   const res = await fetch(requestUrl, {
     headers: {
       "Content-Type": "application/json",
     },
   });
-  const data = await res.json();
-  const nextPageToken = data.next_page_token as string|undefined;
-  const restaurantResults = data.results as NearbySearchRestaurant[];
-  return { restaurantResults, next_page_token: nextPageToken };
 
+  const data = await res.json();
+
+  // *SECTION: do higheste rated & most reviewed sorting here 
+  const restaurants = data.results as NearbySearchRestaurant[];
+  if (rankby) {
+    if (rankby === 'highest_rated') {
+      restaurants.sort((a, b) => b.rating - a.rating);
+    } 
+    else if (rankby === 'most_reviewed') {
+      restaurants.sort((a, b) => b.user_ratings_total - a.user_ratings_total);
+    }
+  }
+  return restaurants;
 };
