@@ -85,16 +85,16 @@ const NearbyRestaurants = ({
         Restaurants near me 
       </h1>
 
-      <RestaurantsGrid>
+      {/* <RestaurantsGrid>
         {restaurants
           ?.slice(0, showN)
           .map((restaurant: NearbySearchRestaurant) => (
             <RestaurantCard key={restaurant.place_id} restaurant={restaurant} />
-        ))}
+        ))} */}
         {/* { restaurants?.map((restaurant: any) => (
           <div key={restaurant.name}> { restaurant.name } </div>
         ))} */}
-      </RestaurantsGrid>
+      {/* </RestaurantsGrid> */}
 
       {/* <ViewAllButton /> */}
     </div>
