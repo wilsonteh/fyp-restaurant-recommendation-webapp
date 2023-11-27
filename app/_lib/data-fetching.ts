@@ -51,5 +51,6 @@ export async function fetchImageUrls(photoRefs: String[]): Promise<any[]> {
     return url;
   }));
 
+  console.log("🚀 ~ file: data-fetching.ts:55 ~ fetchImageUrls ~ imageUrls:", imageUrls)
   return imageUrls;
 };

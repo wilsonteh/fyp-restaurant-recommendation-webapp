@@ -16,8 +16,8 @@ export default async function RestaurantDetailPage({
 
   const restaurant = await fetchRestaurantById(params.restaurantId);
   const photoRefs = restaurant.photos.map(photo => photo.photo_reference);
-  const urls = await fetchImageUrls(photoRefs);
-  const imageUrls = urls.map(url => url.imageUrl || url);
+  const imageUrls = await fetchImageUrls(photoRefs);
+  // const imageUrls = urls.map(url => url.imageUrl || url);
   
   const imageDimensions = restaurant.photos.map((photo, i) => ({
     width: photo.width,
