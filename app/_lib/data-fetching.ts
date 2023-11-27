@@ -1,3 +1,4 @@
+import { url } from "inspector";
 import { RestaurantDetailInterface } from "../_utils/interfaces/PlaceDetailInterface";
 
 // fetch a particular restaurant by its id 
@@ -5,7 +6,7 @@ export async function fetchRestaurantById(
   placeId: string, 
   fields?: string,
 ): Promise<RestaurantDetailInterface> {
-  console.log("--- 😓😓😓 Calling place detail API on server --- ");
+  // console.log("--- 😓😓😓 Calling place detail API on server --- ");
 
   const API_KEY = process.env.GOOGLE_CLOUD_API_KEY!;
   const BASE_URL = "https://maps.googleapis.com/maps/api/place/details/json";
@@ -17,7 +18,6 @@ export async function fetchRestaurantById(
   fields && (requestUrl += `&fields=${fields}`);
 
   const res = await fetch(requestUrl, { headers: { 'Content-Type': 'application/json' } });
-
   if (!res.ok) {
     throw new Error(`Failed to fetch restaurant of id: ${placeId}`);
   }
@@ -29,7 +29,7 @@ export async function fetchRestaurantById(
 
 // fetch image urls by passing an array of photo reference
 export async function fetchImageUrls(photoRefs: String[]): Promise<any[]> {
-  console.log("--- 🍳🍳🍳 Calling place photo API on server --- ");
+  // console.log("--- 🍳🍳🍳 Calling place photo API on server --- ");
 
   const API_KEY = process.env.GOOGLE_CLOUD_API_KEY!;
   const BASE_URL = "https://maps.googleapis.com/maps/api/place/photo"
