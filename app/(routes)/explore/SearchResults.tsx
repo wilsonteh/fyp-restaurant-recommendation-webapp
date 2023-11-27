@@ -1,4 +1,5 @@
 import StarRating from "@/app/_components/StarRating";
+import useGeolocation from "@/app/_hooks/useGeolocation";
 import { DollarSign, LocationArrow } from "@/app/_icons/Index";
 import { fetcher } from "@/app/_lib/swr/fetcher";
 import { priceScales } from "@/app/_utils/constants";
@@ -18,6 +19,7 @@ export default function SearchResults({ toFetch } : { toFetch: boolean }) {
   const searchParams = useSearchParams();
   const [queryString, setQueryString] = useState("");
   const possibleSearchParams = useMemo(() => ['q', 'distance', 'opennow', 'minprice', 'maxprice', 'sortby'], [])
+  const { coords } = useGeolocation();
   
   useEffect(() => {
     function constructQueryString() {
@@ -36,8 +38,11 @@ export default function SearchResults({ toFetch } : { toFetch: boolean }) {
   }, [possibleSearchParams, searchParams])
   
   const { data, isLoading, error } = useSWRImmutable(
-    // lat, lng, radius hardcode for now 
-    toFetch ? `/api/nearby-search?calltype=search&lat=3.067440966219083&lng=101.60387318211183&radius=1000&${queryString}` : null, 
+    () => {
+      if (toFetch && coords) {
+        return `/api/nearby-search?calltype=search&lat=${coords.latitude}&lng=${coords.longitude}&radius=1000&${queryString}`
+      }
+    },
     fetcher 
   );
   const restaurants = data as NearbySearchRestaurant[];

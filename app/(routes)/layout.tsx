@@ -30,7 +30,7 @@ export default function RootLayout({
       <body className='font-poppins'>
         <Providers>
           <Header />
-            { children }
+            <div className="min-h-screen"> { children } </div>
           <Footer />
         </Providers>
       </body>

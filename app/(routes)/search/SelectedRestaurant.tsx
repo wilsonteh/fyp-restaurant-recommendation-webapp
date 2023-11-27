@@ -1,13 +1,18 @@
+"use client";
 import { Card, CardBody, CardHeader } from "@nextui-org/react";
 import Image from "next/image";
 import Link from "next/link";
 import { SelectedRestaurant } from "@/app/_utils/interfaces/Interfaces";
+import { twMerge } from "tailwind-merge";
+import { useTheme } from "next-themes";
 
 interface SelectedPlaceProps {
   place: SelectedRestaurant;
 }
 
 const SelectedRestaurant = ({ place }: SelectedPlaceProps) => {
+  
+  const { theme } = useTheme();
 
   return (
     <Card
@@ -16,10 +21,10 @@ const SelectedRestaurant = ({ place }: SelectedPlaceProps) => {
       isHoverable={true}
       isPressable={true}
       classNames={{
-        base: [
+        base: twMerge(
           "flex flex-col w-[300px] mx-auto p-4 border-1 border-transparent", 
-          "data-[hover]:bg-light/80 data-[hover]:border-dark/30",
-        ], 
+          theme === "dark" ? "bg-slate-800 hover:!bg-slate-700/70" : "bg-slate-100"
+        ),
       }}
       >
       <CardBody className="p-0 mb-4">

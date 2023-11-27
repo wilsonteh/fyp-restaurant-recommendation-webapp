@@ -97,6 +97,7 @@ export default function Header() {
 
       {/* *SECTION - RIGHT SECTION */}
       <NavbarContent justify="end" className="">
+        <ThemeSwitcher />
         {!user ? (
           <>
             <NavbarItem className="">
@@ -126,16 +127,13 @@ export default function Header() {
           <ProfileDropDown user={user} />
         )}
       </NavbarContent>
-      
-      <ThemeSwitcher />
-      
     </Navbar>
   );
 };
 
 const ThemeSwitcher = () => {
 
-  const { theme, setTheme } = useTheme();
+  const { setTheme } = useTheme();
   
   return (
     <Switch

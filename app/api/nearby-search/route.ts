@@ -104,12 +104,7 @@ async function processSearchCall(searchParams: URLSearchParams) {
   p.rankby && (requestUrl += `rankby=${p.rankby}`);
 
   console.log("🚀 GET ~ requestUrl:", requestUrl)
-  const res = await fetch(requestUrl, {
-    headers: {
-      "Content-Type": "application/json",
-    },
-  });
-
+  const res = await fetch(requestUrl, { headers: { "Content-Type": "application/json" }});
   const data = await res.json();
 
   // *SECTION: do higheste rated & most reviewed sorting here 
