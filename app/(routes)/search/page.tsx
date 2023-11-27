@@ -10,7 +10,7 @@ import { useTheme } from "next-themes";
 export default function SearchPage() {
 
   const { theme } = useTheme();
-  const [selectedRestaurant, setSelectedRestaurant] = useState<SelectedRestaurant | null>(null);
+  const [selectedRestaurant, setSelectedRestaurant] = useState<any|null>(null);
 
   const { ref: inputRef } = usePlacesWidget({
     apiKey: process.env.NEXT_PUBLIC_GOOGLE_CLOUD_API_KEY,
@@ -22,7 +22,6 @@ export default function SearchPage() {
     options: {
       types: ["establishment"],
       fields: ["formatted_address", "geometry", "name", "place_id", "opening_hours", "photos"],
-      componentRestrictions: "my"
     },
   });
 
