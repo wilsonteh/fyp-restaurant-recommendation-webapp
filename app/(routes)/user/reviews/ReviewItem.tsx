@@ -77,7 +77,7 @@ export default function ReviewItem({
     } catch (e) {
       console.error(`Error deleting review of id ${id}`)
     }
-  }
+  };
   
   return (
     <div className={twMerge(

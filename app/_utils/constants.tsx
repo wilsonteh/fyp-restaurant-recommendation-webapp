@@ -37,7 +37,7 @@ export const profileDropdownItems = [
   //   icon: <UtensilsIcon size={15} />
   // },
   {
-    name: 'favourited restaurants', 
+    name: 'my favourited', 
     href: '/user/favourites', 
     icon: <HeartIcon size={15} />
   },

@@ -26,4 +26,10 @@ export interface ReviewSchema {
     displayName: string;
     avatarUrl: string;
   };
+};
+
+export interface FavouritesSchema {
+  restaurantId: string;
+  userId: string;
+  createdAt: Timestamp;
 }
