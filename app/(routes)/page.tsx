@@ -7,9 +7,9 @@ export default async function HomePage() {
   return (
     <main className="max-w-[1300px] mx-auto px-8 py-4">
       
-      { popularLocations.slice(0,11).map((p, i) => (
+      {/* { popularLocations.slice(0,11).map((p, i) => (
         <PopularRestaurantGrid key={i} showN={1} place={p} />
-      ))}
+      ))} */}
 
       <BrowseByCuisineGrid />
     </main>
