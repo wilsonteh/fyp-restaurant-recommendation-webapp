@@ -1,18 +1,15 @@
 "use client";
 import FormErrorMessage from "@/app/_components/FormErrorMessage";
-import { auth, signInWithFacebook, signInWithGoogle, signUpWithPassword } from "@/app/_firebase/auth";
-import { getAuthErrorMessage } from "@/app/_firebase/authErrorMapper";
+import { auth, signInWithFacebook, signInWithGoogle } from "@/app/_firebase/auth";
 import { Eye, EyeSlash, Facebook, Google } from "@/app/_icons/Index";
 import { SignupFormData } from "@/app/_utils/interfaces/FormData";
 import { Button } from "@nextui-org/button";
 import { Input } from "@nextui-org/input";
-import { user } from "@nextui-org/react";
-import { sendEmailVerification } from "firebase/auth";
 import { useTheme } from "next-themes";
 import Link from "next/link";
 import { redirect, useRouter } from "next/navigation";
 import { useEffect, useState } from "react";
-import { useAuthState, useCreateUserWithEmailAndPassword, useSendEmailVerification } from "react-firebase-hooks/auth";
+import { useAuthState, useCreateUserWithEmailAndPassword, useSignInWithFacebook, useSignInWithGoogle } from "react-firebase-hooks/auth";
 import { SubmitHandler, useForm } from "react-hook-form";
 import toast from "react-hot-toast";
 import { twMerge } from "tailwind-merge";
@@ -23,11 +20,7 @@ export default function SignupPage() {
   const [showPassword, setShowPassword] = useState<boolean>(false);
   const [showConfirmPassword, setShowConfirmPassword] =
     useState<boolean>(false);
-  const {
-    register,
-    handleSubmit,
-    formState: { errors },
-  } = useForm<SignupFormData>();
+  const { register, handleSubmit, formState: { errors } } = useForm<SignupFormData>();
   const [
     createUserWithEmailAndPassword, 
     newUser, 
@@ -36,6 +29,7 @@ export default function SignupPage() {
   ] = useCreateUserWithEmailAndPassword(auth, {
     sendEmailVerification: true
   });
+  const [ signInWithGoogle ] = useSignInWithGoogle(auth);
   const [loggedinUser] = useAuthState(auth);
 
   const emailReg = register("email", {
@@ -219,18 +213,18 @@ export default function SignupPage() {
             <Button
               startContent={<Google size={17} />}
               className="bg-light text-dark border-2 border-dark/90"
-              onClick={signInWithGoogle}
+              onClick={() => signInWithGoogle()}
             >
               Google
             </Button>
 
-            <Button
+            {/* <Button
               startContent={<Facebook size={17} className="text-slate-100" />}
               className="bg-[#4267B2] text-light"
-              onClick={signInWithFacebook}
+              onClick={() => signInWithFacebook()}
             >
               Facebook
-            </Button>
+            </Button> */}
           </div>
 
           <p className="text-center">

@@ -10,7 +10,7 @@ import { useTheme } from "next-themes";
 import Link from "next/link";
 import { redirect } from "next/navigation";
 import { useEffect, useState } from "react";
-import { useSignInWithEmailAndPassword } from "react-firebase-hooks/auth";
+import { useAuthState, useSignInWithEmailAndPassword, useSignInWithGoogle } from "react-firebase-hooks/auth";
 import { SubmitHandler, useForm } from "react-hook-form";
 import toast from "react-hot-toast";
 import { twMerge } from "tailwind-merge";
@@ -21,6 +21,8 @@ export default function LoginPage() {
   const [showPassword, setShowPassword] = useState<boolean>(false);
   const { register, handleSubmit, formState: { errors } } = useForm<LoginFormData>();
   const [ signInWithEmailAndPassword, user, signinLoading, signinError ] = useSignInWithEmailAndPassword(auth);
+  const [ signInWithGoogle ] = useSignInWithGoogle(auth);
+  const [loggedinUser] = useAuthState(auth);
 
   const emailReg = register("email", {
     required: "Email cannot be left empty",
@@ -44,10 +46,10 @@ export default function LoginPage() {
 
   useEffect(() => {
     // to redirect user to home page after authenticate with social login
-    if (user) {
+    if (loggedinUser) {
       redirect('/');
     }
-  }, [user])
+  }, [loggedinUser])
   
   return (
     <main className="max-w-screen-xl mx-auto">
@@ -139,18 +141,18 @@ export default function LoginPage() {
             <Button
               startContent={<Google size={15} />}
               className="bg-light text-dark border-2 border-dark/90"
-              onClick={signInWithGoogle}
+              onClick={() => signInWithGoogle()}
             >
               Google
             </Button>
 
-            <Button
+            {/* <Button
               startContent={<Facebook size={15} />}
               className="bg-[#4267B2] text-light"
               onClick={signInWithFacebook}
             >
               Facebook
-            </Button>
+            </Button> */}
           </div>
 
           <p className="text-center">

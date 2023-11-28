@@ -37,6 +37,7 @@ export const signInWithPassword = async (email: string, password: string) => {
   return { errorCode, errorMsg };
 }
 
+// not used anymore 
 export const signInWithGoogle = async () => {
   const provider = new GoogleAuthProvider();
   try {
@@ -57,6 +58,7 @@ export const signInWithGoogle = async () => {
   }
 };
 
+// not used anymore 
 export const signInWithFacebook = async () => {
   const provider = new FacebookAuthProvider();
   try {
