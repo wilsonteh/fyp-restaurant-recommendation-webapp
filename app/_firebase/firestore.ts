@@ -9,9 +9,11 @@ import {
   getFirestore,
   query,
   updateDoc,
+  where,
 } from "firebase/firestore";
 import { app } from "./config";
 import { FirebaseError } from "firebase/app";
+import { user } from "@nextui-org/react";
 
 export const db = getFirestore(app);
 
@@ -72,4 +74,16 @@ export const updateDocument = async (
     throw e;
   }
   
+}
+
+export const checkIsFavourited = async (userId: string, restaurantId: string) => {
+  const collectionRef = collection(db, "favourites");
+  const q = query(
+    collectionRef, 
+    where("userId", "==", userId), 
+    where("restaurantId", "==", restaurantId)
+  );
+  const snapShot = await getDocs(q)
+  let isFavourited = !snapShot.empty;
+  return isFavourited;
 }

@@ -5,6 +5,7 @@ import Link from "next/link";
 import RestaurantPhotoGrid from "./RestaurantPhotoGrid";
 import RestaurantTabs from "./RestaurantTabs";
 import StarRating from "./StarRating";
+import FavouriteButton from "./FavouriteButton";
 
 export const revalidate = 86400 // revalidate at most 1 day 
 
@@ -58,6 +59,10 @@ export default async function RestaurantDetailPage({
                 <Link href={restaurant.website} className="underline">website</Link>
               </> 
             </div> )} 
+
+          <div className="">
+            <FavouriteButton restaurantId={restaurant.place_id} />
+          </div>
         </div>
       </section>
 
@@ -69,4 +74,4 @@ export default async function RestaurantDetailPage({
 
     </div>
   );
-}
+};

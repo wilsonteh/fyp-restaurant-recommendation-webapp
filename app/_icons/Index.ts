@@ -4,6 +4,8 @@ export { default as Bars } from './bars';
 export { default as Beer } from './beer';
 export { default as BellConcierge } from './bell-concierge';
 export { default as Breakfast } from './breakfast';
+export { default as BookmarkOutline } from './bookmark-outline';
+export { default as Bookmark } from './bookmark';
 export { default as CalendarAlt } from './calendar-alt';
 export { default as Car } from './car';
 export { default as Check } from './check';
