@@ -1,7 +1,7 @@
 "use client";
 import FormErrorMessage from "@/app/_components/FormErrorMessage";
-import { auth, signInWithFacebook, signInWithGoogle } from "@/app/_firebase/auth";
-import { Eye, EyeSlash, Facebook, Google } from "@/app/_icons/Index";
+import { auth } from "@/app/_firebase/auth";
+import { Eye, EyeSlash, Google } from "@/app/_icons/Index";
 import { SignupFormData } from "@/app/_utils/interfaces/FormData";
 import { Button } from "@nextui-org/button";
 import { Input } from "@nextui-org/input";
@@ -9,7 +9,7 @@ import { useTheme } from "next-themes";
 import Link from "next/link";
 import { redirect, useRouter } from "next/navigation";
 import { useEffect, useState } from "react";
-import { useAuthState, useCreateUserWithEmailAndPassword, useSignInWithFacebook, useSignInWithGoogle } from "react-firebase-hooks/auth";
+import { useAuthState, useCreateUserWithEmailAndPassword, useSignInWithGoogle } from "react-firebase-hooks/auth";
 import { SubmitHandler, useForm } from "react-hook-form";
 import toast from "react-hot-toast";
 import { twMerge } from "tailwind-merge";
@@ -209,7 +209,7 @@ export default function SignupPage() {
             <hr className="w-full h-1" />
           </div>
 
-          <div className="grid grid-cols-2 gap-4">
+          <div className="grid grid-cols-1 gap-4">
             <Button
               startContent={<Google size={17} />}
               className="bg-light text-dark border-2 border-dark/90"
@@ -217,14 +217,6 @@ export default function SignupPage() {
             >
               Google
             </Button>
-
-            {/* <Button
-              startContent={<Facebook size={17} className="text-slate-100" />}
-              className="bg-[#4267B2] text-light"
-              onClick={() => signInWithFacebook()}
-            >
-              Facebook
-            </Button> */}
           </div>
 
           <p className="text-center">

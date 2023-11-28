@@ -1,5 +1,6 @@
 export { default as AngleDown } from './angle-down';
 export { default as AngleRight } from './angle-right';
+export { default as Apple } from './apple';
 export { default as Bars } from './bars';
 export { default as Beer } from './beer';
 export { default as BellConcierge } from './bell-concierge';

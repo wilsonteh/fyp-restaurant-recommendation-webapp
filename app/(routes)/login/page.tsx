@@ -1,12 +1,12 @@
 "use client";
 import FormErrorMessage from "@/app/_components/FormErrorMessage";
-import { auth, signInWithFacebook, signInWithGoogle } from "@/app/_firebase/auth";
-import { getAuthErrorMessage } from "@/app/_firebase/authErrorMapper";
-import { Eye, EyeSlash, Facebook, Google } from "@/app/_icons/Index";
+import { auth } from "@/app/_firebase/auth";
+import { Eye, EyeSlash, Google } from "@/app/_icons/Index";
 import { LoginFormData } from "@/app/_utils/interfaces/FormData";
 import { Button } from "@nextui-org/button";
 import { Input } from "@nextui-org/input";
 import { useTheme } from "next-themes";
+import error from "next/error";
 import Link from "next/link";
 import { redirect } from "next/navigation";
 import { useEffect, useState } from "react";
@@ -23,7 +23,7 @@ export default function LoginPage() {
   const [ signInWithEmailAndPassword, user, signinLoading, signinError ] = useSignInWithEmailAndPassword(auth);
   const [ signInWithGoogle ] = useSignInWithGoogle(auth);
   const [loggedinUser] = useAuthState(auth);
-
+  
   const emailReg = register("email", {
     required: "Email cannot be left empty",
     pattern: {
@@ -137,7 +137,7 @@ export default function LoginPage() {
             <hr className="w-full h-1" />
           </div>
 
-          <div className="grid grid-cols-2 gap-4">
+          <div className="grid grid-cols-1 gap-4">
             <Button
               startContent={<Google size={15} />}
               className="bg-light text-dark border-2 border-dark/90"
@@ -145,14 +145,6 @@ export default function LoginPage() {
             >
               Google
             </Button>
-
-            {/* <Button
-              startContent={<Facebook size={15} />}
-              className="bg-[#4267B2] text-light"
-              onClick={signInWithFacebook}
-            >
-              Facebook
-            </Button> */}
           </div>
 
           <p className="text-center">
