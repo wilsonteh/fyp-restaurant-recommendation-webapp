@@ -8,6 +8,7 @@ import {
   MarkerF,
   useJsApiLoader,
 } from "@react-google-maps/api";
+import { useTheme } from "next-themes";
 import Link from "next/link";
 import { useState } from "react";
 
@@ -17,6 +18,7 @@ export default function LocationTab({
   restaurant: RestaurantDetailInterface 
 }) {
 
+  const { theme } = useTheme();
   const { lat, lng } = restaurant.geometry.location
   const [showMarkerInfo, setMarkerInfo] = useState(false);
 
@@ -60,11 +62,12 @@ export default function LocationTab({
         </GoogleMap>
       )}
 
-      <div className="flex items-center gap-4">
-        <p>{restaurant.formatted_address}</p>
+      <div className="flex flex-col items-center justify-center gap-4">
+        <p className="text-center">{restaurant.formatted_address}</p>
+
         <Button
           color="primary"
-          size="sm"
+          variant={theme === 'dark' ? 'bordered' : 'solid'}
           endContent={<LocationArrow size={13} />}
           className=""
           as={Link}

@@ -1,6 +1,7 @@
 "use client";
 import { auth } from "@/app/_firebase/auth";
 import { checkIsFavourited, db, insertDoc } from "@/app/_firebase/firestore";
+import useMyMediaQuery from "@/app/_hooks/useMyMediaQuery";
 import { Bookmark, BookmarkOutline, Heart, HeartOutline } from "@/app/_icons/Index";
 import { Button } from "@nextui-org/react";
 import { collection, deleteDoc, doc, getDoc, getDocs, query, serverTimestamp, where } from "firebase/firestore";
@@ -11,6 +12,7 @@ const FavouriteButton = ({ restaurantId } : { restaurantId: string }) => {
 
   const [ user ] = useAuthState(auth);
   const [isFavourited, setIsFavourited] = useState<boolean|null>(null);
+  const { xsScreen } = useMyMediaQuery();
 
   useEffect(() => {
     async function getIsBookmarked() {
@@ -55,10 +57,11 @@ const FavouriteButton = ({ restaurantId } : { restaurantId: string }) => {
   return (
     <Button
       color="primary"
+      isIconOnly={xsScreen}
       onClick={() => toggleBookmark(restaurantId)}
       endContent={ isFavourited ? <Bookmark size={15} /> : <BookmarkOutline size={15} /> }
     >
-      { isFavourited ?  'Favourited': 'Favourite' }
+      <span className="hidden xs:inline"> { isFavourited ?  'Favourited': 'Favourite' } </span>
     </Button>
   );
 }

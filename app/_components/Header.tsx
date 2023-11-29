@@ -1,30 +1,33 @@
 "use client";
 import {
+  Button,
   Navbar,
-  NavbarMenuToggle,
   NavbarBrand,
   NavbarContent,
   NavbarItem,
   NavbarMenu,
   NavbarMenuItem,
-  Button,
+  NavbarMenuToggle,
   Switch,
 } from "@nextui-org/react";
+import { useTheme } from "next-themes";
 import Link from "next/link";
-import { usePathname, useRouter } from "next/navigation";
+import { usePathname } from "next/navigation";
 import { useEffect, useState } from "react";
 import { useAuthState } from "react-firebase-hooks/auth";
+import { twMerge } from "tailwind-merge";
 import { auth } from "../_firebase/auth";
+import { LightMode, Moon } from "../_icons/Index";
 import { navbarItems } from "../_utils/constants";
 import ProfileDropDown from "./ProfileDropDown";
-import { LightMode, Moon } from "../_icons/Index";
-import { useTheme } from "next-themes";
-import { twMerge } from "tailwind-merge";
 
 export default function Header() {
   const { theme, setTheme } = useTheme();
   const pathname = usePathname();
   const [isMenuOpen, setIsMenuOpen] = useState(false);
+  // this state is solely being used to control the opacity transition when the mobile navbar is beign closed
+  // basically has the same meaning as isMenuOpen, but i just nid another state for implementing the transition 
+  const [isMenuOpenTransition, setIsMenuOpenTransition] = useState(false);
   const [user, loading, error] = useAuthState(auth);
   
   const isNavActive = (href: string) => {
@@ -38,8 +41,11 @@ export default function Header() {
       isBordered
       isBlurred={false}
       disableAnimation={false}
-      isMenuDefaultOpen={true}
-      onMenuOpenChange={setIsMenuOpen}
+      onMenuOpenChange={(isOpen) => {
+        setIsMenuOpen(isOpen)
+        setIsMenuOpenTransition(isOpen)
+      }}
+      isMenuOpen={isMenuOpen}
       className=""
     >
       <NavbarMenuToggle
@@ -47,9 +53,9 @@ export default function Header() {
         className="md:hidden"
       />
 
-      <NavbarBrand className="">
-        <h1 className="font-bold text-xl">
-          <Link href="/">MakanNow</Link>
+      <NavbarBrand>
+        <h1 className="font-bold">
+          <Link href="/" className="">MakanNow</Link>
         </h1>
       </NavbarBrand>
 
@@ -75,9 +81,15 @@ export default function Header() {
 
       {/* *SECTION -  MOBILE NAVBAR */}
       {isMenuOpen && (
-        <NavbarMenu className="flex flex-col items-center gap-y-6 p-6">
+        <NavbarMenu className={twMerge(
+          'flex flex-col items-center gap-6 p-6 transition-opacity duration-500', 
+          isMenuOpenTransition ? 'opacity-100' : 'opacity-0'
+        )}>
           {navbarItems.map(({ label, href }) => (
-            <NavbarMenuItem key={label} className="">
+            <NavbarMenuItem key={label} className="" onClick={() => {
+              setIsMenuOpenTransition(false)
+              setTimeout(() => setIsMenuOpen(false), 500)
+            }}>
               <Link
                 href={href}
                 className={twMerge(
@@ -92,49 +104,53 @@ export default function Header() {
               </Link>
             </NavbarMenuItem>
           ))}
+
+          { !user && <hr className={twMerge('h-[2px] w-4/5', theme === 'dark' ? 'border-slate-700' : 'border-slate-300')} /> }
+
+          {/* Login & Signup shows here when user not authenticated */}
+          { !user && (
+            <NavbarMenuItem className="flex flex-col items-center gap-6">
+              <NavbarItem className="">
+                <Button
+                  as={Link}
+                  href="/login"
+                  color="primary"
+                  className="px-10"
+                  variant="solid"
+                >
+                  Login
+                </Button>
+              </NavbarItem>
+
+              <NavbarItem>
+                <Button
+                  as={Link}
+                  href="/signup"
+                  color="primary"
+                  variant="bordered"
+                  className="text-primary-700 border-primary-700 px-10"
+                >
+                  Sign Up
+                </Button>
+              </NavbarItem>
+            </NavbarMenuItem>
+          )} 
+
         </NavbarMenu>
       )}
 
       {/* *SECTION - RIGHT SECTION */}
       <NavbarContent justify="end" className="">
         <ThemeSwitcher />
-        {!user ? (
-          <>
-            <NavbarItem className="">
-              <Button
-                as={Link}
-                href="/login"
-                color="primary"
-                variant="solid"
-              >
-                Login
-              </Button>
-            </NavbarItem>
-
-            <NavbarItem>
-              <Button
-                as={Link}
-                href="/signup"
-                color="primary"
-                variant="bordered"
-                className="text-primary-700 border-primary-700"
-              >
-                Sign Up
-              </Button>
-            </NavbarItem>
-          </>
-        ) : (
-          <ProfileDropDown user={user} />
-        )}
+        {user && <ProfileDropDown user={user} /> }
       </NavbarContent>
     </Navbar>
   );
 };
 
 const ThemeSwitcher = () => {
-
   const { setTheme } = useTheme();
-  
+
   return (
     <Switch
       defaultSelected
