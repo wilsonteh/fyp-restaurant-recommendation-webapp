@@ -24,8 +24,12 @@ export interface ReviewFormData {
   hasVegetarianOption: boolean;
 };
 
+interface Pricing {
+  [key: string]: boolean;
+}
+
 export interface FilterOptionsFormData {
-  distance: string;
+  radius: string;
   opennow: boolean; 
   pricing: {
     '0': boolean;
@@ -33,5 +37,6 @@ export interface FilterOptionsFormData {
     '2': boolean;
     '3': boolean;
     '4': boolean;
+    [key: string]: boolean;
   };
 }

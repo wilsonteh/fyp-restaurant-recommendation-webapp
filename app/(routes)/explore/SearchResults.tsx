@@ -1,5 +1,6 @@
 import StarRating from "@/app/_components/StarRating";
 import useGeolocation from "@/app/_hooks/useGeolocation";
+import useQueryParams from "@/app/_hooks/useQueryParams";
 import { DollarSign, LocationArrow } from "@/app/_icons/Index";
 import { fetcher } from "@/app/_lib/swr/fetcher";
 import { priceScales } from "@/app/_utils/constants";
@@ -16,37 +17,18 @@ import { twMerge } from "tailwind-merge";
 
 export default function SearchResults({ toFetch } : { toFetch: boolean }) {
 
-  const searchParams = useSearchParams();
-  const [queryString, setQueryString] = useState("");
-  const possibleSearchParams = useMemo(() => ['q', 'distance', 'opennow', 'minprice', 'maxprice', 'sortby'], [])
   const { coords, isGeolocationEnabled } = useGeolocation();
-  
-  useEffect(() => {
-    function constructQueryString() {
-      let queryString = "";
-      // manually check every possible search params key
-      possibleSearchParams.forEach(key => {
-        if (searchParams.has(key)) {
-          queryString += `${key}=${searchParams.get(key)}&`
-        }
-      })
-      return queryString.slice(0, -1); // remove the last '&' char
-    }
-    const queryString = constructQueryString();
-    setQueryString(queryString);
-
-  }, [possibleSearchParams, searchParams])
+  const { queryParams, setQueryParams } = useQueryParams();
   
   const { data, isLoading, error } = useSWRImmutable(
     () => {
       if (toFetch && coords) {
-        return `/api/nearby-search?calltype=search&lat=${coords.latitude}&lng=${coords.longitude}&radius=1000&${queryString}`
+        return `/api/nearby-search?calltype=search&lat=${coords.latitude}&lng=${coords.longitude}&${queryParams.toString()}`
       }
     },
     fetcher 
   );
   const restaurants = data as NearbySearchRestaurant[];
-  console.log("🚀 ~ file: SearchResults.tsx:49 ~ SearchResults ~ restaurants:", restaurants)
 
   if (error) return <div>Failed to load ...</div>
   if (isLoading) return <div>Loading ...</div>

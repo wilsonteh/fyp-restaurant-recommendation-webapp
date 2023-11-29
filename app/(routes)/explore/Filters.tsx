@@ -23,7 +23,7 @@ export default function Filters() {
   } = useForm<FilterOptionsFormData>({
     mode: 'onBlur', 
     defaultValues: {
-      // distance: "3000", 
+      // radius: "5000", 
       // opennow: false, 
       // pricing: {
       //   '0': false, '1': false, '2': false, '3': false, '4': false
@@ -32,14 +32,14 @@ export default function Filters() {
   });
   const { queryParams, setQueryParams } = useQueryParams<{
     q?: string;
-    distance?: string;
+    radius?: string;
     opennow?: boolean;
     minprice?: string;
     maxprice?: string;
     sortby?: string;
   }>();
   const [hasFilter, setHasFilter] = useState(false);  // to check whether there's any filter applied
-  const filterKeys = useMemo(() => ['distance', 'opennow', 'minprice', 'maxprice'], []);
+  const filterKeys = useMemo(() => ['radius', 'opennow', 'minprice', 'maxprice'], []);
 
   useEffect(() => {
     function checkHasFilter() {
@@ -71,7 +71,7 @@ export default function Filters() {
 
   const handleFilterSubmit: SubmitHandler<FilterOptionsFormData> = async (formData) => {
     console.log(formData)
-    const { distance, opennow, pricing } = formData;
+    const { radius, opennow, pricing } = formData;
     // get minprice & maxprice
     const trueKeys = Object.keys(pricing).filter(key => pricing[key]).map(Number);
     const minprice = trueKeys.length === 0 ? false : Math.min(...trueKeys).toString();
@@ -79,7 +79,7 @@ export default function Filters() {
 
     // add filters to url as search params 
     setQueryParams({ 
-      distance: distance ? distance : undefined, 
+      radius: radius === '' ? undefined : radius, 
       opennow: opennow ? opennow : undefined, 
       minprice: minprice ? minprice : undefined, 
       maxprice: maxprice ? maxprice : undefined 
@@ -102,7 +102,7 @@ export default function Filters() {
         )}
       </div>
 
-      <DistanceSelect control={control} />
+      <RadiusSelect control={control} />
       <OpenNowSwitch control={control} />
       <PricingCheckboxGroup control={control} /> 
 
@@ -111,36 +111,36 @@ export default function Filters() {
   );
 };
 
-const DistanceSelect = ({ control }: { control: any }) => {
+const RadiusSelect = ({ control }: { control: any }) => {
 
   const { theme } = useTheme();
   const searchParams = useSearchParams();
-  const distances = [
+  const radius = [
     { key: "3km", value: 3000 },
     { key: "5km", value: 5000 },
     { key: "10km", value: 10000 },
     { key: "15km", value: 15000 },
   ];
-  const [distanceValue, setDistanceValue] = useState<string|null>(searchParams.get('distance'));
+  const [radiusValue, setRadiusValue] = useState<string|null>(searchParams.get('radius'));
 
-  const onDistanceKeyChange = (keys: any) => {
-    const distValue = Array.from(keys)[0] as string
-    setDistanceValue(distValue)
+  const onRadiusKeyChange = (keys: any) => {
+    const radValue = Array.from(keys)[0] as string
+    setRadiusValue(radValue)
   }
 
   return (
     <Controller
-      name="distance"
+      name="radius"
       control={control}
       render={({ field: { onChange, onBlur, value, ref } }) => (
         <Select
-          label="Distance filter"
+          label="Radius filter"
           labelPlacement="outside"
           value={value}
-          placeholder="Select distance"
-          selectedKeys={distanceValue ? [distanceValue] : undefined}
+          placeholder="Select radius"
+          selectedKeys={radiusValue ? [radiusValue] : undefined}
           onChange={onChange} onBlur={onBlur} ref={ref}
-          onSelectionChange={(keys) =>  onDistanceKeyChange(keys)}
+          onSelectionChange={(keys) =>  onRadiusKeyChange(keys)}
           classNames={{
             // the select input
             trigger: twMerge(
@@ -154,10 +154,10 @@ const DistanceSelect = ({ control }: { control: any }) => {
             ),
           }}
         >
-          {distances.map((distance) => (
+          {radius.map((r) => (
             <SelectItem
-              key={distance.value}
-              value={distance.value}
+              key={r.value}
+              value={r.value}
               classNames={{
                 base: twMerge(
                   theme === "dark"
@@ -166,7 +166,7 @@ const DistanceSelect = ({ control }: { control: any }) => {
                 ),
               }}
             >
-              {distance.key}
+              {r.key}
             </SelectItem>
           ))}
         </Select>
@@ -177,11 +177,13 @@ const DistanceSelect = ({ control }: { control: any }) => {
 
 const OpenNowSwitch = ({ control }: { control: any }) => {
 
+  const searchParams = useSearchParams();
+  const [isOpennow, setIsOpennow] = useState<string|null>(searchParams.get('opennow'));
+
   return (
     <Controller
       name="opennow"
       control={control}
-      defaultValue=""
       render={({ field: { onChange, onBlur, value, ref } }) => (
         <div className="flex flex-col gap-1">
           <label htmlFor="" className="text-sm font-medium">
@@ -189,9 +191,9 @@ const OpenNowSwitch = ({ control }: { control: any }) => {
           </label>
           <Checkbox
             aria-label="open now filter"
-            isSelected={value}
+            isSelected={isOpennow === 'true'}
             onChange={onChange} onBlur={onBlur} ref={ref}
-            // onValueChange={()}
+            onValueChange={(isSelected) => setIsOpennow(isSelected ? 'true' : null)}
           >
             Open Now
           </Checkbox>
@@ -203,10 +205,18 @@ const OpenNowSwitch = ({ control }: { control: any }) => {
 
 const PricingCheckboxGroup = ({ control }: { control: any }) => {
   
+  const searchParams = useSearchParams();
+  const [minprice, setMinprice] = useState<string|null>(searchParams.get('minprice'));
+  const [maxprice, setMaxprice] = useState<string|null>(searchParams.get('maxprice'));
+
+  const onCheckboxChange = (isSelected: boolean, i: number) => {
+    // console.log(isSelected, i)
+  }
+
   return (
     <div className="flex flex-col gap-1">
       <h3 className="text-sm font-medium"> Pricing </h3>
-      { priceScales.map(price => (
+      { priceScales.map((price, i) => (
         <Controller 
           key={price.number}
           name={`pricing.${price.number}`}
@@ -216,6 +226,7 @@ const PricingCheckboxGroup = ({ control }: { control: any }) => {
               <Checkbox  
                 isSelected={value}
                 onChange={onChange} onBlur={onBlur} ref={ref}
+                onValueChange={(isSelected) => onCheckboxChange(isSelected, i)}
               > 
                 {price.label} 
               </Checkbox>

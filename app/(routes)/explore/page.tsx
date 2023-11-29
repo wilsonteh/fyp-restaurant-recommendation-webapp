@@ -32,7 +32,7 @@ export default function ExplorePage() {
         <div className="flex flex-row-reverse">
           <SortMenu />
         </div>
-        {/* <SearchResults toFetch={toFetch} /> */}
+        <SearchResults toFetch={toFetch} />
       </section>
     </main>
   );
@@ -44,6 +44,7 @@ const SearchBar = ({ setToFetch } : { setToFetch: React.Dispatch<React.SetStateA
   const router = useRouter();
   const searchParams = useSearchParams();
   const [searchQuery, setSearchQuery] = useState("");
+  const { queryParams, setQueryParams } = useQueryParams();
 
   useEffect(() => {
     // make the search bar value & search param in url in sync
@@ -55,17 +56,7 @@ const SearchBar = ({ setToFetch } : { setToFetch: React.Dispatch<React.SetStateA
   const handleSearch = (e: React.FormEvent) => {
     e.preventDefault();
     setToFetch(true);
-
-    // get all filter & sort search params from url
-    let otherQueryString = '';
-    const possibleSearchParams = ['distance', 'opennow', 'minprice', 'maxprice', 'sortby'];
-    for (let key of possibleSearchParams) {
-      if (searchParams.has(key)) {
-        otherQueryString += `${key}=${searchParams.get(key)}&`
-      }
-    }
-    otherQueryString = otherQueryString.slice(0, -1); // remove the last '&' char
-    router.push(`/explore?q=${searchQuery}&${otherQueryString}`)
+    setQueryParams({ q: searchQuery })
   };
   
   return (

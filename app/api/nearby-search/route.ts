@@ -82,7 +82,7 @@ async function processSearchCall(searchParams: URLSearchParams) {
   // required: location, radius 
   const p: NearbySearchParams = {
     location: lat && lng ? `${lat},${lng}` : '3.067440966219083,101.60387318211183',  // default to sunway uni
-    radius: rankby === 'nearest' ? undefined : radius || '10000',   // default to 10km
+    radius: rankby === 'nearest' ? undefined : radius || '5000',   // default to 5km
     type: 'restaurant',
     keyword: `${keyword},food` || 'food',
     opennow: opennow === 'true' ? true : undefined,
