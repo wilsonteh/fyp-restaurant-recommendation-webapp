@@ -23,16 +23,16 @@ export default function ExplorePage() {
 
   return (
     <main className="max-w-screen-xl mx-auto my-4 flex gap-8 justify-between">
-      <section className="w-1/4">
+      <section className="w-1/4 border-red-500 border-">
         <Filters />
       </section>
 
-      <section className="w-3/4 flex flex-col">
+      <section className="w-3/4 flex flex-col border-yellow-500 border-">
         <SearchBar setToFetch={setToFetch} />
         <div className="flex flex-row-reverse">
           <SortMenu />
         </div>
-        <SearchResults toFetch={toFetch} />
+        {/* <SearchResults toFetch={toFetch} /> */}
       </section>
     </main>
   );

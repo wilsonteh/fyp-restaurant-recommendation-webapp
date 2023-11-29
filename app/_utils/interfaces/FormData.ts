@@ -23,3 +23,15 @@ export interface ReviewFormData {
   hasHalalOption: boolean;
   hasVegetarianOption: boolean;
 };
+
+export interface FilterOptionsFormData {
+  distance: string;
+  opennow: boolean; 
+  pricing: {
+    '0': boolean;
+    '1': boolean;
+    '2': boolean;
+    '3': boolean;
+    '4': boolean;
+  };
+}

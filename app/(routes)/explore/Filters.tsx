@@ -2,10 +2,12 @@
 import useQueryParams from "@/app/_hooks/useQueryParams";
 import { DollarSign } from "@/app/_icons/Index";
 import { priceScales } from "@/app/_utils/constants";
+import { FilterOptionsFormData } from "@/app/_utils/interfaces/FormData";
 import { Button, Checkbox, CheckboxGroup, Select, SelectItem } from "@nextui-org/react";
 import { useTheme } from "next-themes";
 import { useSearchParams } from "next/navigation";
 import { useCallback, useEffect, useMemo, useState } from "react";
+import { Controller, SubmitHandler, useForm } from "react-hook-form";
 import { twMerge } from "tailwind-merge";
 import { setTimeout } from "timers";
 
@@ -13,10 +15,25 @@ export default function Filters() {
 
   const { theme } = useTheme();
   const searchParams = useSearchParams();
+  const {
+    register,
+    handleSubmit,
+    formState: { errors, isSubmitting, isSubmitSuccessful },
+    control,
+  } = useForm<FilterOptionsFormData>({
+    mode: 'onBlur', 
+    defaultValues: {
+      // distance: "3000", 
+      // opennow: false, 
+      // pricing: {
+      //   '0': false, '1': false, '2': false, '3': false, '4': false
+      // }
+    }
+  });
   const { queryParams, setQueryParams } = useQueryParams<{
     q?: string;
     distance?: string;
-    openNow?: boolean;
+    opennow?: boolean;
     minprice?: string;
     maxprice?: string;
     sortby?: string;
@@ -50,10 +67,27 @@ export default function Filters() {
     setTimeout(() => {
       window.location.reload();
     }, 400);
+  };
+
+  const handleFilterSubmit: SubmitHandler<FilterOptionsFormData> = async (formData) => {
+    console.log(formData)
+    const { distance, opennow, pricing } = formData;
+    // get minprice & maxprice
+    const trueKeys = Object.keys(pricing).filter(key => pricing[key]).map(Number);
+    const minprice = trueKeys.length === 0 ? false : Math.min(...trueKeys).toString();
+    const maxprice = trueKeys.length === 0 ? false : Math.max(...trueKeys).toString();
+
+    // add filters to url as search params 
+    setQueryParams({ 
+      distance: distance ? distance : undefined, 
+      opennow: opennow ? opennow : undefined, 
+      minprice: minprice ? minprice : undefined, 
+      maxprice: maxprice ? maxprice : undefined 
+    });
   }
 
   return (
-    <div className="flex flex-col gap-6">
+    <form className="flex flex-col gap-6" onSubmit={handleSubmit(handleFilterSubmit)}>
       <div className="flex flex-col items-center">
         <h3 className="text-lg font-medium">Filters</h3>
         { hasFilter && (
@@ -68,201 +102,133 @@ export default function Filters() {
         )}
       </div>
 
-      <DistanceSelect queryParams={queryParams} setQueryParams={setQueryParams} />
-      <OpenNowSwitch queryParams={queryParams} setQueryParams={setQueryParams} />
-      <PricingCheckboxGroup queryParams={queryParams} setQueryParams={setQueryParams} />
-    </div>
+      <DistanceSelect control={control} />
+      <OpenNowSwitch control={control} />
+      <PricingCheckboxGroup control={control} /> 
+
+      <Button color="primary" type="submit">Apply filters</Button>
+    </form>
   );
 };
 
-const DistanceSelect = ({ queryParams, setQueryParams }: { queryParams: URLSearchParams | undefined, setQueryParams: (params: any) => void }) => {
+const DistanceSelect = ({ control }: { control: any }) => {
 
   const { theme } = useTheme();
   const searchParams = useSearchParams();
-  const key = "distance";
   const distances = [
     { key: "3km", value: 3000 },
     { key: "5km", value: 5000 },
     { key: "10km", value: 10000 },
     { key: "15km", value: 15000 },
   ];
-  const [distanceKey, setDistanceKey] = useState<string|undefined>(undefined);
+  const [distanceValue, setDistanceValue] = useState<string|null>(searchParams.get('distance'));
 
-  const onDistanceKeyChange = useCallback(
-    (distKey: string) => {
-      // when filter is deselected, remove the 'distance' search params from url
-      // but at the same time remain all other search params
-      // when filter is selected, add on the 'distance' search params to url
-      // but at the same time remain all other search params
-      setDistanceKey(distKey);
-      console.log("🚀 distKey:", distKey)
-      let distanceFilter = queryParams?.get(key);
-      if (distKey === distanceFilter || !distKey) {
-        // remove 'distance' search params key from url
-        setQueryParams({
-          [key]: undefined,   // [key] is becoz `key` is a variable
-        });
-        return;
-      }
-      setQueryParams({ [key]: distKey });
-    },
-    [queryParams, setQueryParams]
-  );
-
-  useEffect(() => {
-    // make the select input value & search param in url in sync
-    if (searchParams.has(key)) {
-      setDistanceKey(searchParams.get(key) as string);
-    }
-  }, [searchParams])
+  const onDistanceKeyChange = (keys: any) => {
+    const distValue = Array.from(keys)[0] as string
+    setDistanceValue(distValue)
+  }
 
   return (
-    <Select
-      label="Distance filter"
-      labelPlacement="outside"
-      placeholder="Select distance"
-      selectedKeys={distanceKey ? [distanceKey] : undefined}
-      onChange={(e) => setDistanceKey(e.target.value)}
-      onSelectionChange={(keys) => onDistanceKeyChange(Array.from(keys)[0] as string)}
-      classNames={{
-        // the select input
-        trigger: twMerge(
-          theme === 'dark' 
-            ? 'bg-slate-800 data-[hover]:bg-slate-700' 
-            : 'bg-white data-[hover]:bg-slate-50',
-        ),
-        // dropdown contents
-        popoverContent: twMerge(
-          theme === 'dark' ? 'bg-slate-800' : 'bg-white' 
-        ),
-        
-      }}
-    >
-      {distances.map((distance) => (
-        <SelectItem 
-          key={distance.value}
+    <Controller
+      name="distance"
+      control={control}
+      render={({ field: { onChange, onBlur, value, ref } }) => (
+        <Select
+          label="Distance filter"
+          labelPlacement="outside"
+          value={value}
+          placeholder="Select distance"
+          selectedKeys={distanceValue ? [distanceValue] : undefined}
+          onChange={onChange} onBlur={onBlur} ref={ref}
+          onSelectionChange={(keys) =>  onDistanceKeyChange(keys)}
           classNames={{
-            base: twMerge(
-              theme === 'dark' 
-              ? 'data-[hover]:!bg-slate-700 data-[focus]:!bg-slate-700' 
-              : 'data-[hover]:!bg-slate-200 data-[focus]:!bg-slate-200' 
+            // the select input
+            trigger: twMerge(
+              theme === "dark"
+                ? "bg-slate-800 data-[hover]:bg-slate-700"
+                : "bg-white data-[hover]:bg-slate-50"
+            ),
+            // dropdown contents
+            popoverContent: twMerge(
+              theme === "dark" ? "bg-slate-800" : "bg-white"
             ),
           }}
         >
-          { distance.key }
-        </SelectItem>
-      ))}
-    </Select>
+          {distances.map((distance) => (
+            <SelectItem
+              key={distance.value}
+              value={distance.value}
+              classNames={{
+                base: twMerge(
+                  theme === "dark"
+                    ? "data-[hover]:!bg-slate-700 data-[focus]:!bg-slate-700"
+                    : "data-[hover]:!bg-slate-200 data-[focus]:!bg-slate-200"
+                ),
+              }}
+            >
+              {distance.key}
+            </SelectItem>
+          ))}
+        </Select>
+      )}
+    />
   );
 };
 
-const OpenNowSwitch = ({ queryParams, setQueryParams }: { queryParams: URLSearchParams | undefined, setQueryParams: (params: any) => void }) => {
-
-  const searchParams = useSearchParams();
-  const key = 'opennow'
-  const [openNow, setOpenNow] = useState(false);
-
-  const onSwitchChange = useCallback(
-    (isSelected: boolean) => {
-      setOpenNow(isSelected)
-      let openNowFilter = queryParams?.get(key);
-      // coz the 'true' 'false' is in string format 
-      let isOpenNow = openNowFilter === "true" ? true : false;
-      if (isSelected === isOpenNow || !isSelected) {
-        setQueryParams({ [key]: undefined })
-        return;
-      }
-      setQueryParams({ [key]: isSelected });
-    },
-    [queryParams, setQueryParams]
-  );
-
-  useEffect(() => {
-    // make the select input value & search param in url in sync
-    if (searchParams.has(key)) {
-      let isOpenNow = searchParams.get(key) === "true" ? true : false; 
-      setOpenNow(isOpenNow);
-    }
-  }, [searchParams])
+const OpenNowSwitch = ({ control }: { control: any }) => {
 
   return (
-    <div className="flex flex-col gap-1">
-      <label htmlFor="" className="text-sm font-medium">Open Now</label>
-      <Checkbox
-        aria-label="open now filter"
-        isSelected={openNow}
-        onValueChange={onSwitchChange}
-      >
-        Open Now
-      </Checkbox>
-    </div>
+    <Controller
+      name="opennow"
+      control={control}
+      defaultValue=""
+      render={({ field: { onChange, onBlur, value, ref } }) => (
+        <div className="flex flex-col gap-1">
+          <label htmlFor="" className="text-sm font-medium">
+            Open Now
+          </label>
+          <Checkbox
+            aria-label="open now filter"
+            isSelected={value}
+            onChange={onChange} onBlur={onBlur} ref={ref}
+            // onValueChange={()}
+          >
+            Open Now
+          </Checkbox>
+        </div>
+      )}
+    />
   );
 }
 
-const PricingCheckboxGroup = ({ queryParams, setQueryParams }: { queryParams: URLSearchParams | undefined, setQueryParams: (params: any) => void }) => {
+const PricingCheckboxGroup = ({ control }: { control: any }) => {
   
-  const searchParams = useSearchParams();
-  const key1 = 'minprice';
-  const key2 = 'maxprice';
-  const [priceValues, setPriceValues] = useState<string[]>([]);
-
-  useEffect(() => {
-    // make the checkboxes group & search param in url in sync
-    if (searchParams.has(key1) && searchParams.has(key2)) {
-      let minPrice = searchParams.get(key1)!;
-      let maxPrice = searchParams.get(key2)!;
-
-      let values = [];
-      if (minPrice <= maxPrice) {
-        for (let i=Number(minPrice); i <= Number(maxPrice); i++) {
-          values.push(i);
-        }
-        setPriceValues(values.map(v => v.toString()));
-      }
-    }
-  }, [searchParams])
-  
-  const onCheckboxChange = useCallback(
-    (values: string[]) => {
-      setPriceValues(values);
-      let minPrice = queryParams?.get(key1);
-      let maxPrice = queryParams?.get(key2);
-      // sort the values arr in asc order 
-      values.sort((a, b) => parseInt(a) - parseInt(b));
-
-      // remove params from url if user deselects all checkboxes
-      if (values.length === 0) {
-        setQueryParams({ [key1]: undefined, [key2]: undefined });
-        return;
-      }
-      // the line below is correct, as long as the values arr is sorted in asc order
-      setQueryParams({ [key1]: values[0], [key2]: values[values.length - 1] })
-    },
-    [queryParams, setQueryParams]
-  );
-
   return (
-    <CheckboxGroup
-      label="Pricing"
-      classNames={{
-        label: "text-sm font-medium",
-      }}
-      onChange={(values) => onCheckboxChange(values as string[])}
-      value={priceValues}
-    >
-      {priceScales.map((price) => (
-        <div key={price.label} className="flex items-center gap-1">
-          <Checkbox value={price.number.toString()}>
-            {price.label}
-          </Checkbox>
-          <span className="flex items-center gap-0">
-            {Array.from(Array(price.number+1).keys()).map((_, i) => (
-              <DollarSign key={i} size={10} />
-            ))}
-          </span>
-        </div>
-        
+    <div className="flex flex-col gap-1">
+      <h3 className="text-sm font-medium"> Pricing </h3>
+      { priceScales.map(price => (
+        <Controller 
+          key={price.number}
+          name={`pricing.${price.number}`}
+          control={control}
+          render={({ field: { onChange, onBlur, value, ref } }) => (
+            <div className="flex items-center gap-1">
+              <Checkbox  
+                isSelected={value}
+                onChange={onChange} onBlur={onBlur} ref={ref}
+              > 
+                {price.label} 
+              </Checkbox>
+
+              <span className="flex items-center gap-0">
+                {Array.from(Array(price.number + 1).keys()).map((_, i) => (
+                  <DollarSign key={i} size={10} />
+                ))}
+              </span>
+            </div>
+          )}
+        />
       ))}
-    </CheckboxGroup>
+    </div>
   );
 }
