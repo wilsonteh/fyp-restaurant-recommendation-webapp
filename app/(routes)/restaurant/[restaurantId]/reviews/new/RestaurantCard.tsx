@@ -1,9 +1,11 @@
 "use client";
 import { RestaurantDetailInterface } from "@/app/_utils/interfaces/PlaceDetailInterface";
 import { Card, CardBody } from "@nextui-org/react";
+import { useTheme } from "next-themes";
 import Image from "next/image";
 import Link from "next/link";
 import { useParams } from "next/navigation";
+import { twMerge } from "tailwind-merge";
 
 export default function RestaurantCard({
   restaurant, 
@@ -12,12 +14,19 @@ export default function RestaurantCard({
   restaurant: RestaurantDetailInterface; 
   imageUrl: string;
 }) {
+
+  const { theme } = useTheme();
   const params = useParams()
   const { restaurantId } = params;
 
   return (
     <Card 
-      className="w-fit" 
+      className={twMerge(
+        'w-fit', 
+        theme === "dark"
+        ? "bg-slate-800 border-slate-800 hover:bg-slate-8 00/70"
+        : "bg-slate-100 border-slate-200 hover:bg-slate-200/70"
+      )} 
       isPressable
       as={Link}
       href={`/restaurant/${restaurantId}`}
@@ -25,7 +34,10 @@ export default function RestaurantCard({
       <CardBody className="w-full">
         <Image
           src={imageUrl}
-          className="w-full rounded-lg shadow-md shadow-slate-300"
+          className={twMerge(
+            'w-full rounded-lg shadow-md', 
+            theme === "dark" ? "shadow-slate-500/30" : "shadow-slate-300"
+          )}
           alt={restaurant.name}
           width={350}
           height={250}

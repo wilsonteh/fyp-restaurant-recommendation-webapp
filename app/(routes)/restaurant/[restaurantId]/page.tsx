@@ -64,8 +64,8 @@ export default async function RestaurantDetailPage({
             <FavouriteButton restaurantId={restaurant.place_id} />
           </div>
         </div>
-      </section>
 
+      </section>
       <RestaurantPhotoGrid photos={restaurantPhotos} />
 
       <section className="flex flex-col mx-auto gap-2 w-[800px]">

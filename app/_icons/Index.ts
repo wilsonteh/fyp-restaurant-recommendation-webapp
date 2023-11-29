@@ -26,6 +26,7 @@ export { default as Github } from './github';
 export { default as Globe } from './globe';
 export { default as Google } from './google';
 export { default as Heart } from './heart';
+export { default as HeartOutline } from './heart-outline';
 export { default as Leaf } from './leaf';
 export { default as LightMode } from './light-mode';
 export { default as LocationArrow } from './location-arrow';

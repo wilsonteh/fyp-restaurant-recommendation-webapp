@@ -6,6 +6,8 @@ import { useEffect, useState } from "react";
 import { useDropzone } from "react-dropzone";
 import { v4 as uuidv4 } from 'uuid';
 import ConfirmDeleteBox from "./ConfirmDeleteBox";
+import { useTheme } from "next-themes";
+import { twMerge } from "tailwind-merge";
 
 export default function FilesDropzone({
   uploadedFiles,
@@ -14,6 +16,8 @@ export default function FilesDropzone({
   uploadedFiles: ImagePreview[];
   setUploadedFiles: React.Dispatch<React.SetStateAction<ImagePreview[]>>;
 }) {
+
+  const { theme } = useTheme();
   const [files, setFiles] = useState<ImagePreview[]>([]);
   const [imgPendingDeletion, setImgPendingDeletion] = useState<string|null>(null);
   // to keep track of image that WILL be deleted for the conditional transition to work
@@ -93,13 +97,18 @@ export default function FilesDropzone({
       </label>
       <div
         {...getRootProps()}
-        className="flex justify-center items-center w-full h-[100px] px-6 py-3 border-2 border-dashed border-gray-300 rounded-md bg-slate-200 cursor-pointer hover:border-gray-400 focus:border-blue-500"
+        className={twMerge(
+          'flex justify-center items-center w-full h-[100px] px-6 py-3 border-2 border-dashed rounded-md cursor-pointer  focus:border-blue-500', 
+          theme === 'dark' 
+          ? 'bg-slate-800 border-gray-700 hover:border-gray-600' 
+          : 'bg-slate-200 border-gray-300 hover:border-gray-400'
+        )}
       >
         <input {...getInputProps()} type="file" />
         {isDragActive ? (
-          <p className="text-gray-500">Drop the files here ...</p>
+          <p className="text-slate-400">Drop the files here ...</p>
         ) : (
-          <p className="text-gray-500">
+          <p className="text-slate-400">
             Drag and drop some files here, or click to select files
           </p>
         )}

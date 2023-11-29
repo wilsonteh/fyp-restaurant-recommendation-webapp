@@ -75,4 +75,4 @@ const NoReview = () => {
       </p>
     </div>
   )
-}
+};

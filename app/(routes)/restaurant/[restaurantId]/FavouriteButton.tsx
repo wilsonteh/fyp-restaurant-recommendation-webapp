@@ -1,7 +1,7 @@
 "use client";
 import { auth } from "@/app/_firebase/auth";
 import { checkIsFavourited, db, insertDoc } from "@/app/_firebase/firestore";
-import { Bookmark, BookmarkOutline } from "@/app/_icons/Index";
+import { Bookmark, BookmarkOutline, Heart, HeartOutline } from "@/app/_icons/Index";
 import { Button } from "@nextui-org/react";
 import { collection, deleteDoc, doc, getDoc, getDocs, query, serverTimestamp, where } from "firebase/firestore";
 import { useEffect, useState } from "react";
@@ -55,10 +55,10 @@ const FavouriteButton = ({ restaurantId } : { restaurantId: string }) => {
   return (
     <Button
       color="primary"
-      isIconOnly
       onClick={() => toggleBookmark(restaurantId)}
+      endContent={ isFavourited ? <Bookmark size={15} /> : <BookmarkOutline size={15} /> }
     >
-      { isFavourited ? <Bookmark size={15} /> : <BookmarkOutline size={15} /> }
+      { isFavourited ?  'Favourited': 'Favourite' }
     </Button>
   );
 }

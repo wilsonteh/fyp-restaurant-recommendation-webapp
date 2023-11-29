@@ -35,6 +35,9 @@ export default function FavouritesPage() {
         My Favourited Restaurants
         ({favouritesSnap?.docs.length })
       </h1>
+
+      { favouritesSnap?.docs.length === 0 && <NoFavourite /> }
+      
       <ResponsiveMasonry columnsCountBreakPoints={{ 300: 1, 500: 2, 750: 3, 1000: 4}}>
         <Masonry gutter="1.2rem">
           {favouritesSnap?.docs.map(favourite => (
@@ -95,7 +98,7 @@ const FavouriteItem = ({ id, favourite }: { id: string, favourite: FavouritesSch
             <Image
               src={imgUrl}
               className={twMerge(
-                "w-full rounded-lg shadow-md shadow-slate-300",
+                "w-full rounded-lg shadow-md",
                 theme === "dark" ? "shadow-slate-500/30" : "shadow-slate-300"
               )}
               alt={restaurant?.name}
@@ -126,4 +129,16 @@ const FavouriteItem = ({ id, favourite }: { id: string, favourite: FavouritesSch
       </Card>
     </Skeleton>
   );
-}
+};
+
+const NoFavourite = () => {
+  
+  return (
+    <div className="flex flex-col items-center gap-2">
+      <p> No favourites yet </p>
+      <p> 
+        You can favourite any restaurant and it will appear here. 
+      </p>
+    </div>
+  )
+};

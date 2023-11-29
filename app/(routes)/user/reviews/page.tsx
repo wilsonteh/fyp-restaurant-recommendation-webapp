@@ -28,6 +28,9 @@ export default function ReviewsPage() {
         My Reviews 
         ({reviewsSnap?.docs.length })
       </h1>
+
+      { reviewsSnap?.docs.length === 0 && <NoReview /> }
+      
       <ResponsiveMasonry columnsCountBreakPoints={{ 300: 1, 500: 2, 750: 3, 1000: 4}}>
         <Masonry gutter="1.2rem">
           {reviewsSnap?.docs.map((review, i) => (
@@ -41,4 +44,16 @@ export default function ReviewsPage() {
       </ResponsiveMasonry>
     </div>
   );
-}
+};
+
+const NoReview = () => {
+  
+  return (
+    <div className="flex flex-col items-center gap-2">
+      <p> No review yet </p>
+      <p> 
+        Your submitted review will appear here. 
+      </p>
+    </div>
+  )
+};
