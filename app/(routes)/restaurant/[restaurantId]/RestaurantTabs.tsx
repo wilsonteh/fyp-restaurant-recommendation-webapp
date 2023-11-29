@@ -28,7 +28,8 @@ export default function RestaurantTabs ({
       onSelectionChange={(key) => setSelectedTab(key as string)}
       classNames={{
         base: twMerge(
-          'mx-auto w-[500px] md:w-[700px] lg:w-[800px]',
+          // 'mx-auto w-full xs:w-[400px] sm:w-[500px] md:w-[700px] lg:w-[800px]',
+          'w-full',
         ),
         tabList: twMerge(
           'rounded-full', 
@@ -45,7 +46,7 @@ export default function RestaurantTabs ({
           'rounded-full w-[70%]',
           theme === 'dark' ? 'bg-primary-400' : 'bg-secondary-700',
         ),
-        panel: "border-red-500",
+        panel: "",
       }}
     >
       <Tab
@@ -133,7 +134,7 @@ const DetailsTab = ({
   });
 
   return (
-    <div className="grid grid-cols-2 gap-4 w-fit mx-auto">
+    <div className="grid grid-cols-1 sm:grid-cols-2 gap-4 mx-auto">
       <div className={twMerge(
         'opening-hour px-8 py-4 rounded-lg flex flex-col gap-3', 
         theme === 'dark' ? 'bg-slate-800' : 'bg-slate-200'
