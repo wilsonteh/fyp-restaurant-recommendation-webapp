@@ -2,11 +2,14 @@
 import { auth } from "@/app/_firebase/auth";
 import { insertDoc } from "@/app/_firebase/firestore";
 import { getImageUrls, storage } from "@/app/_firebase/storage";
+import useProtectRoute from "@/app/_hooks/useProtectRoute";
 import { ReviewFormData } from "@/app/_utils/interfaces/FormData";
 import { ImagePreview } from "@/app/_utils/interfaces/Interfaces";
+import { RestaurantDetailInterface } from "@/app/_utils/interfaces/PlaceDetailInterface";
 import { Button, Input, Textarea } from "@nextui-org/react";
 import { serverTimestamp } from "firebase/firestore";
 import { ref } from 'firebase/storage';
+import Link from "next/link";
 import { useParams, useRouter } from "next/navigation";
 import { useState } from "react";
 import { useAuthState } from "react-firebase-hooks/auth";
@@ -16,14 +19,14 @@ import { v4 as uuidv4 } from 'uuid';
 import FilesDropzone from "../../FilesDropzone";
 import DropDownInputs from "./DropDownInputs";
 import RatingInput from "./RatingInput";
-import { RestaurantDetailInterface } from "@/app/_utils/interfaces/PlaceDetailInterface";
-import Link from "next/link";
 
 export default function ReviewForm(restaurant: RestaurantDetailInterface) {
+  
+  useProtectRoute('/login');
+  const [ user ] = useAuthState(auth)
   const { restaurantId } = useParams();
   const router = useRouter();
   const [uploadedFiles, setUploadedFiles] = useState<ImagePreview[]>([]);
-  const [ user ] = useAuthState(auth)
   const {
     register,
     handleSubmit,

@@ -5,14 +5,17 @@ import useMyMediaQuery from "@/app/_hooks/useMyMediaQuery";
 import { Bookmark, BookmarkOutline, Heart, HeartOutline } from "@/app/_icons/Index";
 import { Button } from "@nextui-org/react";
 import { collection, deleteDoc, doc, getDoc, getDocs, query, serverTimestamp, where } from "firebase/firestore";
+import { useRouter } from "next/navigation";
 import { useEffect, useState } from "react";
 import { useAuthState } from "react-firebase-hooks/auth";
 
 const FavouriteButton = ({ restaurantId } : { restaurantId: string }) => {
 
   const [ user ] = useAuthState(auth);
+  const router = useRouter();
   const [isFavourited, setIsFavourited] = useState<boolean|null>(null);
   const { xsScreenAbv } = useMyMediaQuery();
+  console.log("🚀 xsScreenAbv:", xsScreenAbv)
 
   useEffect(() => {
     async function getIsBookmarked() {
@@ -28,6 +31,7 @@ const FavouriteButton = ({ restaurantId } : { restaurantId: string }) => {
   const toggleBookmark = async (id: string) => {
     if (!user) {
       alert("Please login to favourite this restaurant");
+      router.push("/login");
       return;
     };
     setIsFavourited(!isFavourited);

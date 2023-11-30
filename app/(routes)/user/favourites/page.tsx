@@ -14,9 +14,11 @@ import { useCollection } from "react-firebase-hooks/firestore";
 import Masonry, { ResponsiveMasonry } from "react-responsive-masonry";
 import useSWRImmutable from "swr/immutable";
 import { twMerge } from "tailwind-merge";
+import useProtectRoute from "@/app/_hooks/useProtectRoute";
 
 export default function FavouritesPage() {
 
+  useProtectRoute('/login');
   const [user] = useAuthState(auth);
   const collectionRef = collection(db, "favourites");
   const fetchQuery = query(
