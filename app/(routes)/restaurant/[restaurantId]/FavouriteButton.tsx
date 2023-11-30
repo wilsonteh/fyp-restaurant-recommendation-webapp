@@ -12,7 +12,7 @@ const FavouriteButton = ({ restaurantId } : { restaurantId: string }) => {
 
   const [ user ] = useAuthState(auth);
   const [isFavourited, setIsFavourited] = useState<boolean|null>(null);
-  const { xsScreen } = useMyMediaQuery();
+  const { xsScreenAbv } = useMyMediaQuery();
 
   useEffect(() => {
     async function getIsBookmarked() {
@@ -57,7 +57,7 @@ const FavouriteButton = ({ restaurantId } : { restaurantId: string }) => {
   return (
     <Button
       color="primary"
-      isIconOnly={xsScreen}
+      isIconOnly={!xsScreenAbv}
       onClick={() => toggleBookmark(restaurantId)}
       endContent={ isFavourited ? <Bookmark size={15} /> : <BookmarkOutline size={15} /> }
     >

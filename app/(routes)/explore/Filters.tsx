@@ -309,14 +309,11 @@ const ApproxAddress = ({ coordinates: coords }: { coordinates: { lat: number, ln
   const address = data?.results[0]?.formatted_address;
 
   return (
-    <Skeleton isLoaded={!isLoading}>
-      <div className="text-center m-0 md:mb-2">
-        <div>Your approximate address:</div>
-        <div className="text-xs font-light">
-          { address }
-        </div>
-      </div>
-    </Skeleton>
-      
-  )
+    <div className="text-center m-0 md:mb-2">
+      <div>Your approximate address:</div>
+      <Skeleton isLoaded={!isLoading}>
+        <div className="text-xs font-light">{address}</div>
+      </Skeleton>
+    </div>
+  );
 };
