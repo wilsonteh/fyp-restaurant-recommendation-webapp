@@ -1,5 +1,6 @@
 import StarRating from "@/app/_components/StarRating";
 import useGeolocation from "@/app/_hooks/useGeolocation";
+import useMyMediaQuery from "@/app/_hooks/useMyMediaQuery";
 import useQueryParams from "@/app/_hooks/useQueryParams";
 import { DollarSign, LocationArrow } from "@/app/_icons/Index";
 import { fetcher } from "@/app/_lib/swr/fetcher";
@@ -11,7 +12,6 @@ import { useTheme } from "next-themes";
 import Image from "next/image";
 import Link from "next/link";
 import { useSearchParams } from "next/navigation";
-import { useEffect, useMemo, useState } from "react";
 import useSWRImmutable from "swr/immutable";
 import { twMerge } from "tailwind-merge";
 
@@ -29,6 +29,7 @@ export default function SearchResults({ toFetch } : { toFetch: boolean }) {
     fetcher 
   );
   const restaurants = data as NearbySearchRestaurant[];
+  console.log("🚀 searched restaurants:", restaurants)
 
   if (error) return <div>Failed to load ...</div>
   if (isLoading) return <div>Loading ...</div>
@@ -56,6 +57,7 @@ export default function SearchResults({ toFetch } : { toFetch: boolean }) {
 const RestaurantItem = (restaurant: NearbySearchRestaurant) => {
 
   const { theme } = useTheme();
+  const { lgScreenAbv } = useMyMediaQuery();
   let priceIndex = restaurant?.price_level;
   // const { 
   //   data: imgUrl, 
@@ -77,9 +79,9 @@ const RestaurantItem = (restaurant: NearbySearchRestaurant) => {
       )}
     >
       <CardBody className="flex flex-row justify-start gap-2 w-full">
-        <div className="img-wrapper relative min-w-[180px] min-h-[180px] overflow-hidden">
+        <div className="img-wrapper relative min-w-[150px] min-h-[150px] lg:min-w-[180px] lg:min-h-[180px] overflow-hidden">
           <Image
-            src={"https://via.placeholder.com/180x180"}
+            src={lgScreenAbv ? 'https://via.placeholder.com/180x180' : 'https://via.placeholder.com/150x150'}
             // src={imgUrl || "https://via.placeholder.com/180x180"}
             alt="image"
             className="rounded-md"

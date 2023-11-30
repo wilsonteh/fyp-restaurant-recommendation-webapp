@@ -1,18 +1,22 @@
 "use client";
-import { Button, Input, Select, SelectItem } from "@nextui-org/react";
-import { useRouter, useSearchParams } from "next/navigation";
-import { useCallback, useEffect, useState } from "react";
-import SearchResults from "./SearchResults";
-import Filters from "./Filters";
 import useQueryParams from "@/app/_hooks/useQueryParams";
 import { MagnifyingGlass } from "@/app/_icons/Index";
+import { Button, Input, Select, SelectItem } from "@nextui-org/react";
 import { useTheme } from "next-themes";
+import { useRouter, useSearchParams } from "next/navigation";
+import { useCallback, useEffect, useState } from "react";
 import { twMerge } from "tailwind-merge";
+import useMyMediaQuery from "@/app/_hooks/useMyMediaQuery";
+import dynamic from 'next/dynamic';
+
+const Filters = dynamic(() => import('./Filters'), { ssr: false })
+const SearchResults = dynamic(() => import('./SearchResults'), { ssr: false })
 
 export default function ExplorePage() {
 
   const searchParams = useSearchParams();
   const [toFetch, setToFetch] = useState(false);
+  const { lgScreenAbv } = useMyMediaQuery();
 
   useEffect(() => {
     // for cases where users refresh the page, or enter the url with search params directly 
@@ -21,17 +25,37 @@ export default function ExplorePage() {
     }
   }, [searchParams])
 
+  // const ExploreOnMobile = () => {
+  //   return (
+  //     <main className="max-w-screen-xl mx-auto my-4">
+  //       <SearchBar setToFetch={setToFetch} />
+
+  //       <div className="flex justify-between items-center border-1 border-red-500">
+  //         <Filters />
+  //         <SortMenu />
+  //       </div>
+
+  //       <section className="px-4 flex flex-col border-yellow-500 border-1">
+  //         <SearchResults toFetch={toFetch} />
+  //       </section>
+  //     </main>
+  //   );
+  // };
+
   return (
     <main className="max-w-screen-xl mx-auto my-4 flex gap-8 justify-between">
-      <section className="w-1/4 border-red-500 border-">
+      <section className="px-4 w-1/4 border-red-500 border-1 hidden lg:block ">
         <Filters />
       </section>
 
-      <section className="w-3/4 flex flex-col border-yellow-500 border-">
+      <section className="px-4 w-full lg:w-3/4 flex flex-col border-yellow-500 border-1">
         <SearchBar setToFetch={setToFetch} />
-        <div className="flex flex-row-reverse">
+
+        <div className="flex justify-between lg:flex-row-reverse">
+          { !lgScreenAbv && <Filters /> }
           <SortMenu />
-        </div>
+        </div>    
+
         <SearchResults toFetch={toFetch} />
       </section>
     </main>

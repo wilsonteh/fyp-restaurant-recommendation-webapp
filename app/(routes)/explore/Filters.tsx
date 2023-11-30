@@ -1,12 +1,13 @@
 "use client";
+import useMyMediaQuery from "@/app/_hooks/useMyMediaQuery";
 import useQueryParams from "@/app/_hooks/useQueryParams";
 import { DollarSign } from "@/app/_icons/Index";
 import { priceScales } from "@/app/_utils/constants";
 import { FilterOptionsFormData } from "@/app/_utils/interfaces/FormData";
-import { Button, Checkbox, CheckboxGroup, Select, SelectItem } from "@nextui-org/react";
+import { Button, Checkbox, Modal, ModalBody, ModalContent, ModalHeader, Select, SelectItem, useDisclosure } from "@nextui-org/react";
 import { useTheme } from "next-themes";
 import { useSearchParams } from "next/navigation";
-import { useCallback, useEffect, useMemo, useState } from "react";
+import { useEffect, useMemo, useState } from "react";
 import { Controller, SubmitHandler, useForm } from "react-hook-form";
 import { twMerge } from "tailwind-merge";
 import { setTimeout } from "timers";
@@ -15,20 +16,10 @@ export default function Filters() {
 
   const { theme } = useTheme();
   const searchParams = useSearchParams();
-  const {
-    register,
-    handleSubmit,
-    formState: { errors, isSubmitting, isSubmitSuccessful },
-    control,
-  } = useForm<FilterOptionsFormData>({
-    mode: 'onBlur', 
-    defaultValues: {
-      // radius: "5000", 
-      // opennow: false, 
-      // pricing: {
-      //   '0': false, '1': false, '2': false, '3': false, '4': false
-      // }
-    }
+  const { lgScreenAbv } = useMyMediaQuery();
+  const { handleSubmit, control } = useForm<FilterOptionsFormData>({
+     mode: 'onBlur', 
+    defaultValues: {}
   });
   const { queryParams, setQueryParams } = useQueryParams<{
     q?: string;
@@ -86,29 +77,58 @@ export default function Filters() {
     });
   }
 
-  return (
-    <form className="flex flex-col gap-6" onSubmit={handleSubmit(handleFilterSubmit)}>
-      <div className="flex flex-col items-center">
-        <h3 className="text-lg font-medium">Filters</h3>
-        { hasFilter && (
-          <Button
-            color={theme === 'dark' ? 'primary' : 'secondary'}
-            variant="light"
-            className="!bg-transparent hover:bg-transparent hover:underline"
-            onClick={clearAllFilters}
-          >
-            Clear all filters
-          </Button>
-        )}
+  const {isOpen, onOpen, onOpenChange} = useDisclosure();
+
+  const FiltersForm = () => {
+    return (
+      <form className="flex flex-col gap-6" onSubmit={handleSubmit(handleFilterSubmit)}>
+        <div className="flex flex-col items-start">
+          { hasFilter && (
+            <Button
+              color={theme === 'dark' ? 'primary' : 'secondary'}
+              variant="light"
+              className="!bg-transparent hover:bg-transparent hover:underline"
+              onClick={clearAllFilters}
+            >
+              Clear all filters
+            </Button>
+          )}
+        </div>
+
+        <RadiusSelect control={control} />
+        <OpenNowSwitch control={control} />
+        <PricingCheckboxGroup control={control} /> 
+
+        <Button color="primary" type="submit">Apply filters</Button>
+      </form>
+    )
+  }
+
+  const ModalFiltersForm = () => {
+    return (
+      <div>
+        <Button onPress={onOpen}>Open Filters</Button>
+        <Modal isOpen={isOpen} onOpenChange={onOpenChange}>
+          <ModalContent>
+            {(onClose) => (
+              <>
+                <ModalHeader className="flex flex-col gap-1">
+                  Filters
+                </ModalHeader>
+
+                <ModalBody>
+                  <FiltersForm />
+                </ModalBody>
+              </>
+            )}
+          </ModalContent>
+        </Modal>
       </div>
+    )
+  }
 
-      <RadiusSelect control={control} />
-      <OpenNowSwitch control={control} />
-      <PricingCheckboxGroup control={control} /> 
-
-      <Button color="primary" type="submit">Apply filters</Button>
-    </form>
-  );
+  if (!lgScreenAbv) return <ModalFiltersForm />
+  return <FiltersForm />
 };
 
 const RadiusSelect = ({ control }: { control: any }) => {
@@ -206,12 +226,8 @@ const OpenNowSwitch = ({ control }: { control: any }) => {
 const PricingCheckboxGroup = ({ control }: { control: any }) => {
   
   const searchParams = useSearchParams();
-  const [minprice, setMinprice] = useState<string|null>(searchParams.get('minprice'));
-  const [maxprice, setMaxprice] = useState<string|null>(searchParams.get('maxprice'));
-
-  const onCheckboxChange = (isSelected: boolean, i: number) => {
-    // console.log(isSelected, i)
-  }
+  // const [minprice, setMinprice] = useState<string|null>(searchParams.get('minprice'));
+  // const [maxprice, setMaxprice] = useState<string|null>(searchParams.get('maxprice'));
 
   return (
     <div className="flex flex-col gap-1">
@@ -226,13 +242,12 @@ const PricingCheckboxGroup = ({ control }: { control: any }) => {
               <Checkbox  
                 isSelected={value}
                 onChange={onChange} onBlur={onBlur} ref={ref}
-                onValueChange={(isSelected) => onCheckboxChange(isSelected, i)}
               > 
                 {price.label} 
               </Checkbox>
 
               <span className="flex items-center gap-0">
-                {Array.from(Array(price.number + 1).keys()).map((_, i) => (
+                {Array.from(Array(i+1)).map((_, i) => (
                   <DollarSign key={i} size={10} />
                 ))}
               </span>

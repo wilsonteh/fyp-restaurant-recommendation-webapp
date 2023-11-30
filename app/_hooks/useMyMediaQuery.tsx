@@ -2,12 +2,12 @@ import { useMediaQuery } from "usehooks-ts";
 
 export default function useMyMediaQuery() {
 
-  const xxlScreen =  useMediaQuery('(min-width: 1200px)');
-  const xlScreen =  useMediaQuery('(min-width: 992px) and (max-width: 1200px)');
-  const lgScreen =  useMediaQuery('(min-width: 768px) and (max-width: 992px)');
-  const mdScreen =  useMediaQuery('(min-width: 576px) and (max-width: 768px)');
-  const smScreen =  useMediaQuery('(min-width: 420px) and (max-width: 576px)');
-  const xsScreen =  useMediaQuery('(min-width: 300px) and (max-width: 420px)');
+  const xlScreenAbv =  useMediaQuery('(min-width: 1200px)');
+  const lgScreenAbv =  useMediaQuery('(min-width: 992px)');
+  const mdScreenAbv =  useMediaQuery('(min-width: 768px)');
+  const smScreenAbv =  useMediaQuery('(min-width: 576px)');
+  const xsScreenAbv =  useMediaQuery('(min-width: 420px)');
+  const xxsScreenAbv =  useMediaQuery('(min-width: 300px)');
   
-  return { xxlScreen, xlScreen, lgScreen, mdScreen, smScreen, xsScreen };
+  return { xlScreenAbv, lgScreenAbv, mdScreenAbv, smScreenAbv, xsScreenAbv, xxsScreenAbv };
 }
