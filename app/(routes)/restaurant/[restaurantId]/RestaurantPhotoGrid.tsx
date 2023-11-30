@@ -14,16 +14,16 @@ export default function RestaurantPhotoGrid({ photos }: { photos: Photo[] }) {
   const [photoShown, setPhotoShown] = useState<Photo|null>(null);
   const [nthPhoto, setNthPhoto] = useState(photos.length);
   const { isOpen, onOpen, onOpenChange } = useDisclosure();
-  const { xxlScreen, xlScreen, lgScreen, mdScreen, smScreen, xsScreen } = useMyMediaQuery();
+  const { xlScreenAbv, lgScreenAbv, mdScreenAbv, smScreenAbv, xsScreenAbv, xxsScreenAbv } = useMyMediaQuery();
   
   useEffect(() => {
-    if (xlScreen) setNthPhoto(10);
-    else if (lgScreen) setNthPhoto(9);
-    else if (mdScreen) setNthPhoto(6);
-    else if (smScreen) setNthPhoto(4);
-    else if (xsScreen) setNthPhoto(1);
+    if (lgScreenAbv) setNthPhoto(10);
+    else if (mdScreenAbv) setNthPhoto(9);
+    else if (smScreenAbv) setNthPhoto(6);
+    else if (xsScreenAbv) setNthPhoto(4);
+    else if (xxsScreenAbv) setNthPhoto(1);
     
-  }, [xlScreen, lgScreen,   mdScreen, smScreen, xsScreen])
+  }, [lgScreenAbv, mdScreenAbv, smScreenAbv, xsScreenAbv, xxsScreenAbv])
   
   return (
     <section className="px-4">

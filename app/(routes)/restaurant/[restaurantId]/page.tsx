@@ -66,7 +66,7 @@ export default async function RestaurantDetailPage({
         </div>
       </section>
 
-      {/* <RestaurantPhotoGrid photos={restaurantPhotos} /> */}
+      <RestaurantPhotoGrid photos={restaurantPhotos} />
 
       <section className="flex flex-col gap-2 mx-auto w-full md:w-4/5 lg:w-3/5">
         <RestaurantTabs restaurant={restaurant} />
