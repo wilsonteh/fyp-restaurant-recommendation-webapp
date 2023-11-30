@@ -1,3 +1,4 @@
+"use client";
 import StarRating from "@/app/_components/StarRating";
 import useGeolocation from "@/app/_hooks/useGeolocation";
 import useMyMediaQuery from "@/app/_hooks/useMyMediaQuery";
@@ -12,14 +13,21 @@ import { useTheme } from "next-themes";
 import Image from "next/image";
 import Link from "next/link";
 import { useSearchParams } from "next/navigation";
+import { useEffect } from "react";
 import useSWRImmutable from "swr/immutable";
 import { twMerge } from "tailwind-merge";
 
-export default function SearchResults({ toFetch } : { toFetch: boolean }) {
+export default function SearchResults({ 
+  toFetch, setIsSearching 
+} : { 
+  toFetch: boolean, setIsSearching: React.Dispatch<React.SetStateAction<boolean>>  
+}) {
 
+  const { theme } = useTheme(); 
   const { coords, isGeolocationEnabled } = useGeolocation();
   const { queryParams, setQueryParams } = useQueryParams();
-  
+  const searchParams = useSearchParams();
+
   const { data, isLoading, error } = useSWRImmutable(
     () => {
       if (toFetch && coords) {
@@ -30,6 +38,10 @@ export default function SearchResults({ toFetch } : { toFetch: boolean }) {
   );
   const restaurants = data as NearbySearchRestaurant[];
   
+  useEffect(() => {
+    setIsSearching(isLoading);
+  }, [isLoading, setIsSearching])
+
   const {
     data: distanceData,
     isLoading: isDistInfoLoading,
@@ -46,10 +58,21 @@ export default function SearchResults({ toFetch } : { toFetch: boolean }) {
   );
   const distanceInfo = distanceData as google.maps.DistanceMatrixResponse || undefined;
 
+  if (!searchParams.has('q')) {
+    return (
+      <div className={twMerge(
+        'px-4 py-3 rounded-lg text-sm text-center', 
+        theme === 'dark' 
+        ? 'bg-warning-100/20 text-warning-300' 
+        : 'bg-warning-100 text-warning-700',
+      )}>
+        Enter search term in the search bar to explore restaurants
+      </div>
+    )
+  } 
   if (error) return <div>Failed to load ...</div>
   if (isLoading) return <div>Loading ...</div>
   if (restaurants?.length === 0) {
-    console.log("hello");
     return <div className="">No result...</div>
   } 
 
@@ -79,8 +102,7 @@ const RestaurantItem = ({ restaurant, distanceInfo }: { restaurant: NearbySearch
   const { theme } = useTheme();
   const { lgScreenAbv } = useMyMediaQuery();
   let priceIndex = restaurant?.price_level;
-  console.log(distanceInfo);
-  
+
   // const { 
   //   data: imgUrl, 
   //   isLoading: isImgLoading,

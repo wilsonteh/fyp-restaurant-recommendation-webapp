@@ -54,7 +54,7 @@ export default function Header() {
       />
 
       <NavbarBrand>
-        <h1 className="font-bold">
+        <h1 className="font-bold text-xl md:text-base lg:text-2xl">
           <Link href="/" className="">
             MakanNow
           </Link>
@@ -69,7 +69,7 @@ export default function Header() {
             as={Link}
             href={href}
             className={twMerge(
-              "capitalize px-3 py-2 bg-transparent",
+              "capitalize px-3 py-2 bg-transparent text-sm lg:text-base",
               isNavActive(href) && theme === "light"
                 ? "font-semibold border-b-2 border-primary-700"
                 : "",

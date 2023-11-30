@@ -1,7 +1,7 @@
 "use client";
 import useMyMediaQuery from "@/app/_hooks/useMyMediaQuery";
 import useQueryParams from "@/app/_hooks/useQueryParams";
-import { DollarSign } from "@/app/_icons/Index";
+import { DollarSign, DoorOpen, Filter, MoneyBill } from "@/app/_icons/Index";
 import { priceScales } from "@/app/_utils/constants";
 import { FilterOptionsFormData } from "@/app/_utils/interfaces/FormData";
 import { Button, Checkbox, Modal, ModalBody, ModalContent, ModalHeader, Select, SelectItem, useDisclosure } from "@nextui-org/react";
@@ -30,6 +30,7 @@ export default function Filters() {
     sortby?: string;
   }>();
   const [hasFilter, setHasFilter] = useState(false);  // to check whether there's any filter applied
+  const [isModalOpen, setIsModalOpen] = useState(false);
   const filterKeys = useMemo(() => ['radius', 'opennow', 'minprice', 'maxprice'], []);
 
   useEffect(() => {
@@ -48,6 +49,7 @@ export default function Filters() {
   
 
   const clearAllFilters = () => {
+    setIsModalOpen(false);  
     for (let key of filterKeys) {
       if (searchParams.has(key)) {
         setQueryParams({ [key]: undefined });
@@ -62,6 +64,7 @@ export default function Filters() {
 
   const handleFilterSubmit: SubmitHandler<FilterOptionsFormData> = async (formData) => {
     console.log(formData)
+    setIsModalOpen(false);  
     const { radius, opennow, pricing } = formData;
     // get minprice & maxprice
     const trueKeys = Object.keys(pricing).filter(key => pricing[key]).map(Number);
@@ -77,11 +80,10 @@ export default function Filters() {
     });
   }
 
-  const {isOpen, onOpen, onOpenChange} = useDisclosure();
-
   const FiltersForm = () => {
     return (
       <form className="flex flex-col gap-6" onSubmit={handleSubmit(handleFilterSubmit)}>
+        <h3 className="hidden lg:block text-xl text-center font-medium">Filters</h3>
         <div className="flex flex-col items-start">
           { hasFilter && (
             <Button
@@ -99,33 +101,47 @@ export default function Filters() {
         <OpenNowSwitch control={control} />
         <PricingCheckboxGroup control={control} /> 
 
-        <Button color="primary" type="submit">Apply filters</Button>
+        <Button color="primary" type="submit">
+          Apply filters
+        </Button>
       </form>
     )
-  }
+  };
 
   const ModalFiltersForm = () => {
     return (
       <div>
-        <Button onPress={onOpen}>Open Filters</Button>
-        <Modal isOpen={isOpen} onOpenChange={onOpenChange}>
-          <ModalContent>
-            {(onClose) => (
-              <>
-                <ModalHeader className="flex flex-col gap-1">
-                  Filters
-                </ModalHeader>
+        <Button   
+          color="secondary"
+          variant="ghost"
+          onPress={() => setIsModalOpen(!isModalOpen)}
+          startContent={<Filter size={15} />}
+        >
+          Filters
+        </Button>
 
-                <ModalBody>
-                  <FiltersForm />
-                </ModalBody>
-              </>
-            )}
+        <Modal
+          size="xs"
+          placement="center"
+          isOpen={isModalOpen}
+          onOpenChange={(isOpen) => setIsModalOpen(isOpen)}
+          classNames={{
+            base: theme === "dark" ? "bg-slate-800" : "bg-slate-100", 
+            header: "pb-0",
+            body: 'pt-0 pb-6',
+            closeButton: theme === "dark" ? "hover:bg-slate-700" : "hover:bg-slate-200",
+          }}
+        >
+          <ModalContent className="">
+            <ModalHeader>Filters</ModalHeader>
+            <ModalBody>
+              <FiltersForm />
+            </ModalBody>
           </ModalContent>
         </Modal>
       </div>
-    )
-  }
+    );
+  };
 
   if (!lgScreenAbv) return <ModalFiltersForm />
   return <FiltersForm />
@@ -154,7 +170,7 @@ const RadiusSelect = ({ control }: { control: any }) => {
       control={control}
       render={({ field: { onChange, onBlur, value, ref } }) => (
         <Select
-          label="Radius filter"
+          label="Radius"
           labelPlacement="outside"
           value={value}
           placeholder="Select radius"
@@ -165,7 +181,7 @@ const RadiusSelect = ({ control }: { control: any }) => {
             // the select input
             trigger: twMerge(
               theme === "dark"
-                ? "bg-slate-800 data-[hover]:bg-slate-700"
+                ? "bg-slate-700 data-[hover]:bg-slate-700"
                 : "bg-white data-[hover]:bg-slate-50"
             ),
             // dropdown contents
@@ -209,14 +225,17 @@ const OpenNowSwitch = ({ control }: { control: any }) => {
           <label htmlFor="" className="text-sm font-medium">
             Open Now
           </label>
-          <Checkbox
-            aria-label="open now filter"
-            isSelected={isOpennow === 'true'}
-            onChange={onChange} onBlur={onBlur} ref={ref}
-            onValueChange={(isSelected) => setIsOpennow(isSelected ? 'true' : null)}
-          >
-            Open Now
-          </Checkbox>
+          <div className="flex items-center gap-2">
+            <Checkbox
+              aria-label="open now filter"
+              isSelected={isOpennow === 'true'}
+              onChange={onChange} onBlur={onBlur} ref={ref}
+              onValueChange={(isSelected) => setIsOpennow(isSelected ? 'true' : null)}
+            >
+              Open Now
+            </Checkbox>
+            <DoorOpen size={17} />
+          </div>
         </div>
       )}
     />
@@ -230,15 +249,18 @@ const PricingCheckboxGroup = ({ control }: { control: any }) => {
   // const [maxprice, setMaxprice] = useState<string|null>(searchParams.get('maxprice'));
 
   return (
-    <div className="flex flex-col gap-1">
-      <h3 className="text-sm font-medium"> Pricing </h3>
+    <div className="flex flex-col gap-2">
+      <label className="text-sm font-medium flex items-center gap-2">
+        <span>Pricing </span>
+        <MoneyBill size={15} />
+      </label>
       { priceScales.map((price, i) => (
         <Controller 
           key={price.number}
           name={`pricing.${price.number}`}
           control={control}
           render={({ field: { onChange, onBlur, value, ref } }) => (
-            <div className="flex items-center gap-1">
+            <div className="flex items-center gap-2 capitalize">
               <Checkbox  
                 isSelected={value}
                 onChange={onChange} onBlur={onBlur} ref={ref}
@@ -248,7 +270,7 @@ const PricingCheckboxGroup = ({ control }: { control: any }) => {
 
               <span className="flex items-center gap-0">
                 {Array.from(Array(i+1)).map((_, i) => (
-                  <DollarSign key={i} size={10} />
+                  <DollarSign key={i} size={15} />
                 ))}
               </span>
             </div>

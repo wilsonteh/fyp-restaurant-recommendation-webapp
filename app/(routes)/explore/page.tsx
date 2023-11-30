@@ -1,13 +1,14 @@
 "use client";
+import useMyMediaQuery from "@/app/_hooks/useMyMediaQuery";
 import useQueryParams from "@/app/_hooks/useQueryParams";
-import { MagnifyingGlass } from "@/app/_icons/Index";
+import { MagnifyingGlass, Sort } from "@/app/_icons/Index";
 import { Button, Input, Select, SelectItem } from "@nextui-org/react";
 import { useTheme } from "next-themes";
-import { useRouter, useSearchParams } from "next/navigation";
-import { useCallback, useEffect, useState } from "react";
-import { twMerge } from "tailwind-merge";
-import useMyMediaQuery from "@/app/_hooks/useMyMediaQuery";
 import dynamic from 'next/dynamic';
+import { useSearchParams } from "next/navigation";
+import { useCallback, useEffect, useState } from "react";
+import { useForm } from "react-hook-form";
+import { twMerge } from "tailwind-merge";
 
 const Filters = dynamic(() => import('./Filters'), { ssr: false })
 const SearchResults = dynamic(() => import('./SearchResults'), { ssr: false })
@@ -16,6 +17,7 @@ export default function ExplorePage() {
 
   const searchParams = useSearchParams();
   const [toFetch, setToFetch] = useState(false);
+  const [isSearching, setIsSearching] = useState(false);
   const { lgScreenAbv } = useMyMediaQuery();
 
   useEffect(() => {
@@ -49,26 +51,30 @@ export default function ExplorePage() {
       </section>
 
       <section className="px-4 w-full lg:w-3/4 flex flex-col border-yellow-500 border-">
-        <SearchBar setToFetch={setToFetch} />
+        <SearchBar setToFetch={setToFetch} isSearching={isSearching} />
 
-        <div className="flex justify-between lg:flex-row-reverse">
+        <div className="flex justify-between items-center flex-row lg:flex-row-reverse">
           { !lgScreenAbv && <Filters /> }
           <SortMenu />
         </div>    
 
-        <SearchResults toFetch={toFetch} />
+        <SearchResults toFetch={toFetch} setIsSearching={setIsSearching} />
       </section>
     </main>
   );
 };
 
-const SearchBar = ({ setToFetch } : { setToFetch: React.Dispatch<React.SetStateAction<boolean>> }) => {
+const SearchBar = ({ 
+  setToFetch, isSearching 
+} : { 
+  setToFetch: React.Dispatch<React.SetStateAction<boolean>>, isSearching: boolean 
+}) => {
 
   const { theme } = useTheme();
-  const router = useRouter();
   const searchParams = useSearchParams();
   const [searchQuery, setSearchQuery] = useState("");
   const { queryParams, setQueryParams } = useQueryParams();
+  const { register, handleSubmit, formState: { errors } } = useForm<{searchTerm: string}>();
 
   useEffect(() => {
     // make the search bar value & search param in url in sync
@@ -77,17 +83,18 @@ const SearchBar = ({ setToFetch } : { setToFetch: React.Dispatch<React.SetStateA
     }
   }, [searchParams])
   
-  const handleSearch = (e: React.FormEvent) => {
-    e.preventDefault();
+  const handleSearch = ({ searchTerm }: { searchTerm: string }) => {
     setToFetch(true);
-    setQueryParams({ q: searchQuery })
+    setQueryParams({ q: searchTerm })
   };
-  
+
   return (
-    <form className="flex items-center gap-4 mb-4 mx-6" onSubmit={handleSearch}>
+    <form className="flex items-start gap-4 mb-4 mx-6" onSubmit={handleSubmit(handleSearch)}>
       <Input
         variant="flat"
-        placeholder="Search words separated by commas, e.g. 'mamak,nasi lemak'"
+        placeholder="Search by food, cuisine, or restaurant name"
+        description="e.g. 'Nasi lemak, Japanese, McDonalds'"
+        {...register("searchTerm", { required: "Search bar cannot be left empty" })}
         classNames={{
           input: "text-foreground ml-2",
           inputWrapper: twMerge(
@@ -96,14 +103,20 @@ const SearchBar = ({ setToFetch } : { setToFetch: React.Dispatch<React.SetStateA
             ? 'bg-slate-800 data-[hover]:!bg-slate-700 data-[focus]:!bg-slate-700/80' 
             : 'bg-white data-[hover]:!bg-white data-[focus]:!bg-white',
           ),
+          description: twMerge(
+            'ml-4 mt-1', 
+            theme === 'dark' ? 'text-slate-400' : 'text-slate-600'
+          ),
+          errorMessage: 'ml-4 mt-1', 
         }}
         startContent={<MagnifyingGlass size={15} />}
         onChange={(e) => setSearchQuery(e.target.value)}
         value={searchQuery}
+        errorMessage={errors.searchTerm?.message}
       />
 
-      <Button type="submit" variant="solid" color="primary">
-        Search
+      <Button type="submit" variant="solid" color="primary" isLoading={isSearching}>
+        { isSearching ? 'Searching' : 'Search' }
       </Button>
     </form>
   );
@@ -168,8 +181,9 @@ const SortMenu = () => {
         label: "w-[90px]",
       }}
       label="Sort by:"
-      labelPlacement="outside-left"
+      // labelPlacement="outside"
       placeholder="Select distance"
+      startContent={<Sort size={15} />}
       disallowEmptySelection
       defaultSelectedKeys={['default']} 
       selectedKeys={selectedSortItem}
