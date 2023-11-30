@@ -42,8 +42,8 @@ export default function Header() {
       isBlurred={false}
       disableAnimation={false}
       onMenuOpenChange={(isOpen) => {
-        setIsMenuOpen(isOpen)
-        setIsMenuOpenTransition(isOpen)
+        setIsMenuOpen(isOpen);
+        setIsMenuOpenTransition(isOpen);
       }}
       isMenuOpen={isMenuOpen}
       className=""
@@ -55,7 +55,9 @@ export default function Header() {
 
       <NavbarBrand>
         <h1 className="font-bold">
-          <Link href="/" className="">MakanNow</Link>
+          <Link href="/" className="">
+            MakanNow
+          </Link>
         </h1>
       </NavbarBrand>
 
@@ -67,11 +69,19 @@ export default function Header() {
             as={Link}
             href={href}
             className={twMerge(
-              "capitalize px-3 py-2 bg-transparent", 
-              isNavActive(href) && theme === "light" ? 'font-semibold border-b-2 border-primary-700' : '', 
-              isNavActive(href) && theme === "dark" ? 'font-semibold border-b-2 border-primary-500' : '', 
-              !isNavActive(href) && theme === "light" ? 'hover:bg-slate-200 rounded-xl' : '', 
-              !isNavActive(href) && theme === "dark" ? 'hover:bg-slate-800 rounded-xl' : '', 
+              "capitalize px-3 py-2 bg-transparent",
+              isNavActive(href) && theme === "light"
+                ? "font-semibold border-b-2 border-primary-700"
+                : "",
+              isNavActive(href) && theme === "dark"
+                ? "font-semibold border-b-2 border-primary-500"
+                : "",
+              !isNavActive(href) && theme === "light"
+                ? "hover:bg-slate-200 rounded-xl"
+                : "",
+              !isNavActive(href) && theme === "dark"
+                ? "hover:bg-slate-800 rounded-xl"
+                : ""
             )}
           >
             {label}
@@ -81,34 +91,55 @@ export default function Header() {
 
       {/* *SECTION -  MOBILE NAVBAR */}
       {isMenuOpen && (
-        <NavbarMenu className={twMerge(
-          'flex flex-col items-center gap-6 p-6 transition-opacity duration-500', 
-          isMenuOpenTransition ? 'opacity-100' : 'opacity-0'
-        )}>
+        <NavbarMenu
+          className={twMerge(
+            "flex flex-col items-center gap-6 p-6 transition-opacity duration-500",
+            isMenuOpenTransition ? "opacity-100" : "opacity-0"
+          )}
+        >
           {navbarItems.map(({ label, href }) => (
-            <NavbarMenuItem key={label} className="" onClick={() => {
-              setIsMenuOpenTransition(false)
-              setTimeout(() => setIsMenuOpen(false), 500)
-            }}>
+            <NavbarMenuItem
+              key={label}
+              className=""
+              onClick={() => {
+                setIsMenuOpenTransition(false);
+                setTimeout(() => setIsMenuOpen(false), 500);
+              }}
+            >
               <Link
                 href={href}
                 className={twMerge(
-                  "capitalize w-full px-4 py-2 bg-transparent", 
-                  isNavActive(href) && theme === "light" ? 'font-semibold border-b-2 border-primary-700' : '', 
-                  isNavActive(href) && theme === "dark" ? 'font-semibold border-b-2 border-primary-500' : '', 
-                  !isNavActive(href) && theme === "light" ? 'hover:bg-slate-200 rounded-xl' : '', 
-                  !isNavActive(href) && theme === "dark" ? 'hover:bg-slate-800 rounded-xl' : '', 
-                )}  
+                  "capitalize w-full px-4 py-2 bg-transparent",
+                  isNavActive(href) && theme === "light"
+                    ? "font-semibold border-b-2 border-primary-700"
+                    : "",
+                  isNavActive(href) && theme === "dark"
+                    ? "font-semibold border-b-2 border-primary-500"
+                    : "",
+                  !isNavActive(href) && theme === "light"
+                    ? "hover:bg-slate-200 rounded-xl"
+                    : "",
+                  !isNavActive(href) && theme === "dark"
+                    ? "hover:bg-slate-800 rounded-xl"
+                    : ""
+                )}
               >
                 {label}
               </Link>
             </NavbarMenuItem>
           ))}
 
-          { !user && <hr className={twMerge('h-[2px] w-4/5', theme === 'dark' ? 'border-slate-700' : 'border-slate-300')} /> }
+          {!user && (
+            <hr
+              className={twMerge(
+                "h-[2px] w-4/5",
+                theme === "dark" ? "border-slate-700" : "border-slate-300"
+              )}
+            />
+          )}
 
           {/* Login & Signup shows here when user not authenticated */}
-          { !user && (
+          {!user && (
             <NavbarMenuItem className="flex flex-col items-center gap-6">
               <NavbarItem className="">
                 <Button
@@ -134,15 +165,35 @@ export default function Header() {
                 </Button>
               </NavbarItem>
             </NavbarMenuItem>
-          )} 
-
+          )}
         </NavbarMenu>
       )}
 
       {/* *SECTION - RIGHT SECTION */}
       <NavbarContent justify="end" className="">
         <ThemeSwitcher />
-        {user && <ProfileDropDown user={user} /> }
+        {!user && (
+          <div className="hidden md:flex items-center gap-4">
+            <NavbarItem className="">
+              <Button as={Link} href="/login" color="primary" variant="solid">
+                Login
+              </Button>
+            </NavbarItem>
+
+            <NavbarItem>
+              <Button
+                as={Link}
+                href="/signup"
+                color="primary"
+                variant="bordered"
+                className="text-primary-700 border-primary-700"
+              >
+                Sign Up
+              </Button>
+            </NavbarItem>
+          </div>
+        )}
+        {user && <ProfileDropDown user={user} />}
       </NavbarContent>
     </Navbar>
   );

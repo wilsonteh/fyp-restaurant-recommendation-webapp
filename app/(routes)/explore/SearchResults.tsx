@@ -2,10 +2,10 @@ import StarRating from "@/app/_components/StarRating";
 import useGeolocation from "@/app/_hooks/useGeolocation";
 import useMyMediaQuery from "@/app/_hooks/useMyMediaQuery";
 import useQueryParams from "@/app/_hooks/useQueryParams";
-import { DollarSign, LocationArrow } from "@/app/_icons/Index";
+import { Car, DollarSign, LocationArrow, LocationDot } from "@/app/_icons/Index";
 import { fetcher } from "@/app/_lib/swr/fetcher";
 import { priceScales } from "@/app/_utils/constants";
-import { NearbySearchRestaurant } from "@/app/_utils/interfaces/Interfaces";
+import { DistanceInfo, NearbySearchRestaurant } from "@/app/_utils/interfaces/Interfaces";
 import { thousandSeparator } from "@/app/_utils/utils";
 import { Button, Card, CardBody, Chip, Tooltip } from "@nextui-org/react";
 import { useTheme } from "next-themes";
@@ -29,7 +29,22 @@ export default function SearchResults({ toFetch } : { toFetch: boolean }) {
     fetcher 
   );
   const restaurants = data as NearbySearchRestaurant[];
-  console.log("🚀 searched restaurants:", restaurants)
+  
+  const {
+    data: distanceData,
+    isLoading: isDistInfoLoading,
+    error: distError,
+  } = useSWRImmutable(
+    () => {
+      if (restaurants && coords) {
+        // get all place id from `restaurants`
+        const destStr = restaurants.map(r => r.place_id).join(',');
+        return `/api/distance-matrix?origin=${coords?.latitude},${coords?.longitude}&destinations=${destStr}`;
+      }
+    },  
+    fetcher
+  );
+  const distanceInfo = distanceData as google.maps.DistanceMatrixResponse || undefined;
 
   if (error) return <div>Failed to load ...</div>
   if (isLoading) return <div>Loading ...</div>
@@ -40,25 +55,32 @@ export default function SearchResults({ toFetch } : { toFetch: boolean }) {
 
   return (
     <>
-      { restaurants?.length > 0 && (
-        <p className="px-4 mb-2"> 
-          {restaurants?.length} { restaurants?.length > 1 ? 'results' : 'result'} found! 
+      {restaurants?.length > 0 && (
+        <p className="px-4 mb-2">
+          {restaurants?.length} {restaurants?.length > 1 ? "results" : "result"}{" "}
+          found!
         </p>
       )}
       <div className="grid grid-cols-1 gap-4">
-        { restaurants?.map((restaurant: any) => (
-          <RestaurantItem key={restaurant.name} {...restaurant} />
+        {restaurants?.map((restaurant: any, i: number) => (
+          <RestaurantItem
+            key={restaurant.name}
+            restaurant={restaurant}
+            distanceInfo={distanceInfo?.rows[0].elements[i]}
+          />
         ))}
       </div>
     </>
-  )
+  );
 }
 
-const RestaurantItem = (restaurant: NearbySearchRestaurant) => {
+const RestaurantItem = ({ restaurant, distanceInfo }: { restaurant: NearbySearchRestaurant, distanceInfo: DistanceInfo }) => {
 
   const { theme } = useTheme();
   const { lgScreenAbv } = useMyMediaQuery();
   let priceIndex = restaurant?.price_level;
+  console.log(distanceInfo);
+  
   // const { 
   //   data: imgUrl, 
   //   isLoading: isImgLoading,
@@ -95,8 +117,7 @@ const RestaurantItem = (restaurant: NearbySearchRestaurant) => {
             <div className="flex justify-between items-center gap-2">
               <h3 className="text-lg font-medium">
                 <Link href={`/restaurant/${restaurant.place_id}`}>
-                  {" "}
-                  {restaurant.name}{" "}
+                  {restaurant.name}
                 </Link>
               </h3>
               <span
@@ -109,6 +130,7 @@ const RestaurantItem = (restaurant: NearbySearchRestaurant) => {
                 {restaurant.opening_hours?.open_now ? "Open Now" : "Closed now"}
               </span>
             </div>
+
             <p className="text-sm"> {restaurant.vicinity}. </p>
 
             <Button
@@ -125,6 +147,21 @@ const RestaurantItem = (restaurant: NearbySearchRestaurant) => {
             >
               View Direction
             </Button>
+
+            { distanceInfo && (
+              <div className="text-sm flex items-center gap-4">
+                <span className="flex items-center gap-2"> 
+                  <LocationDot size={15} className={`${theme === 'dark' ? 'text-slate-200' : 'text-slate-800' }`} />
+                  <span> {distanceInfo.distance.text} </span>
+                </span>
+
+                <span className="flex items-center gap-2">   
+                  <Car size={15} className={`${theme === 'dark' ? 'text-slate-200' : 'text-slate-800' }`} />
+                  <span>{distanceInfo.duration.text}</span>
+                </span>
+              </div>
+            )}
+
           </div>
 
           <div className="small-section w-1/4 flex flex-col items-center justify-center gap-1 my-1">

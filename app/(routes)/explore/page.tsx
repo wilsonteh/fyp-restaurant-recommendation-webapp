@@ -44,11 +44,11 @@ export default function ExplorePage() {
 
   return (
     <main className="max-w-screen-xl mx-auto my-4 flex gap-8 justify-between">
-      <section className="px-4 w-1/4 border-red-500 border-1 hidden lg:block ">
+      <section className="px-4 w-1/4 border-red-500 border- hidden lg:block ">
         <Filters />
       </section>
 
-      <section className="px-4 w-full lg:w-3/4 flex flex-col border-yellow-500 border-1">
+      <section className="px-4 w-full lg:w-3/4 flex flex-col border-yellow-500 border-">
         <SearchBar setToFetch={setToFetch} />
 
         <div className="flex justify-between lg:flex-row-reverse">
