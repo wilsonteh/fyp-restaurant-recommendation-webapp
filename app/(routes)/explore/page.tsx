@@ -1,13 +1,16 @@
 "use client";
+import useGeolocation from "@/app/_hooks/useGeolocation";
 import useMyMediaQuery from "@/app/_hooks/useMyMediaQuery";
 import useQueryParams from "@/app/_hooks/useQueryParams";
 import { MagnifyingGlass, Sort } from "@/app/_icons/Index";
+import { fetcher } from "@/app/_lib/swr/fetcher";
 import { Button, Input, Select, SelectItem } from "@nextui-org/react";
 import { useTheme } from "next-themes";
 import dynamic from 'next/dynamic';
 import { useSearchParams } from "next/navigation";
 import { useCallback, useEffect, useState } from "react";
 import { useForm } from "react-hook-form";
+import useSWRImmutable from "swr/immutable";
 import { twMerge } from "tailwind-merge";
 
 const Filters = dynamic(() => import('./Filters'), { ssr: false })
@@ -18,31 +21,19 @@ export default function ExplorePage() {
   const searchParams = useSearchParams();
   const [toFetch, setToFetch] = useState(false);
   const [isSearching, setIsSearching] = useState(false);
+  const [isClient, setIsClient] = useState(false)
   const { lgScreenAbv } = useMyMediaQuery();
-
+ 
+  useEffect(() => {
+    setIsClient(true)
+  }, [])
+ 
   useEffect(() => {
     // for cases where users refresh the page, or enter the url with search params directly 
     if (searchParams.has('q')) {
       setToFetch(true);
     }
   }, [searchParams])
-
-  // const ExploreOnMobile = () => {
-  //   return (
-  //     <main className="max-w-screen-xl mx-auto my-4">
-  //       <SearchBar setToFetch={setToFetch} />
-
-  //       <div className="flex justify-between items-center border-1 border-red-500">
-  //         <Filters />
-  //         <SortMenu />
-  //       </div>
-
-  //       <section className="px-4 flex flex-col border-yellow-500 border-1">
-  //         <SearchResults toFetch={toFetch} />
-  //       </section>
-  //     </main>
-  //   );
-  // };
 
   return (
     <main className="max-w-screen-xl mx-auto my-4 flex gap-8 justify-between">
@@ -51,14 +42,20 @@ export default function ExplorePage() {
       </section>
 
       <section className="px-4 w-full lg:w-3/4 flex flex-col border-yellow-500 border-">
-        <SearchBar setToFetch={setToFetch} isSearching={isSearching} />
-
+        <SearchBar 
+          setToFetch={setToFetch} 
+          isSearching={isSearching} 
+        />
+        
         <div className="flex justify-between items-center flex-row lg:flex-row-reverse">
-          { !lgScreenAbv && <Filters /> }
+          {!lgScreenAbv && isClient && <Filters />}
           <SortMenu />
-        </div>    
+        </div>
 
-        <SearchResults toFetch={toFetch} setIsSearching={setIsSearching} />
+        <SearchResults 
+          toFetch={toFetch} 
+          setIsSearching={setIsSearching} 
+        />
       </section>
     </main>
   );
@@ -206,3 +203,4 @@ const SortMenu = () => {
     </Select>
   );
 };
+

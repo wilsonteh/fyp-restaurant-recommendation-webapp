@@ -1,14 +1,17 @@
 "use client";
+import useGeolocation from "@/app/_hooks/useGeolocation";
 import useMyMediaQuery from "@/app/_hooks/useMyMediaQuery";
 import useQueryParams from "@/app/_hooks/useQueryParams";
 import { DollarSign, DoorOpen, Filter, MoneyBill } from "@/app/_icons/Index";
+import { fetcher } from "@/app/_lib/swr/fetcher";
 import { priceScales } from "@/app/_utils/constants";
 import { FilterOptionsFormData } from "@/app/_utils/interfaces/FormData";
-import { Button, Checkbox, Modal, ModalBody, ModalContent, ModalHeader, Select, SelectItem, useDisclosure } from "@nextui-org/react";
+import { Button, Checkbox, Modal, ModalBody, ModalContent, ModalHeader, Select, SelectItem, Skeleton, useDisclosure } from "@nextui-org/react";
 import { useTheme } from "next-themes";
 import { useSearchParams } from "next/navigation";
 import { useEffect, useMemo, useState } from "react";
 import { Controller, SubmitHandler, useForm } from "react-hook-form";
+import useSWRImmutable from "swr/immutable";
 import { twMerge } from "tailwind-merge";
 import { setTimeout } from "timers";
 
@@ -17,6 +20,7 @@ export default function Filters() {
   const { theme } = useTheme();
   const searchParams = useSearchParams();
   const { lgScreenAbv } = useMyMediaQuery();
+  const { coords } = useGeolocation();
   const { handleSubmit, control } = useForm<FilterOptionsFormData>({
      mode: 'onBlur', 
     defaultValues: {}
@@ -82,29 +86,39 @@ export default function Filters() {
 
   const FiltersForm = () => {
     return (
-      <form className="flex flex-col gap-6" onSubmit={handleSubmit(handleFilterSubmit)}>
-        <h3 className="hidden lg:block text-xl text-center font-medium">Filters</h3>
-        <div className="flex flex-col items-start">
-          { hasFilter && (
-            <Button
-              color={theme === 'dark' ? 'primary' : 'secondary'}
-              variant="light"
-              className="!bg-transparent hover:bg-transparent hover:underline"
-              onClick={clearAllFilters}
-            >
-              Clear all filters
-            </Button>
-          )}
-        </div>
+      <div className="flex flex-col gap-4">
+        <ApproxAddress
+          coordinates={{
+            lat: coords?.latitude as number,
+            lng: coords?.longitude as number,
+          }}
+        />
+        <form className="flex flex-col gap-2" onSubmit={handleSubmit(handleFilterSubmit)}>
+          <div className="text-center">
+            <h3 className="hidden lg:block text-lg text-center font-semibold">Restaurants Filters</h3>
+            { hasFilter && (
+              <Button
+                color={theme === 'dark' ? 'primary' : 'secondary'}
+                variant="light"
+                className="!bg-transparent hover:bg-transparent hover:underline"
+                onClick={clearAllFilters}
+              >
+                Clear all filters
+              </Button>
+            )}
+          </div>
 
-        <RadiusSelect control={control} />
-        <OpenNowSwitch control={control} />
-        <PricingCheckboxGroup control={control} /> 
+          <div className="filters flex flex-col gap-6">
+            <RadiusSelect control={control} />
+            <OpenNowSwitch control={control} />
+            <PricingCheckboxGroup control={control} /> 
+          </div>
 
-        <Button color="primary" type="submit">
-          Apply filters
-        </Button>
-      </form>
+          <Button color="primary" type="submit" className="mt-4">
+            Apply filters
+          </Button>
+        </form>
+      </div>
     )
   };
 
@@ -127,13 +141,13 @@ export default function Filters() {
           onOpenChange={(isOpen) => setIsModalOpen(isOpen)}
           classNames={{
             base: theme === "dark" ? "bg-slate-800" : "bg-slate-100", 
-            header: "pb-0",
+            header: "",
             body: 'pt-0 pb-6',
             closeButton: theme === "dark" ? "hover:bg-slate-700" : "hover:bg-slate-200",
           }}
         >
           <ModalContent className="">
-            <ModalHeader>Filters</ModalHeader>
+            <ModalHeader>Restaurants Filters</ModalHeader>
             <ModalBody>
               <FiltersForm />
             </ModalBody>
@@ -181,7 +195,7 @@ const RadiusSelect = ({ control }: { control: any }) => {
             // the select input
             trigger: twMerge(
               theme === "dark"
-                ? "bg-slate-700 data-[hover]:bg-slate-700"
+                ? "bg-slate-800 data-[hover]:bg-slate-700"
                 : "bg-white data-[hover]:bg-slate-50"
             ),
             // dropdown contents
@@ -280,3 +294,29 @@ const PricingCheckboxGroup = ({ control }: { control: any }) => {
     </div>
   );
 }
+
+const ApproxAddress = ({ coordinates: coords }: { coordinates: { lat: number, lng: number } }) => {
+
+  const { lat, lng } = coords 
+  const { data, isLoading, error } = useSWRImmutable(
+    () => {
+      if (coords) {
+        return `/api/geocoding?latlng=${lat},${lng}`;
+      }
+    },
+    fetcher 
+  );
+  const address = data?.results[0]?.formatted_address;
+
+  return (
+    <Skeleton isLoaded={!isLoading}>
+      <div className="text-center m-0 md:mb-2">
+        <div>Your approximate address:</div>
+        <div className="text-xs font-light">
+          { address }
+        </div>
+      </div>
+    </Skeleton>
+      
+  )
+};
