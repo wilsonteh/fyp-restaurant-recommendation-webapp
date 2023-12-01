@@ -1,16 +1,13 @@
 "use client";
-import useGeolocation from "@/app/_hooks/useGeolocation";
 import useMyMediaQuery from "@/app/_hooks/useMyMediaQuery";
 import useQueryParams from "@/app/_hooks/useQueryParams";
 import { MagnifyingGlass, Sort } from "@/app/_icons/Index";
-import { fetcher } from "@/app/_lib/swr/fetcher";
 import { Button, Input, Select, SelectItem } from "@nextui-org/react";
 import { useTheme } from "next-themes";
 import dynamic from 'next/dynamic';
 import { useSearchParams } from "next/navigation";
 import { useCallback, useEffect, useState } from "react";
 import { useForm } from "react-hook-form";
-import useSWRImmutable from "swr/immutable";
 import { twMerge } from "tailwind-merge";
 
 const Filters = dynamic(() => import('./Filters'), { ssr: false })
@@ -86,14 +83,14 @@ const SearchBar = ({
   };
 
   return (
-    <form className="flex items-start gap-4 mb-4 mx-6" onSubmit={handleSubmit(handleSearch)}>
+    <form className="flex items-start gap-4 mb-4 mx-0 sm:mx-6" onSubmit={handleSubmit(handleSearch)}>
       <Input
         variant="flat"
         placeholder="Search by food, cuisine, or restaurant name"
         description="e.g. 'Nasi lemak, Japanese, McDonalds'"
         {...register("searchTerm", { required: "Search bar cannot be left empty" })}
         classNames={{
-          input: "text-foreground ml-2",
+          input: "text-foreground ml-2 text-xs sm:text-sm",
           inputWrapper: twMerge(
             'p-0 pl-4',
             theme === 'dark' 
