@@ -120,39 +120,43 @@ const RestaurantItem = ({ restaurant, distanceInfo }: { restaurant: NearbySearch
       )}
     >
       <CardBody className="flex flex-row justify-start gap-2 w-full">
-        <Skeleton isLoaded={!isImgLoading}>
-          <div className="img-wrapper relative min-w-[150px] min-h-[150px] lg:min-w-[180px] lg:min-h-[180px] overflow-hidden">
-            <Image
-              // src={lgScreenAbv ? 'https://via.placeholder.com/180x180' : 'https://via.placeholder.com/150x150'}
-              src={imgUrl || "/images/no-img.jpg"}
-              alt="image"
-              className="rounded-md"
-              fill={true}
-              objectFit="cover"
-            />
+          <div className={twMerge(
+            'img-wrapper relative overflow-hidden',
+            'min-w-[100px] min-h-[100px] sm:min-w-[150px] sm:min-h-[150px] lg:min-w-[180px] lg:min-h-[180px]'
+          )}>
+            <Skeleton isLoaded={!isImgLoading} className="relative w-full h-full">
+              <Image
+                // src={lgScreenAbv ? 'https://via.placeholder.com/180x180' : 'https://via.placeholder.com/150x150'}
+                src={imgUrl || "/images/no-img.jpg"}
+                alt="image"
+                className="rounded-md"
+                fill={true}
+                objectFit="cover"
+              />
+            </Skeleton>
           </div>
-        </Skeleton>
 
         <div className="flex justify-between items-center w-full">
           <div className="big-section self-start w-3/4 flex flex-col py-2 px-3">
             <div className="flex justify-between items-center gap-2">
-              <h3 className="text-lg font-medium">
+              <h3 className="text-sm sm:text-lg font-medium">
                 <Link href={`/restaurant/${restaurant.place_id}`}>
                   {restaurant.name}
                 </Link>
               </h3>
-              <span
-                className={`text-xs font-medium ${
-                  restaurant.opening_hours?.open_now
-                    ? "text-success-600"
-                    : "text-danger-600"
-                }`}
+
+              <span className={twMerge(
+                'text-xs font-medium', 
+                restaurant.opening_hours?.open_now
+                  ? "text-success-600"
+                  : "text-danger-600"
+                )}
               >
                 {restaurant.opening_hours?.open_now ? "Open Now" : "Closed now"}
               </span>
             </div>
 
-            <p className="text-sm"> {restaurant.vicinity}. </p>
+            <p className="text-[10px] sm:text-sm"> {restaurant.vicinity}. </p>
 
             <Button
               color="primary"
