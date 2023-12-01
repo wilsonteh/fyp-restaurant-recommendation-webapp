@@ -100,18 +100,18 @@ const RestaurantItem = ({ restaurant, distanceInfo }: { restaurant: NearbySearch
   const { lgScreenAbv } = useMyMediaQuery();
   let priceIndex = restaurant?.price_level;
 
-  // const { 
-  //   data: imgUrl, 
-  //   isLoading: isImgLoading,
-  //   error: photoError, 
-  // } = useSWRImmutable(
-  //   () => {
-  //     if (restaurant?.photos && restaurant?.photos[0]?.photo_reference) {
-  //       return `/api/place-photo?photoRef=${restaurant?.photos[0]?.photo_reference}`
-  //     }
-  //   }, 
-  //   fetcher
-  // );
+  const { 
+    data: imgUrl, 
+    isLoading: isImgLoading,
+    error: photoError, 
+  } = useSWRImmutable(
+    () => {
+      if (restaurant?.photos && restaurant?.photos[0]?.photo_reference) {
+        return `/api/place-photo?photoRef=${restaurant?.photos[0]?.photo_reference}`
+      }
+    }, 
+    fetcher
+  );
   
   return (
     <Card
@@ -122,8 +122,8 @@ const RestaurantItem = ({ restaurant, distanceInfo }: { restaurant: NearbySearch
       <CardBody className="flex flex-row justify-start gap-2 w-full">
         <div className="img-wrapper relative min-w-[150px] min-h-[150px] lg:min-w-[180px] lg:min-h-[180px] overflow-hidden">
           <Image
-            src={lgScreenAbv ? 'https://via.placeholder.com/180x180' : 'https://via.placeholder.com/150x150'}
-            // src={imgUrl || "https://via.placeholder.com/180x180"}
+            // src={lgScreenAbv ? 'https://via.placeholder.com/180x180' : 'https://via.placeholder.com/150x150'}
+            src={imgUrl || "/images/no-img.jpg"}
             alt="image"
             className="rounded-md"
             fill={true}

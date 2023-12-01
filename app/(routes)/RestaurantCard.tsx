@@ -68,7 +68,7 @@ export default function RestaurantCard({
       <Skeleton isLoaded={!isImgLoading}>
         <CardBody className="p-0 w-full min-h-[200px]">
           <Image
-            src={imgUrl || "https://via.placeholder.com/300x200"}
+            src={imgUrl || "/images/no-img.jpg"}
             fill={true}
             className="rounded-t-lg object-cover"
             alt="image"

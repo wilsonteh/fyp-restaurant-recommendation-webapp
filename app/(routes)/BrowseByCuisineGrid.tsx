@@ -22,14 +22,14 @@ export default function BrowseByCuisineGrid() {
 
   return (
     <section className="mb-12">
-      <h1 className="font-semibold text-2xl mb-4">Browse by cuisines</h1>
+      <h1 className="font-semibold text-2xl mb-4 capitalize">Browse by cuisines</h1>
 
       <RestaurantsGrid>
         {cuisines.map((c) => (
           <Card
             key={c.label}
             className={twMerge(
-              "relative h-[200px] shadow-lg transition-transform duration-100 delay-100", 
+              "relative h-[120px] xs:h-[200px] shadow-lg transition-transform duration-100 delay-100", 
               "hover:scale-105 hover:border-2 hover:border-primary-500",
               theme === "dark" ? "shadow-slate-500/30" : "shadow-slate-500",
               theme === "dark" ? "hover:border-primary-400" : "hover:border-primary-600"
@@ -39,10 +39,10 @@ export default function BrowseByCuisineGrid() {
             href={`/explore?q=${c.label}`}
           >
             <CardHeader className={twMerge(
-              "absolute top-1/2 left-1/2 -translate-x-1/2 -translate-y-1/2 bg-gray-900/60 text-gray-200 rounded-none flex justify-center items-center text-2xl font-medium h-full", 
+              "absolute top-1/2 left-1/2 -translate-x-1/2 -translate-y-1/2 bg-gray-900/60 text-gray-200 rounded-none flex justify-center items-center text-lg xs:text-2xl font-medium h-full", 
               "hover:text-primary-500"
             )}>
-              {c.label}
+              <span className="flex justify-center items-center">{c.label}</span>
             </CardHeader>
 
             <Image
