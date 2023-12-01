@@ -24,7 +24,7 @@ const SelectedRestaurant = ({ place }: SelectedPlaceProps) => {
       isPressable={true}
       classNames={{
         base: twMerge(
-          "flex flex-col w-[300px] mx-auto p-4 border-1 border-transparent", 
+          "mt-6 flex flex-col w-[300px] mx-auto p-4 border-1 border-transparent", 
           theme === "dark" ? "bg-slate-800 hover:!bg-slate-700/70" : "bg-slate-100"
         ),
       }}

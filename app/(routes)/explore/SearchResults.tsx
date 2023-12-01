@@ -1,4 +1,5 @@
 "use client";
+import Message from "@/app/_components/Message";
 import StarRating from "@/app/_components/StarRating";
 import useGeolocation from "@/app/_hooks/useGeolocation";
 import useMyMediaQuery from "@/app/_hooks/useMyMediaQuery";
@@ -60,15 +61,11 @@ export default function SearchResults({
 
   if (!searchParams.has('q')) {
     return (
-      <div className={twMerge(
-        'px-4 py-3 rounded-lg text-sm text-center', 
-        theme === 'dark' 
-        ? 'bg-warning-100/20 text-warning-300' 
-        : 'bg-warning-100 text-warning-700',
-      )}>
-        Enter search term in the search bar to explore restaurants
-      </div>
-    )
+      <Message
+        text="Enter search term in the search bar to explore restaurants"
+        type="warning"
+      />
+    );
   } 
   if (error) return <div>Failed to load ...</div>
   if (isLoading) return <div>Loading ...</div>

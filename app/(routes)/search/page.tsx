@@ -6,6 +6,7 @@ import { usePlacesWidget } from "react-google-autocomplete";
 import SelectedRestaurant from "./SelectedRestaurant";
 import { twMerge } from "tailwind-merge";
 import { useTheme } from "next-themes";
+import Message from "@/app/_components/Message";
 
 export default function SearchPage() {
 
@@ -27,24 +28,30 @@ export default function SearchPage() {
 
   return (
     <main className="max-w-screen-md mx-auto">
-      <div className="flex flex-col gap-8">
-        <form className="flex mt-6">
+      <div className="flex flex-col gap-4">
+        <form className="">
           <Input
             ref={inputRef as unknown as React.RefObject<HTMLInputElement>}
             variant="flat"
-            placeholder="Search restaurants"
+            placeholder="Search by restaurant name or location"
             classNames={{
-              input: "text-foreground pl-2",
+              base: "px-4",
+              input: "text-foreground ml-2 text-xs xs:text-base",
               inputWrapper: twMerge(
-                'p-0 pl-4',
-                theme === 'dark' 
-                ? 'bg-slate-800 data-[hover]:!bg-slate-700 data-[focus]:!bg-slate-700/80' 
-                : 'bg-white data-[hover]:!bg-white data-[focus]:!bg-white',
+                "p-0 pl-4",
+                theme === "dark"
+                  ? "bg-slate-800 data-[hover]:!bg-slate-700 data-[focus]:!bg-slate-700/80"
+                  : "bg-white data-[hover]:!bg-white data-[focus]:!bg-white"
               ),
             }}
             startContent={<MagnifyingGlass size={15} />}
           />
         </form>
+
+        <Message
+          text="Manually select the item from dropdown menu"
+          type="warning"
+        />
 
         {selectedRestaurant && (
           <SelectedRestaurant place={selectedRestaurant} />
