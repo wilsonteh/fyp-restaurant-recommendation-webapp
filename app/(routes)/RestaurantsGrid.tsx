@@ -1,4 +1,5 @@
 import React from "react";
+import { twMerge } from "tailwind-merge";
 
 export default function RestaurantsGrid({
   children,
@@ -7,7 +8,10 @@ export default function RestaurantsGrid({
 }) {
 
   return (
-    <div className="grid xs:grid-cols-2 md:grid-cols-3 xl:grid-cols-4 gap-3 sm:gap-6">
+    <div className={twMerge(
+      'grid grid-cols-1 xs:grid-cols-2 md:grid-cols-3 xl:grid-cols-4', 
+      'gap-x-3 gap-y-7 sm:gap-6 px-3 sm:p-0'
+    )}>
       { children }
     </div>
   );

@@ -171,7 +171,6 @@ const NumberLabel = ({ N }: { N: number }) => {
   const { theme } = useTheme();
   const size = 40;   // in px  
 
-
   return (
     <div 
       style={{

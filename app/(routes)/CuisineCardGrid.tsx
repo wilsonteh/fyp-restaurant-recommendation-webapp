@@ -52,7 +52,7 @@ export default function CuisineCardGrid({
   // } 
   
   return (
-    <div className="p-4 flex flex-col gap-2 items-start">
+    <div className="flex flex-col gap-2 items-start">
       <Skeleton isLoaded={!isRestauLoading && !isDistInfoLoading}>
         <h1 className="font-semibold text-2xl mb-4 capitalize">
         { cuisine } restaurants near you 
