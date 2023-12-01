@@ -78,7 +78,7 @@ export default function LocationTab({
           }
           target="_blank"
         >
-          View on Google Map
+          View Direction
         </Button>
       </div>
     </div>

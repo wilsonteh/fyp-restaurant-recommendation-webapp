@@ -9,7 +9,7 @@ import { fetcher } from "@/app/_lib/swr/fetcher";
 import { priceScales } from "@/app/_utils/constants";
 import { DistanceInfo, NearbySearchRestaurant } from "@/app/_utils/interfaces/Interfaces";
 import { thousandSeparator } from "@/app/_utils/utils";
-import { Button, Card, CardBody, Chip, Tooltip } from "@nextui-org/react";
+import { Button, Card, CardBody, Chip, Skeleton, Tooltip } from "@nextui-org/react";
 import { useTheme } from "next-themes";
 import Image from "next/image";
 import Link from "next/link";
@@ -120,16 +120,18 @@ const RestaurantItem = ({ restaurant, distanceInfo }: { restaurant: NearbySearch
       )}
     >
       <CardBody className="flex flex-row justify-start gap-2 w-full">
-        <div className="img-wrapper relative min-w-[150px] min-h-[150px] lg:min-w-[180px] lg:min-h-[180px] overflow-hidden">
-          <Image
-            // src={lgScreenAbv ? 'https://via.placeholder.com/180x180' : 'https://via.placeholder.com/150x150'}
-            src={imgUrl || "/images/no-img.jpg"}
-            alt="image"
-            className="rounded-md"
-            fill={true}
-            objectFit="cover"
-          />
-        </div>
+        <Skeleton isLoaded={!isImgLoading}>
+          <div className="img-wrapper relative min-w-[150px] min-h-[150px] lg:min-w-[180px] lg:min-h-[180px] overflow-hidden">
+            <Image
+              // src={lgScreenAbv ? 'https://via.placeholder.com/180x180' : 'https://via.placeholder.com/150x150'}
+              src={imgUrl || "/images/no-img.jpg"}
+              alt="image"
+              className="rounded-md"
+              fill={true}
+              objectFit="cover"
+            />
+          </div>
+        </Skeleton>
 
         <div className="flex justify-between items-center w-full">
           <div className="big-section self-start w-3/4 flex flex-col py-2 px-3">
