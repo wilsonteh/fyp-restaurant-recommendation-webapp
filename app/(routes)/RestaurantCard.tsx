@@ -103,7 +103,7 @@ export default function RestaurantCard({
         </Skeleton>
 
         <Skeleton isLoaded={!isLoading}>
-          <div className="card-3rd-row text-xs flex justify-center items-center gap-2 my-2">
+          <div className="card-3rd-row text-xs flex flex-wrap justify-center items-center gap-2 my-2">
             <span className="flex items-center gap-1 whitespace-nowrap">
               <DoorOpen size={15} className={`${theme === 'dark' ? 'text-slate-200' : 'text-slate-800' }`} />
               <span>

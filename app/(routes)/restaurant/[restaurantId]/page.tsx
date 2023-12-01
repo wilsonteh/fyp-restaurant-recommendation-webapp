@@ -6,6 +6,7 @@ import RestaurantPhotoGrid from "./RestaurantPhotoGrid";
 import RestaurantTabs from "./RestaurantTabs";
 import StarRating from "./StarRating";
 import FavouriteButton from "./FavouriteButton";
+import ShareButtons from "./ShareButtons";
 
 export const revalidate = 86400 // revalidate at most 1 day 
 
@@ -62,6 +63,9 @@ export default async function RestaurantDetailPage({
 
           <FavouriteButton restaurantId={restaurant.place_id} />
         </div>
+        
+        <ShareButtons />
+
       </section>
 
       <RestaurantPhotoGrid photos={restaurantPhotos} />

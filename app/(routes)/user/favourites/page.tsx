@@ -26,7 +26,7 @@ export default function FavouritesPage() {
   );
   const [favouritesSnap, isLoading, error] = useCollection(fetchQuery);
   
-  if (isLoading) return <div>Loading...</div>
+  if (isLoading) return <div>Loading favourited...</div>
   if (error) return <div>Error... {error.message} </div>
 
   return (
@@ -87,7 +87,7 @@ const FavouriteItem = ({ id, favourite }: { id: string, favourite: FavouritesSch
     <Skeleton isLoaded={!isLoading}>
       <Card
         className={twMerge(
-          "border-1",
+          "border-1 hover:scale-105 transform transition-all duration-1000 ease-in-out",
           theme === "dark"
             ? "bg-slate-800 border-slate-800 hover:bg-slate-8 00/70"
             : "bg-slate-100 border-slate-200 hover:bg-slate-200/70"

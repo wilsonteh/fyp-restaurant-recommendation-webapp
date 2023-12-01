@@ -37,6 +37,7 @@
     "react-hot-toast": "^2.4.1",
     "react-image-size": "^2.3.2",
     "react-responsive-masonry": "^2.1.7",
+    "react-share": "^5.0.3",
     "sharp": "^0.33.0",
     "swr": "^2.2.2",
     "tailwind-merge": "^2.0.0",

@@ -6,7 +6,7 @@ import PopularRestaurantGrid from "./PopularRestaurantGrid";
 export default async function HomePage() {
 
   return (
-    <main className="max-w-[1300px] mx-auto px-8 py-4">
+    <main className="max-w-[1300px] mx-auto px-4 xs:px-8 py-4">
       
       { popularLocations.slice().map((p, i) => (
         <PopularRestaurantGrid key={i} showN={4} place={p} />
