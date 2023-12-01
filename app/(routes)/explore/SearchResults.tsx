@@ -95,11 +95,9 @@ export default function SearchResults({
 }
 
 const RestaurantItem = ({ restaurant, distanceInfo }: { restaurant: NearbySearchRestaurant, distanceInfo: DistanceInfo }) => {
-
   const { theme } = useTheme();
   const { lgScreenAbv } = useMyMediaQuery();
   let priceIndex = restaurant?.price_level;
-
   const { 
     data: imgUrl, 
     isLoading: isImgLoading,
@@ -119,27 +117,27 @@ const RestaurantItem = ({ restaurant, distanceInfo }: { restaurant: NearbySearch
         theme === "dark" ? "bg-slate-800 hover:bg-slate-700/70" : "bg-slate-100"
       )}
     >
-      <CardBody className="flex flex-row justify-start gap-2 w-full">
-          <div className={twMerge(
-            'img-wrapper relative overflow-hidden',
-            'min-w-[100px] min-h-[100px] sm:min-w-[150px] sm:min-h-[150px] lg:min-w-[180px] lg:min-h-[180px]'
-          )}>
-            <Skeleton isLoaded={!isImgLoading} className="relative w-full h-full">
-              <Image
-                // src={lgScreenAbv ? 'https://via.placeholder.com/180x180' : 'https://via.placeholder.com/150x150'}
-                src={imgUrl || "/images/no-img.jpg"}
-                alt="image"
-                className="rounded-md"
-                fill={true}
-                objectFit="cover"
-              />
-            </Skeleton>
-          </div>
+      <CardBody className="flex flex-col sm:flex-row justify-start gap-2 w-full">
+        <div className={twMerge(
+          'img-wrapper relative overflow-hidden',
+          'min-w-[200px] min-h-[200px] lg:min-w-[180px] lg:min-h-[180px]'
+        )}>
+          {/* <Skeleton isLoaded={!isImgLoading} className="relative w-full h-full"> */}
+            <Image
+              // src={lgScreenAbv ? 'https://via.placeholder.com/180x180' : 'https://via.placeholder.com/150x150'}
+              src={imgUrl || "/images/no-img.jpg"}
+              alt="image"
+              className="rounded-md"
+              fill={true}
+              objectFit="cover"
+            />
+          {/* </Skeleton> */}
+        </div>
 
         <div className="flex justify-between items-center w-full">
           <div className="big-section self-start w-3/4 flex flex-col py-2 px-3">
             <div className="flex justify-between items-center gap-2">
-              <h3 className="text-sm sm:text-lg font-medium">
+              <h3 className="text-lg font-medium">
                 <Link href={`/restaurant/${restaurant.place_id}`}>
                   {restaurant.name}
                 </Link>
@@ -156,7 +154,7 @@ const RestaurantItem = ({ restaurant, distanceInfo }: { restaurant: NearbySearch
               </span>
             </div>
 
-            <p className="text-[10px] sm:text-sm"> {restaurant.vicinity}. </p>
+            <p className="text-sm"> {restaurant.vicinity}. </p>
 
             <Button
               color="primary"

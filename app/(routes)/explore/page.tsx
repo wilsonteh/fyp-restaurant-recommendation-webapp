@@ -160,7 +160,7 @@ const SortMenu = () => {
 
   return (
     <Select
-      className="mb-4 max-w-[300px] items-center"
+      className="ml-2 mb-4 max-w-[300px] items-center"
       classNames={{
         // the select input
         trigger: twMerge(
