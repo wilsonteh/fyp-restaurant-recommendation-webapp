@@ -1,6 +1,5 @@
 "use client";
 import { auth } from "@/app/_firebase/auth";
-import Link from "next/link";
 import { db } from "@/app/_firebase/firestore";
 import TrashAltIcon from "@/app/_icons/trash-alt";
 import { fetcher } from "@/app/_lib/swr/fetcher";
@@ -9,16 +8,15 @@ import { Button, Card, CardBody, Skeleton } from "@nextui-org/react";
 import { collection, deleteDoc, doc, orderBy, query, where } from "firebase/firestore";
 import { useTheme } from "next-themes";
 import Image from "next/image";
+import Link from "next/link";
 import { useAuthState } from "react-firebase-hooks/auth";
 import { useCollection } from "react-firebase-hooks/firestore";
 import Masonry, { ResponsiveMasonry } from "react-responsive-masonry";
 import useSWRImmutable from "swr/immutable";
 import { twMerge } from "tailwind-merge";
-import useProtectRoute from "@/app/_hooks/useProtectRoute";
 
 export default function FavouritesPage() {
 
-  useProtectRoute('/login');
   const [user] = useAuthState(auth);
   const collectionRef = collection(db, "favourites");
   const fetchQuery = query(

@@ -1,17 +1,16 @@
-import { user } from "@nextui-org/react";
+import { User } from 'firebase/auth';
 import { useRouter } from 'next/navigation';
 import { useEffect } from "react";
-import { useAuthState } from "react-firebase-hooks/auth";
-import { auth } from "../_firebase/auth";
 
-export default function useProtectRoute(redirectPath: string) {
+export default function useProtectRoute(user: User | null | undefined, redirectPath: string) {
   
-  const [ user ] = useAuthState(auth);
   const router = useRouter();
   useEffect(() => {
     if (!user) {
       router.replace(redirectPath)
     }
   }, [redirectPath, router, user])
+
+  return user ? true : false;  
 
 }

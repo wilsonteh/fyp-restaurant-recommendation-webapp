@@ -200,19 +200,30 @@ export default function Header() {
 };
 
 const ThemeSwitcher = () => {
-  const { setTheme } = useTheme();
+
+  const [mounted, setMounted] = useState(false)
+  const { theme, setTheme } = useTheme();
+
+  useEffect(() => {
+    setMounted(true)
+  }, [])
+
+  if(!mounted) return null
 
   return (
-    <Switch
-      defaultSelected
-      thumbIcon={({ isSelected, className }) =>
-        isSelected ? (
-          <Moon size={15} className={className} />
-        ) : (
-          <LightMode size={15} className={className} />
-        )
-      }
-      onValueChange={(isSelected) => setTheme(isSelected ? "dark" : "light")}
-      />
+    <>
+      <Switch
+        // defaultSelected
+        thumbIcon={({ isSelected, className }) =>
+          isSelected ? (
+            <Moon size={15} className={className} />
+          ) : (
+            <LightMode size={15} className={className} />
+          )
+        }
+        isSelected={theme === "dark"}
+        onValueChange={(isSelected) => setTheme(isSelected ? "dark" : "light")}
+        />
+    </>
   )
 }

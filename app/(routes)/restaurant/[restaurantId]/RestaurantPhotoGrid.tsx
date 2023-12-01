@@ -17,6 +17,10 @@ export default function RestaurantPhotoGrid({ photos }: { photos: Photo[] }) {
   const { xlScreenAbv, lgScreenAbv, mdScreenAbv, smScreenAbv, xsScreenAbv, xxsScreenAbv } = useMyMediaQuery();
   
   useEffect(() => {
+    console.log("onMount theme", theme);
+  }, [theme])
+
+  useEffect(() => {
     if (lgScreenAbv) setNthPhoto(10);
     else if (mdScreenAbv) setNthPhoto(9);
     else if (smScreenAbv) setNthPhoto(6);

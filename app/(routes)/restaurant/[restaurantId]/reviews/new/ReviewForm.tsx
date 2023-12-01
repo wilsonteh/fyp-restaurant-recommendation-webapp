@@ -2,7 +2,6 @@
 import { auth } from "@/app/_firebase/auth";
 import { insertDoc } from "@/app/_firebase/firestore";
 import { getImageUrls, storage } from "@/app/_firebase/storage";
-import useProtectRoute from "@/app/_hooks/useProtectRoute";
 import { ReviewFormData } from "@/app/_utils/interfaces/FormData";
 import { ImagePreview } from "@/app/_utils/interfaces/Interfaces";
 import { RestaurantDetailInterface } from "@/app/_utils/interfaces/PlaceDetailInterface";
@@ -22,10 +21,9 @@ import RatingInput from "./RatingInput";
 
 export default function ReviewForm(restaurant: RestaurantDetailInterface) {
   
-  useProtectRoute('/login');
+  const router = useRouter();
   const [ user ] = useAuthState(auth)
   const { restaurantId } = useParams();
-  const router = useRouter();
   const [uploadedFiles, setUploadedFiles] = useState<ImagePreview[]>([]);
   const {
     register,

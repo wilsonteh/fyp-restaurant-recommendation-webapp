@@ -60,9 +60,7 @@ export default async function RestaurantDetailPage({
               </> 
             </div> )} 
 
-          <div className="">
-            <FavouriteButton restaurantId={restaurant.place_id} />
-          </div>
+          <FavouriteButton restaurantId={restaurant.place_id} />
         </div>
       </section>
 

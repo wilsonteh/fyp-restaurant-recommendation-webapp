@@ -7,11 +7,9 @@ import { useAuthState } from "react-firebase-hooks/auth";
 import { useCollection } from "react-firebase-hooks/firestore";
 import Masonry, { ResponsiveMasonry } from "react-responsive-masonry";
 import ReviewItem from "./ReviewItem";
-import useProtectRoute from "@/app/_hooks/useProtectRoute";
 
 export default function ReviewsPage() {
 
-  useProtectRoute("/login");
   const [user] = useAuthState(auth);
   const collectionRef = collection(db, "reviews");
   const fetchReviewsQuery = query(

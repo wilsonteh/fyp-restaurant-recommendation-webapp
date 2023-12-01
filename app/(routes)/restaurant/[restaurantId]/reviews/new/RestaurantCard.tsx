@@ -23,9 +23,7 @@ export default function RestaurantCard({
     <Card 
       className={twMerge(
         'w-fit', 
-        theme === "dark"
-        ? "bg-slate-800 border-slate-800 hover:bg-slate-700/60"
-        : "bg-slate-100 border-slate-200 hover:bg-slate-200/60"
+        theme === "dark" ? "hover:bg-slate-700/60" : "hover:bg-slate-200/60"
       )} 
       isPressable
       as={Link}

@@ -111,6 +111,12 @@ const config: Config = {
           colors: {
             background: "#0f172a",
             foreground: "#f1f5f9",
+            content1: '#1e293b',
+            content2: '#1e293b',
+            content3: '#1e293b',
+            content4: '#1e293b',
+            overlay: '#334155',
+            divider: "red",
             primary: {
               100: "#FBFFCF",
               200: "#F6FF9F",

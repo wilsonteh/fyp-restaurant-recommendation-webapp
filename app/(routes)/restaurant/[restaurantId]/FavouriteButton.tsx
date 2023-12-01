@@ -9,13 +9,11 @@ import { useRouter } from "next/navigation";
 import { useEffect, useState } from "react";
 import { useAuthState } from "react-firebase-hooks/auth";
 
-const FavouriteButton = ({ restaurantId } : { restaurantId: string }) => {
+export default function FavouriteButton ({ restaurantId } : { restaurantId: string }) {
 
   const [ user ] = useAuthState(auth);
   const router = useRouter();
   const [isFavourited, setIsFavourited] = useState<boolean|null>(null);
-  const { xsScreenAbv } = useMyMediaQuery();
-  console.log("🚀 xsScreenAbv:", xsScreenAbv)
 
   useEffect(() => {
     async function getIsBookmarked() {
@@ -61,13 +59,11 @@ const FavouriteButton = ({ restaurantId } : { restaurantId: string }) => {
   return (
     <Button
       color="primary"
-      isIconOnly={!xsScreenAbv}
+      className="min-w-8 xs:min-w-[80px]"
       onClick={() => toggleBookmark(restaurantId)}
       endContent={ isFavourited ? <Bookmark size={15} /> : <BookmarkOutline size={15} /> }
     >
       <span className="hidden xs:inline"> { isFavourited ?  'Favourited': 'Favourite' } </span>
     </Button>
   );
-}
- 
-export default FavouriteButton;
+};
