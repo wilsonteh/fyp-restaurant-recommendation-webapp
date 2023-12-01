@@ -13,8 +13,7 @@ interface SelectedPlaceProps {
 const SelectedRestaurant = ({ place }: SelectedPlaceProps) => {
   
   const { theme } = useTheme();
-  console.log(place.photos)
-  console.log("photo", place.photos[0].getUrl())
+  const cardPhoto = place.photos[0].getUrl();
 
   return (
     <Card
@@ -36,7 +35,7 @@ const SelectedRestaurant = ({ place }: SelectedPlaceProps) => {
 
       <CardBody className="min-h-[200px]">
         <Image 
-          src={place.photos[0].getUrl() || "https://via.placeholder.com/300x200"} 
+          src={cardPhoto || "/images/no-img.jpg"} 
           fill={true} 
           className="rounded-lg"
           alt={place.name} 

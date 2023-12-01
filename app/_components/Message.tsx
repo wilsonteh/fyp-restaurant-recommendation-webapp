@@ -5,7 +5,7 @@ import { twMerge } from "tailwind-merge";
 export default function Message({
   text, type,
 }: { 
-  text: string, type: 'success' | 'warning' | 'danger' 
+  text: string | React.ReactNode, type: 'success' | 'warning' | 'danger' 
 }) {
   const { theme } = useTheme();
 

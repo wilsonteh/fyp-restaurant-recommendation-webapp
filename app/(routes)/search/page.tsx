@@ -49,7 +49,12 @@ export default function SearchPage() {
         </form>
 
         <Message
-          text="Manually select the item from dropdown menu"
+          text={
+            <div className="">
+              <p>Select the autocomplete item as you type instead of pressing enter</p>
+              <p className="text-xs">Please refresh and try again if the autocomplete is not working.</p>
+            </div>
+          }
           type="warning"
         />
 
