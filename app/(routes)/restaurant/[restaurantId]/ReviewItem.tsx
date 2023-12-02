@@ -99,7 +99,7 @@ export default function ReviewItem({
           as="button"
           isFocusable
           name={review.user.displayName}
-          description={"xx written reviews"}
+          // description={"xx written reviews"}
           avatarProps={{
             src: review.user.avatarUrl,
             size: "md",
