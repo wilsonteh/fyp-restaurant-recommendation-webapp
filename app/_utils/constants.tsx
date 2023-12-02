@@ -21,11 +21,11 @@ export const navbarItems = [
 ];
 
 export const profileDropdownItems = [
-  // {
-  //   name: 'profile', 
-  //   href: '/user/profile',
-  //   icon: <UserIcon size={15} /> 
-  // }, 
+  {
+    name: 'profile', 
+    href: '/user/profile',
+    icon: <UserIcon size={15} /> 
+  }, 
   // {
   //   name: 'settings',
   //   href: '/user/settings',

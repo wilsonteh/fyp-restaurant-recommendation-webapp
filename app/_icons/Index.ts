@@ -40,6 +40,7 @@ export { default as Moon } from './moon';
 export { default as Pen } from './pen';
 export { default as PhoneAlt } from './phone-alt';
 export { default as RightFromBracket } from './right-from-bracket';
+export { default as Save } from './save';
 export { default as Sort } from './sort';
 export { default as StarHalfStroke } from './star-half-stroke';
 export { default as StarOutline } from './star-outline';
