@@ -29,7 +29,7 @@ export default function SearchPage() {
   return (
     <main className="max-w-screen-md mx-auto">
       <div className="flex flex-col gap-4">
-        <form className="">
+        <form className="mt-4">
           <Input
             ref={inputRef as unknown as React.RefObject<HTMLInputElement>}
             variant="flat"
