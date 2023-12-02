@@ -52,16 +52,12 @@ export default function CuisineCardGrid({
   // } 
   
   return (
-    <div className="flex flex-col gap-2 items-start">
+    <div className="flex flex-col gap-2 items-start mb-6">
       <Skeleton isLoaded={!isRestauLoading && !isDistInfoLoading}>
         <h1 className="font-semibold text-2xl mb-4 capitalize">
         { cuisine } restaurants near you 
         </h1>
       </Skeleton>
-
-      {/* <div className="">
-        { coords && isGeolocationEnabled ? "enabled" : "disabled" }
-      </div> */}
 
       { coords ? (
         <RestaurantsGrid>

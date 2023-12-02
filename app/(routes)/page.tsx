@@ -14,7 +14,7 @@ export default async function HomePage() {
 
       <BrowseByCuisineGrid />
       <CuisineCardGrid showN={4} cuisine="Japanese" />
-      <CuisineCardGrid showN={4} cuisine="Fast food" />
+      <CuisineCardGrid showN={4} cuisine="Vegetarian" />
 
     </main>
   );
