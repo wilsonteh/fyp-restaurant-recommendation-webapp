@@ -13,7 +13,7 @@ import { Dimensions } from "react-image-size";
 import useSWRImmutable from "swr/immutable";
 import MultiRatingsPopover from "../../restaurant/[restaurantId]/MultiRatingsPopover";
 import PhotoModal from "../../restaurant/[restaurantId]/PhotoModal";
-import { EllipsisV, TrashAlt } from "@/app/_icons/Index";
+import { TrashAlt } from "@/app/_icons/Index";
 import { useTheme } from "next-themes";
 import { twMerge } from "tailwind-merge";
 import { deleteDoc, doc } from "firebase/firestore";
@@ -86,9 +86,6 @@ export default function ReviewItem({
     )}>
       <div className="title-row flex justify-between items-center">
         <h2 className="font-semibold text-sm"> {review.title} </h2>
-        <button>
-          <EllipsisV size={15} />
-        </button>
       </div>
 
       <div className="rating-row flex gap-1">

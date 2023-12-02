@@ -1,7 +1,7 @@
 "use client";
 import { auth } from "@/app/_firebase/auth";
 import { db } from "@/app/_firebase/firestore";
-import { EllipsisV, ThumbsUp } from "@/app/_icons/Index";
+import { ThumbsUp } from "@/app/_icons/Index";
 import { starRatingStyles } from "@/app/_utils/constants";
 import { ReviewSchema } from "@/app/_utils/interfaces/FirestoreSchema";
 import { Photo } from "@/app/_utils/interfaces/Interfaces";
@@ -113,9 +113,6 @@ export default function ReviewItem({
             name: "font-semibold",
           }}
         />
-        <button>
-          <EllipsisV size={15} />
-        </button>
       </div>
 
       <div className="flex items-center gap-4">

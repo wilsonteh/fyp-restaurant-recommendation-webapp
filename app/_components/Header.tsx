@@ -54,7 +54,7 @@ export default function Header() {
       />
 
       <NavbarBrand>
-        <h1 className="font-bold text-xl md:text-base lg:text-2xl">
+        <h1 className="font-bold text-2xl">
           <Link href="/" className="">
             MakanNow
           </Link>
