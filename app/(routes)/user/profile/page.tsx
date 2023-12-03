@@ -5,7 +5,8 @@ import { Button, Input } from "@nextui-org/react";
 import { User } from "firebase/auth";
 import { useTheme } from "next-themes";
 import Image from "next/image";
-import { useState } from "react";
+import { useRouter } from "next/navigation";
+import { useEffect, useState } from "react";
 import { useAuthState, useUpdateEmail, useUpdateProfile } from "react-firebase-hooks/auth";
 import { twMerge } from "tailwind-merge";
 
@@ -14,7 +15,14 @@ export default function ProfilePage() {
   const [user, loading, error] = useAuthState(auth)
   const [updateProfile, profileUpdating, profileUpdateError] = useUpdateProfile(auth);
   const [updateEmail, emailUpdating, emailUpdateError] = useUpdateEmail(auth);
-
+  const router = useRouter();
+  
+  useEffect(() => {
+    if (!user) {
+      router.push("/login")
+    }
+  }, [router, user])
+  
   if (loading) return <div>Loading...</div>
 
   return (
@@ -52,9 +60,9 @@ const ProfileForm = ({ user, updateProfile, updateEmail }: { user: User, updateP
   const [isEditing, setIsEditing] = useState(false);
   const [loading, setLoading] = useState(false);
   const [userInfo, setUserInfo] = useState({
-    displayName: user.displayName || "",
-    email: user.email || "",
-    phoneNumber: user.phoneNumber || "",
+    displayName: user?.displayName || "",
+    email: user?.email || "",
+    phoneNumber: user?.phoneNumber || "",
   })
 
   const submitProfileUpdate = async (e: React.FormEvent<HTMLButtonElement>) => {
@@ -83,7 +91,7 @@ const ProfileForm = ({ user, updateProfile, updateEmail }: { user: User, updateP
           size="lg"
           labelPlacement="outside"
           isDisabled={!isEditing}
-          value={isEditing ? userInfo.displayName || "" : user.displayName || ""}
+          value={isEditing ? userInfo.displayName || "" : user?.displayName || ""}
           onChange={(e) => setUserInfo({ ...userInfo, displayName: e.target.value })}
           />
 
@@ -94,7 +102,7 @@ const ProfileForm = ({ user, updateProfile, updateEmail }: { user: User, updateP
           size="lg"
           labelPlacement="outside"
           isDisabled={true}
-          value={isEditing ? userInfo.email || "" : user.email || ""}
+          value={isEditing ? userInfo.email || "" : user?.email || ""}
           // onChange={(e) => setUserInfo({ ...userInfo, email: e.target.value })}
           />
 
@@ -105,7 +113,7 @@ const ProfileForm = ({ user, updateProfile, updateEmail }: { user: User, updateP
           size="lg"
           labelPlacement="outside"
           isDisabled={true}
-          value={isEditing ? userInfo.phoneNumber || "" : user.phoneNumber || ""}
+          value={isEditing ? userInfo.phoneNumber || "" : user?.phoneNumber || ""}
           // onChange={(e) => setUserInfo({ ...userInfo, phoneNumber: e.target.value })}
         />
       </div>

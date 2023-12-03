@@ -12,10 +12,12 @@ import {
 } from "@nextui-org/react";
 import { RightFromBracket } from "../_icons/Index";
 import Link from "next/link";
-import { signOutUser } from "../_firebase/auth";
+import { auth } from "../_firebase/auth";
 import { profileDropdownItems } from "../_utils/constants";
 import { useTheme } from "next-themes";
 import { twMerge } from "tailwind-merge";
+import { useSignOut } from "react-firebase-hooks/auth";
+import { useRouter } from "next/navigation";
 
 interface ProfileDropDownProps {
   user: any;
@@ -23,6 +25,8 @@ interface ProfileDropDownProps {
 
 const ProfileDropDown = ({ user }: ProfileDropDownProps) => {
   const { theme } = useTheme();
+  const [signOut, loading, error] = useSignOut(auth);
+  const router = useRouter();
 
   return (
     <Dropdown 
@@ -90,7 +94,10 @@ const ProfileDropDown = ({ user }: ProfileDropDownProps) => {
         <DropdownSection className="px-2">
           <DropdownItem
             startContent={<RightFromBracket size={15} />}
-            onPress={signOutUser}
+            onPress={ async() => {
+              const success =  await signOut();
+              router.push('/login')
+            }}
             classNames={{
               base: twMerge(
                 'data-[hover=true]:text-danger-500', 
