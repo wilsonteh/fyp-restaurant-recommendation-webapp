@@ -130,6 +130,7 @@ const ProfileForm = ({ user, updateProfile, updateEmail }: { user: User, updateP
             })
           }}
           startContent={isEditing ? <Times size={15} /> : <Pen size={15} /> }
+          isLoading={loading}
         >
           { isEditing ? "Cancel" : "Edit Info"}
         </Button>
