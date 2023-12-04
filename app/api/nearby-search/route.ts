@@ -73,7 +73,7 @@ async function processSearchCall(searchParams: URLSearchParams) {
   const lat = searchParams.get("lat");   
   const lng = searchParams.get("lng");
   const keyword = searchParams.get("q");   // search query 
-  const radius = searchParams.get("distance");     // distance/radius 
+  const radius = searchParams.get("radius");     // radius 
   const opennow = searchParams.get("opennow");   // open now 
   const minprice = searchParams.get("minprice");
   const maxprice = searchParams.get("maxprice");
@@ -84,7 +84,7 @@ async function processSearchCall(searchParams: URLSearchParams) {
     location: lat && lng ? `${lat},${lng}` : '3.067440966219083,101.60387318211183',  // default to sunway uni
     radius: rankby === 'nearest' ? undefined : radius || '5000',   // default to 5km
     type: 'restaurant',
-    keyword: `${keyword},food` || 'food',
+    keyword: `${keyword}` || 'food',
     opennow: opennow === 'true' ? true : undefined,
     minprice: minprice || undefined,
     maxprice: maxprice || undefined,

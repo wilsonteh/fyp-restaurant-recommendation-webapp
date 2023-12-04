@@ -17,6 +17,7 @@ export default function PopularRestaurantGrid({
 }) {
   
   const { coords } = useGeolocation();
+  console.log("🚀 coords:", coords)
 
   //* SECTION: data fetching // - 
   const {
